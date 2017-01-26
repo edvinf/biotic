@@ -3,6 +3,7 @@ require(dplyr)
 
 test_schema <- "/Users/a5362/code/hi_formats/commons-biotic-jaxb/src/main/resources/bioticv1.xsd"
 test_data <- "/Users/a5362/hi_home/stox/tests/Capelin BS 2012/input/biotic/gs_2012.xml"
+test_refl <- "/Users/a5362/hi_home/bifangst/reffl_eksport.xml"
 
 
 # Parser for mapping biotic xml format to relational table structure represented as dplyr Tibbles.
@@ -70,20 +71,18 @@ make_foreign_keys <- function(node, keys, schematype_function){
   foreign_keys <- list()
   
   if (schematype!="MissionType"){
-    foreing_keys <- append(make_foreign_keys(xmlParent(node), keys, schematype_function), foreign_keys)
+    foreign_keys <- append(make_foreign_keys(xmlParent(node), keys, schematype_function), foreign_keys)
   }
-  
   for (key in keys[[schematype]]){
     foreign_keys[paste(schematype,key,sep=".")] <- xmlGetAttr(node, key)
   }
-  
   return(foreign_keys)
 }
 
 
 data_frames <- list()
 #creates handler for parsing specific xml elements
-make_data_frame_parser <- function(framename, foreign_key_generator, drop=c(), verbose=F){
+make_data_frame_parser <- function(framename, foreign_key_generator, drop=c(), verbose=T){
   parser <- function(node){
     nlist <- xmlApply(node, xmlValue)
     nlist[which(names(nlist) %in% drop)]<-NULL
@@ -121,7 +120,7 @@ biotic_1_4_handlers <- list(
 #' Parses biotic XML to relational data frames / Tibbles, with foreign keys.
 #' @param xmlfile String : path to xml file to be parsed
 #' @param handlers list of handlers determining which table to parse and which version of biotic is parsed. Default: all and 1.4.
-#' @return named list of Tibbles, one for each complex type in xml.
+#' @return named list of data frames / Tibbles, one for each complex type in xml.
 #' @usage 
 #' parse_biotic(xmlfile)
 #' ## for default version and all data
@@ -135,7 +134,4 @@ parse_biotic <- function(xmlfile, handlers=biotic_1_4_handlers){
   return(d)
 }
 
-df <- parse_biotic(test_data)
-print(df)
-
-
+df <- parse_biotic(test_refl, biotic_1_4_handlers[c("mission", "fishstation")])
