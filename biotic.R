@@ -3,8 +3,7 @@ require(dplyr)
 
 test_schema <- "/Users/a5362/code/hi_formats/commons-biotic-jaxb/src/main/resources/bioticv1.xsd"
 test_data <- "/Users/a5362/hi_home/stox/tests/Capelin BS 2012/input/biotic/gs_2012.xml"
-test_refl <- "/Users/a5362/hi_home/bifangst/reffl_eksport.xml"
-
+test_refl_2015 <- "/Users/a5362/hi_home/bifangst/bruskfisk/referansefl_test/refl_hav_2015.xml"
 
 # Parser for mapping biotic xml format to relational table structure represented as dplyr Tibbles.
 # Each data frame / Tibble is represented by a complex type in the XML, with a corresponding name (except for the suffix "Type" in XML).
@@ -29,7 +28,7 @@ test_refl <- "/Users/a5362/hi_home/bifangst/reffl_eksport.xml"
 # All types occuring below FishStation will also have as keys the foreing keys of all parent elements
 # c()-> No keys defined (need not be referenced in other types)
 keys_biotic1_4 <- list(MissionsType=c(), 
-                       MissionType=c("missionnumber", "year", "platform"),
+                       MissionType=c("missiontype", "missionnumber", "year", "platform"),
                        FishstationType=c("serialno"), 
                        CatchsampleType=c("species", "samplenumber"),
                        IndividualType=c("specimenno"),
@@ -134,4 +133,4 @@ parse_biotic <- function(xmlfile, handlers=biotic_1_4_handlers){
   return(d)
 }
 
-df <- parse_biotic(test_refl, biotic_1_4_handlers[c("mission", "fishstation")])
+df <- parse_biotic(test_refl_2015, biotic_1_4_handlers["mission"])
