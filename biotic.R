@@ -73,7 +73,7 @@ make_foreign_keys <- function(node, keys, schematype_function){
     foreign_keys <- append(make_foreign_keys(xmlParent(node), keys, schematype_function), foreign_keys)
   }
   for (key in keys[[schematype]]){
-    foreign_keys[paste(schematype,key,sep=".")] <- xmlGetAttr(node, key)
+    foreign_keys[paste(xmlName(node),key,sep=".")] <- xmlGetAttr(node, key)
   }
   return(foreign_keys)
 }
@@ -133,4 +133,7 @@ parse_biotic <- function(xmlfile, handlers=biotic_1_4_handlers){
   return(d)
 }
 
-df <- parse_biotic(test_refl_2015, biotic_1_4_handlers["mission"])
+test <- function(){
+  df <- parse_biotic(test_refl_2015, biotic_1_4_handlers["mission"])
+  return(df)
+}
