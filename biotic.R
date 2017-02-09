@@ -3,6 +3,7 @@ require(dplyr)
 
 test_schema <- "/Users/a5362/code/hi_formats/commons-biotic-jaxb/src/main/resources/bioticv1.xsd"
 test_data <- "/Users/a5362/hi_home/stox/tests/Capelin BS 2012/input/biotic/gs_2012.xml"
+#test_data <- "/Users/a5362/Desktop/4-2015-4174-14.xml"
 test_refl_2015 <- "/Users/a5362/hi_home/bifangst/bruskfisk/referansefl_test/refl_hav_2015.xml"
 
 # Parser for mapping biotic xml format to relational table structure represented as dplyr Tibbles.
@@ -79,7 +80,7 @@ make_foreign_keys <- function(node, keys, schematype_function){
 }
 
 
-data_frames <- list()
+bioticdata <- list()
 #creates handler for parsing specific xml elements
 make_data_frame_parser <- function(framename, foreign_key_generator, drop=c(), verbose=T){
   parser <- function(node){
@@ -87,7 +88,7 @@ make_data_frame_parser <- function(framename, foreign_key_generator, drop=c(), v
     nlist[which(names(nlist) %in% drop)]<-NULL
     nlist <- append(nlist, foreign_key_generator(xmlParent(node)))
     nlist <- append(nlist, as.list(xmlAttrs(node)))
-    data_frames[[framename]] <<- bind_rows(data_frames[[framename]], nlist)
+    bioticdata[[framename]] <<- bind_rows(bioticdata[[framename]], nlist)
     return(NULL)
   }
   verbose_parser <- function(node){
@@ -126,14 +127,32 @@ biotic_1_4_handlers <- list(
 #' parse_biotic(xmlfile, handlers=biotic_1_4_handlers[c("mission", "fishstation")])
 #' ## for parsing only tables mission and fishstation with version 1.4
 parse_biotic <- function(xmlfile, handlers=biotic_1_4_handlers){
-  data_frames <<- list()
+  bioticdata <<- list()
   xmlInternalTreeParse(xmlfile, handlers=handlers)
-  d <- data_frames
-  data_frames <<- list()
+  d <- bioticdata
+  bioticdata <<- list()
   return(d)
 }
 
-test <- function(){
-  df <- parse_biotic(test_refl_2015, biotic_1_4_handlers["mission"])
-  return(df)
+#' Converts biotic xml file to a relational model and saves this in a set of csv files.
+#' @param bioticxml character: path to XML file
+#' @param target_dir character: path to direcotry where csv files will be written.
+#' @param overwrite logical: specifies if existing csv files should be overwritten
+convert_to_csv <- function(bioticxml, target_dir=".", overwrite=F){
+  bioticdata <- parse_biotic(bioticxml)
+  for (n in names(bioticdata)){
+    filename <- paste(target_dir, "/", n, ".csv", sep="")
+    if (file.exists(filename) & !overwrite){
+      print(paste("File:", filename, "exists."))
+    }
+    else{
+      write.csv(bioticdata[n], file=filename)  
+    }
+  }
 }
+
+test <- function(){
+  convert_to_csv(test_data)
+}
+
+test()
