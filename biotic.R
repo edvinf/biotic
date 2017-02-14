@@ -1,7 +1,7 @@
 require(XML)
 require(dplyr)
 
-test_schema <- "/Users/a5362/code/hi_formats/commons-biotic-jaxb/src/main/resources/bioticv1.xsd"
+test_schema <- "/Users/a5362/code/hi_formats/commons-biotic-jaxb/src/main/resources/bioticv1_4.xsd"
 test_data <- "/Users/a5362/hi_home/stox/tests/Capelin BS 2012/input/biotic/gs_2012.xml"
 test_data <- "/Users/a5362/Desktop/4-2015-4174-14.xml"
 test_refl_2015 <- "/Users/a5362/hi_home/bifangst/bruskfisk/referansefl_test/refl_hav_2015.xml"
@@ -24,7 +24,7 @@ test_refl_2015 <- "/Users/a5362/hi_home/bifangst/bruskfisk/referansefl_test/refl
 
 # Mission is uniquely identified by its keys.
 # All keys are attributes in the xml.
-# All types occuring below FishStation will also have as keys the foreing keys of all parent elements
+# All types occuring below Fishstation will also have as keys the foreing keys of all parent elements
 # c()-> No keys defined (need not be referenced in other types)
 keys_biotic1_4 <- list(MissionsType=c(), 
                        MissionType=c("missiontype", "missionnumber", "year", "platform"),
@@ -53,7 +53,7 @@ hardcoded_schematype_function <- function(node){
   return(schematypes[[xmlName(node)]])
 }
 
-dm <- list(StringDescriptionType="as.factor", "xs:integer"="as.integer", "xs:string"="as.character", "xs:decimal"="as.double", "key"="as.character")
+dm <- list(StringDescriptionType="as.character", "xs:integer"="as.integer", "xs:string"="as.character", "xs:decimal"="as.double", "key"="as.character")
 #'Set data types for bioticdata. 
 #'Relies on the assumption that each tibble is named as the complexType in the xsd, excluding the suffix "Type"
 #'Assumes fixed namespace prefix ns for http://www.w3.org/2001/XMLSchema
@@ -63,7 +63,6 @@ dm <- list(StringDescriptionType="as.factor", "xs:integer"="as.integer", "xs:str
 #'@param keys list mapping schematypes to keys
 set_data_types <- function(bioticdata, schema, keys, datatype_mapping=dm){
   get_data_types <- function(framename){
-    compltype <- getNodeSet(schema, paste("/xs:schema/xs:complexType[@name='",framename,"Type']", sep=""), c(xs="http://www.w3.org/2001/XMLSchema"))[[1]]
     elements <- getNodeSet(schema, paste("/xs:schema/xs:complexType[@name='",framename,"Type']//xs:element", sep=""), c(xs="http://www.w3.org/2001/XMLSchema"))
     attribs <- getNodeSet(schema, paste("/xs:schema/xs:complexType[@name='",framename,"Type']//xs:attribute", sep=""), c(xs="http://www.w3.org/2001/XMLSchema"))
     fieldnames <- lapply(elements, xmlGetAttr, "name")
@@ -118,8 +117,8 @@ set_data_types <- function(bioticdata, schema, keys, datatype_mapping=dm){
     return(data)
   }
   bioticdata <- add_key_types(bioticdata, "Mission", keys$MissionType, "mission")
-  bioticdata <- add_key_types(bioticdata, "FishStation", keys$FishstationType, "fishstation")
-  bioticdata <- add_key_types(bioticdata, "CatchSample", keys$CatchsampleType, "catchsample")
+  bioticdata <- add_key_types(bioticdata, "Fishstation", keys$FishstationType, "fishstation")
+  bioticdata <- add_key_types(bioticdata, "Catchsample", keys$CatchsampleType, "catchsample")
   bioticdata <- add_key_types(bioticdata, "Individual", keys$IndividualType, "individual")
   return(bioticdata)
 }
@@ -177,8 +176,8 @@ biotic_1_4_handlers <- list(
         #<text/> is added to drop, because xmlInternalTreeParse(trim=T) does not handle \n
         #missions=make_data_frame_parser("Missions", foreing_key_generator_1_4, c("mission", "text")),
         mission=make_data_frame_parser("Mission", foreing_key_generator_1_4, c("fishstation", "text")),
-        fishstation=make_data_frame_parser("FishStation", foreing_key_generator_1_4, c("catchsample", "text")), 
-        catchsample=make_data_frame_parser("CatchSample", foreing_key_generator_1_4, c("prey", "individual", "text")),
+        fishstation=make_data_frame_parser("Fishstation", foreing_key_generator_1_4, c("catchsample", "text")), 
+        catchsample=make_data_frame_parser("Catchsample", foreing_key_generator_1_4, c("prey", "individual", "text")),
         individual=make_data_frame_parser("Individual", foreing_key_generator_1_4, c("agedetermination", "tag", "text")),
         prey=make_data_frame_parser("Prey", foreing_key_generator_1_4, c("preylength", "copepodedevstage", "text")),
         tag=make_data_frame_parser("Tag", foreing_key_generator_1_4, c("text")),
@@ -187,10 +186,26 @@ biotic_1_4_handlers <- list(
         copepodedevstage=make_data_frame_parser("Copepodedevstage", foreing_key_generator_1_4, c("text"))
         )
 
+#' Sets all blank entries in data frames to NA.
+#' @param dataframes named list of Tibbles
+#' @return named list of tibbles where all occurances of "" is set to NA.
+set_blanks_to_NA <- function(dataframes){
+  d <- dataframes
+  for (n in names(d)){
+    frame <- d[[n]]
+    for (cn in names(frame)){
+      frame[!is.na(frame[,cn]) & frame[,cn]=="",] <-NA
+    }
+    d[[n]]<-frame
+  }
+  return(d)
+}
+
 #' Parses biotic XML to relational data frames / Tibbles, with foreign keys.
 #' @param xmlfile String : path to xml file to be parsed
 #' @param handlers list of handlers determining which table to parse and which version of biotic is parsed. Default: all and 1.4.
-#' @param schema path to schemafile used for setting datatypes. If NULL all datatypes will be character.
+#' @param set_data_types logical: Indicate if data types should be set for columns. If False all datatypes will be character.
+#' @param schema path to schemafile used for setting datatypes. Only used if set_data_types=T
 #' @return named list of data frames / Tibbles, one for each complex type in xml.
 #' @usage 
 #' parse_biotic(xmlfile)
@@ -198,12 +213,20 @@ biotic_1_4_handlers <- list(
 #' 
 #' parse_biotic(xmlfile, handlers=biotic_1_4_handlers[c("mission", "fishstation")])
 #' ## for parsing only tables mission and fishstation with version 1.4
-parse_biotic <- function(xmlfile, handlers=biotic_1_4_handlers, schema=NULL){
+parse_biotic <- function(xmlfile, handlers=biotic_1_4_handlers, set_data_types=F, schema=NULL){
+  if (set_data_types & is.null(schema)){
+    stop("Can not find schema for dataframe annotation.")
+  }
+  if (!set_data_types & !is.null(schema)){
+    warning("Schemafile specified, but set_data_types is False.")
+  }
+  
   bioticdata <<- list()
-  xmlInternalTreeParse(xmlfile, handlers=handlers)
+  xmlInternalTreeParse(xmlfile, handlers=handlers, ignoreBlanks=T, trim=T)
   d <- bioticdata
   bioticdata <<- list()
-  if (!is.null(schema)){
+  d <- set_blanks_to_NA(d)
+  if (set_data_types & !is.null(schema)){
     schema <- xmlParse(schema)
     d <- set_data_types(d, schema, keys=keys_biotic1_4)
   }
@@ -227,7 +250,28 @@ convert_to_csv <- function(bioticxml, target_dir=".", overwrite=F){
   }
 }
 
+#' rbind all dataframes in frames1, with corresponding frames in frames2
+#' Any frame sin frames2, not in frames 1 is ignored.
+#' Columns only present in one of the paired frames will be padded with NA values in the concatenated frame.
+#' Apart from this no consistency or uniqueness checks are made
+#' @param frames1 named list of Tibbles
+#' @param frames2 named list of Tibbles
+#' @return named list of Tibbles, one for each in frame1, with correspdonding frames in frames2 appended.
+cat_dataframes <- function(frames1, frames2){
+  dataframes <- frames1
+  for (n in names(frames1)){
+    if (!is.null(frames2[[n]])){
+      dataframes[[n]] <- bind_rows(dataframes[[n]], frames2[[n]])      
+    }
+  }
+  return(dataframes)
+}
+
+consolidate_data_frames <- function(){
+  
+}
+
 test <- function(){
-  dd<- parse_biotic(test_data, handlers=biotic_1_4_handlers[c("mission", "fishstation", "catchsample")], schema = test_schema)
+  dd<- parse_biotic(test_data, handlers=biotic_1_4_handlers[c("mission", "fishstation", "catchsample")], set_data_types=T, schema = test_schema)
   print(dd)
 }
