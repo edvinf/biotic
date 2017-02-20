@@ -194,7 +194,7 @@ set_blanks_to_NA <- function(dataframes){
   for (n in names(d)){
     frame <- d[[n]]
     for (cn in names(frame)){
-      frame[!is.na(frame[,cn]) & frame[,cn]=="",] <-NA
+      frame[!is.na(frame[,cn]) & frame[,cn]=="",cn] <-NA
     }
     d[[n]]<-frame
   }
@@ -265,10 +265,6 @@ cat_dataframes <- function(frames1, frames2){
     }
   }
   return(dataframes)
-}
-
-consolidate_data_frames <- function(){
-  
 }
 
 test <- function(){
