@@ -38,6 +38,18 @@ keys_biotic1_4 <- list(MissionsType=c(),
                        CopepodedevstageType=c()
                        )
 
+foreign_keys_biotic1_4 <- list(MissionsType=c(), 
+                       MissionType=c("mission.missiontype", "mission.missionnumber", "mission.year", "mission.platform"),
+                       FishstationType=c("fishstation.serialno"), 
+                       CatchsampleType=c("catchsample.species", "catchsample.samplenumber"),
+                       IndividualType=c("individual.specimenno"),
+                       AgedeterminationType=c(),
+                       TagType=c(),
+                       PreyType=c(),
+                       PreylengthType=c(),
+                       CopepodedevstageType=c()
+)
+
 hardcoded_schematype_function <- function(node){
   schematypes <- list(missions="MissionsType",
         mission="MissionType",
@@ -94,6 +106,7 @@ set_data_types <- function(bioticdata, schema, keys, datatype_mapping=dm){
   }
   
   #Fix key types
+  #FIX: computes foreign keys name. Change to use table
   add_key_types <- function(data, typename, keys, elementname){
     types <- get_data_types(typename)
     for (fr in names(data)){
@@ -128,7 +141,7 @@ set_data_types <- function(bioticdata, schema, keys, datatype_mapping=dm){
 #' @param keys list mapping schematypes to keys
 #' @param schematype_function function mapping node names to their schematype
 #' @return list with names <node name>.<key attribute> and values the value of the <key attribute> for this node
-make_foreign_keys <- function(node, keys, schematype_function){
+make_foreign_keys <- function(node, keys_table, foreign_keys_table, schematype_function){
   if (is.null(node)){
     return(list())
   }
@@ -139,10 +152,12 @@ make_foreign_keys <- function(node, keys, schematype_function){
   foreign_keys <- list()
   
   if (schematype!="MissionType"){
-    foreign_keys <- append(make_foreign_keys(xmlParent(node), keys, schematype_function), foreign_keys)
+    foreign_keys <- append(make_foreign_keys(xmlParent(node), keys_table, foreign_keys_table, schematype_function), foreign_keys)
   }
-  for (key in keys[[schematype]]){
-    foreign_keys[paste(xmlName(node),key,sep=".")] <- xmlGetAttr(node, key)
+  for (i in 1:length(keys_table[[schematype]])){
+    k <- keys_table[[schematype]][[i]]
+    fk <- foreign_keys_table[[schematype]][[i]]
+    foreign_keys[fk] <- xmlGetAttr(node, k)
   }
   return(foreign_keys)
 }
@@ -171,7 +186,7 @@ make_data_frame_parser <- function(framename, foreign_key_generator, drop=c(), v
   }
 }
 
-foreing_key_generator_1_4 <- function(node){return(make_foreign_keys(node, keys_biotic1_4, hardcoded_schematype_function))}
+foreing_key_generator_1_4 <- function(node){return(make_foreign_keys(node, keys_biotic1_4, foreign_keys_biotic1_4, hardcoded_schematype_function))}
 biotic_1_4_handlers <- list(
         #<text/> is added to drop, because xmlInternalTreeParse(trim=T) does not handle \n
         #missions=make_data_frame_parser("Missions", foreing_key_generator_1_4, c("mission", "text")),
