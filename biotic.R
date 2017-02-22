@@ -6,6 +6,9 @@ test_schema <- "/Users/a5362/code/hi_formats/commons-biotic-jaxb/src/main/resour
 test_data <- "/Users/a5362/Desktop/4-2015-4174-14.xml"
 test_refl_2015 <- "/Users/a5362/hi_home/bifangst/bruskfisk/referansefl_test/refl_hav_2015.xml"
 
+#
+# Development notes. See documentation for parse_biotic for user documentation.
+#
 # Parser for mapping biotic xml format to relational table structure represented as dplyr Tibbles.
 # Each data frame / Tibble is represented by a complex type in the XML, with a corresponding name (except for the suffix "Type" in XML).
 # All variables (columns) have corresponding elements or attributes in these complex types and inherit their documentation from there.
@@ -201,7 +204,7 @@ make_data_frame_parser <- function(framename, foreign_key_generator, drop=c(), v
     return(NULL)
   }
   verbose_parser <- function(node){
-    print(paste("Loading:", xmlName(node), ": ", xmlAttrs(node)))
+    cat(".")
     return(parser(node))
   }
   if (verbose){
