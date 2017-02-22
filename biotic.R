@@ -2,7 +2,7 @@ require(XML)
 require(dplyr)
 
 test_schema <- "/Users/a5362/code/hi_formats/commons-biotic-jaxb/src/main/resources/bioticv1_4.xsd"
-test_data <- "/Users/a5362/hi_home/stox/tests/Capelin BS 2012/input/biotic/gs_2012.xml"
+#test_data <- "/Users/a5362/hi_home/stox/tests/Capelin BS 2012/input/biotic/gs_2012.xml"
 test_data <- "/Users/a5362/Desktop/4-2015-4174-14.xml"
 test_refl_2015 <- "/Users/a5362/hi_home/bifangst/bruskfisk/referansefl_test/refl_hav_2015.xml"
 
@@ -11,14 +11,16 @@ test_refl_2015 <- "/Users/a5362/hi_home/bifangst/bruskfisk/referansefl_test/refl
 # All variables (columns) have corresponding elements or attributes in these complex types and inherit their documentation from there.
 # In addition foreing keys are introduced to link tables. They are named "targettable.varaible"
 #
-# Parsing is not schema based. Therefore:
+# Parsing is not fully schema based. Therefore:
 # - Variales that are not registered in the XML (but are allowed in biotic) will not be represented by any column in the parsed data frames
 # - If path to schema is not given, all data types will be char. 
 #
 # Notes for adapting to future versions of biotic:
 # Parser relies on keys being identified for each complex type that has non-simple children. See the list keys_biotic1_4 for an example
+# Parser also relies on a table for identifying correspodning foreign keys. See the list foreign_keys_biotic1_4.
 # Parser relies on element names being unique for the elements that map to data frames. 
-# This needs to be checked for updates as xml allows element names to be reused in different types
+# For example every occurance of an element mission will be attempted parsed as the complexType MissionType.
+# This needs to be checked for updates as xml allows element names to be reused in different types.
 # It is OK if an attribute of some element has the same name as another element. In fact this is the case in biotic 1.4 for copepodedevstage
 #
 
@@ -38,11 +40,14 @@ keys_biotic1_4 <- list(MissionsType=c(),
                        CopepodedevstageType=c()
                        )
 
+# Foreign keys
+# Data frames will have foreign key columns relating it to all its parent elements
+# This list defines the column names for these foreign keys and must be structured exactly like the keys-table above.
 foreign_keys_biotic1_4 <- list(MissionsType=c(), 
-                       MissionType=c("mission.missiontype", "mission.missionnumber", "mission.year", "mission.platform"),
-                       FishstationType=c("fishstation.serialno"), 
-                       CatchsampleType=c("catchsample.species", "catchsample.samplenumber"),
-                       IndividualType=c("individual.specimenno"),
+                       MissionType=c("Mission.missiontype", "Mission.missionnumber", "Mission.year", "Mission.platform"),
+                       FishstationType=c("Fishstation.serialno"), 
+                       CatchsampleType=c("Catchsample.species", "Catchsample.samplenumber"),
+                       IndividualType=c("Individual.specimenno"),
                        AgedeterminationType=c(),
                        TagType=c(),
                        PreyType=c(),
@@ -73,10 +78,11 @@ dm <- list(StringDescriptionType="as.character", "xs:integer"="as.integer", "xs:
 #'@param schema XMLInternalDocument representing the xsd
 #'@param datatype_mapping list mapping data types in schema to names of functions used to convert to R data types
 #'@param keys list mapping schematypes to keys
-set_data_types <- function(bioticdata, schema, keys, datatype_mapping=dm){
-  get_data_types <- function(framename){
-    elements <- getNodeSet(schema, paste("/xs:schema/xs:complexType[@name='",framename,"Type']//xs:element", sep=""), c(xs="http://www.w3.org/2001/XMLSchema"))
-    attribs <- getNodeSet(schema, paste("/xs:schema/xs:complexType[@name='",framename,"Type']//xs:attribute", sep=""), c(xs="http://www.w3.org/2001/XMLSchema"))
+#'@param foreign_keys list mapping schematypes to foreign keys
+set_data_types <- function(bioticdata, schema, keys, foreign_keys, datatype_mapping=dm){
+  get_data_types <- function(typename){
+    elements <- getNodeSet(schema, paste("/xs:schema/xs:complexType[@name='",typename,"']//xs:element", sep=""), c(xs="http://www.w3.org/2001/XMLSchema"))
+    attribs <- getNodeSet(schema, paste("/xs:schema/xs:complexType[@name='",typename,"']//xs:attribute", sep=""), c(xs="http://www.w3.org/2001/XMLSchema"))
     fieldnames <- lapply(elements, xmlGetAttr, "name")
     fieldnames <- append(fieldnames, lapply(attribs, xmlGetAttr, "name"))
     fieldtypes <- lapply(elements, xmlGetAttr, "type")
@@ -87,7 +93,8 @@ set_data_types <- function(bioticdata, schema, keys, datatype_mapping=dm){
   
   #convert data types
   for (fr in names(bioticdata)){
-    dtypes <- get_data_types(fr)
+    typename <- paste(fr, "Type", sep="")
+    dtypes <- get_data_types(typename)
     frame <- bioticdata[[fr]]
     for (coln in names(frame)){
       t<-dtypes[[coln]]
@@ -106,14 +113,19 @@ set_data_types <- function(bioticdata, schema, keys, datatype_mapping=dm){
   }
   
   #Fix key types
-  #FIX: computes foreign keys name. Change to use table
-  add_key_types <- function(data, typename, keys, elementname){
+  add_key_types <- function(data, typename){
+    p_keys <- keys[[typename]]
+    if (is.null(p_keys)){
+      return(data)
+    }
+    f_keys <- foreign_keys[[typename]]
     types <- get_data_types(typename)
     for (fr in names(data)){
       frame <- data[[fr]]
-      for (k in keys){
-        keycol <- paste(elementname, k, sep=".")
-        if (keycol %in% names(frame)){
+      for (i in 1:length(p_keys)){
+        k <- p_keys[[i]]
+        fk <- f_keys[[i]]
+        if (fk %in% names(frame)){
           t<-types[[k]]
           if (is.null(t)){
             stop()
@@ -122,23 +134,23 @@ set_data_types <- function(bioticdata, schema, keys, datatype_mapping=dm){
           if (is.null(ff)){
             stop()
           }
-          frame[[keycol]] <- eval(call(ff, frame[[keycol]]))
+          frame[[fk]] <- eval(call(ff, frame[[fk]]))
         }
       }
       data[[fr]] <- frame
     }
     return(data)
   }
-  bioticdata <- add_key_types(bioticdata, "Mission", keys$MissionType, "mission")
-  bioticdata <- add_key_types(bioticdata, "Fishstation", keys$FishstationType, "fishstation")
-  bioticdata <- add_key_types(bioticdata, "Catchsample", keys$CatchsampleType, "catchsample")
-  bioticdata <- add_key_types(bioticdata, "Individual", keys$IndividualType, "individual")
+  for (tn in names(keys)){
+    bioticdata <- add_key_types(bioticdata, tn)
+  }
   return(bioticdata)
 }
 
 #' Makes a list mapping foreing key names to their values, for the arument nodes and for all parent nodes up til root or <missions/>
 #' @param node node The foreign key will reference
-#' @param keys list mapping schematypes to keys
+#' @param keys_table list mapping schematypes to keys
+#' @param foreign_keys_table list mapping schematypes to foreign keys
 #' @param schematype_function function mapping node names to their schematype
 #' @return list with names <node name>.<key attribute> and values the value of the <key attribute> for this node
 make_foreign_keys <- function(node, keys_table, foreign_keys_table, schematype_function){
@@ -162,6 +174,20 @@ make_foreign_keys <- function(node, keys_table, foreign_keys_table, schematype_f
   return(foreign_keys)
 }
 
+#' Sets all blank entries in data frames to NA.
+#' @param dataframes named list of Tibbles
+#' @return named list of tibbles where all occurances of "" is set to NA.
+set_blanks_to_NA <- function(dataframes){
+  d <- dataframes
+  for (n in names(d)){
+    frame <- d[[n]]
+    for (cn in names(frame)){
+      frame[!is.na(frame[,cn]) & frame[,cn]=="",cn] <-NA
+    }
+    d[[n]]<-frame
+  }
+  return(d)
+}
 
 bioticdata <- list()
 #creates handler for parsing specific xml elements
@@ -188,33 +214,23 @@ make_data_frame_parser <- function(framename, foreign_key_generator, drop=c(), v
 
 foreing_key_generator_1_4 <- function(node){return(make_foreign_keys(node, keys_biotic1_4, foreign_keys_biotic1_4, hardcoded_schematype_function))}
 biotic_1_4_handlers <- list(
-        #<text/> is added to drop, because xmlInternalTreeParse(trim=T) does not handle \n
-        #missions=make_data_frame_parser("Missions", foreing_key_generator_1_4, c("mission", "text")),
-        mission=make_data_frame_parser("Mission", foreing_key_generator_1_4, c("fishstation", "text")),
-        fishstation=make_data_frame_parser("Fishstation", foreing_key_generator_1_4, c("catchsample", "text")), 
-        catchsample=make_data_frame_parser("Catchsample", foreing_key_generator_1_4, c("prey", "individual", "text")),
-        individual=make_data_frame_parser("Individual", foreing_key_generator_1_4, c("agedetermination", "tag", "text")),
-        prey=make_data_frame_parser("Prey", foreing_key_generator_1_4, c("preylength", "copepodedevstage", "text")),
-        tag=make_data_frame_parser("Tag", foreing_key_generator_1_4, c("text")),
-        agedetermination=make_data_frame_parser("AgeDetermination", foreing_key_generator_1_4, c("text")),
-        preylength=make_data_frame_parser("Preylength", foreing_key_generator_1_4, c("text")),
-        copepodedevstage=make_data_frame_parser("Copepodedevstage", foreing_key_generator_1_4, c("text"))
-        )
+  #<text/> is added to drop, because xmlInternalTreeParse(trim=T) does not handle \n
+  #missions=make_data_frame_parser("Missions", foreing_key_generator_1_4, c("mission", "text")),
+  mission=make_data_frame_parser("Mission", foreing_key_generator_1_4, c("fishstation", "text")),
+  fishstation=make_data_frame_parser("Fishstation", foreing_key_generator_1_4, c("catchsample", "text")), 
+  catchsample=make_data_frame_parser("Catchsample", foreing_key_generator_1_4, c("prey", "individual", "text")),
+  individual=make_data_frame_parser("Individual", foreing_key_generator_1_4, c("agedetermination", "tag", "text")),
+  prey=make_data_frame_parser("Prey", foreing_key_generator_1_4, c("preylength", "copepodedevstage", "text")),
+  tag=make_data_frame_parser("Tag", foreing_key_generator_1_4, c("text")),
+  agedetermination=make_data_frame_parser("AgeDetermination", foreing_key_generator_1_4, c("text")),
+  preylength=make_data_frame_parser("Preylength", foreing_key_generator_1_4, c("text")),
+  copepodedevstage=make_data_frame_parser("Copepodedevstage", foreing_key_generator_1_4, c("text"))
+)
 
-#' Sets all blank entries in data frames to NA.
-#' @param dataframes named list of Tibbles
-#' @return named list of tibbles where all occurances of "" is set to NA.
-set_blanks_to_NA <- function(dataframes){
-  d <- dataframes
-  for (n in names(d)){
-    frame <- d[[n]]
-    for (cn in names(frame)){
-      frame[!is.na(frame[,cn]) & frame[,cn]=="",cn] <-NA
-    }
-    d[[n]]<-frame
-  }
-  return(d)
-}
+
+#
+# Functions for parsing and data handling.
+#
 
 #' Parses biotic XML to relational data frames / Tibbles, with foreign keys.
 #' @param xmlfile String : path to xml file to be parsed
@@ -228,6 +244,11 @@ set_blanks_to_NA <- function(dataframes){
 #' 
 #' parse_biotic(xmlfile, handlers=biotic_1_4_handlers[c("mission", "fishstation")])
 #' ## for parsing only tables mission and fishstation with version 1.4
+#' @details 
+#' Note that each column derives its name from the xml format. For documentation for Fishstation$serialno, see the documentation for 
+#' the element serialno in FishstationType in the XML format.
+#' Foreign keys derives their documentation from the corresponding primary key and are named according to the convention <target table>.<primary key>.
+#' For instance the data frame / Tibble Catchsample has a column Fishstation.serialno.
 parse_biotic <- function(xmlfile, handlers=biotic_1_4_handlers, set_data_types=F, schema=NULL){
   if (set_data_types & is.null(schema)){
     stop("Can not find schema for dataframe annotation.")
@@ -243,7 +264,7 @@ parse_biotic <- function(xmlfile, handlers=biotic_1_4_handlers, set_data_types=F
   d <- set_blanks_to_NA(d)
   if (set_data_types & !is.null(schema)){
     schema <- xmlParse(schema)
-    d <- set_data_types(d, schema, keys=keys_biotic1_4)
+    d <- set_data_types(d, schema, keys=keys_biotic1_4, foreign_keys=foreign_keys_biotic1_4)
   }
   return(d)
 }
