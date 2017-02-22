@@ -45,7 +45,7 @@ keys_biotic1_4 <- list(MissionsType=c(),
 
 # Foreign keys
 # Data frames will have foreign key columns relating it to all its parent elements
-# This list defines the column names for these foreign keys and must be structured exactly like the keys-table above.
+# This list defines the column names for the foreign keys and must be structured exactly like the keys-table above.
 foreign_keys_biotic1_4 <- list(MissionsType=c(), 
                        MissionType=c("Mission.missiontype", "Mission.missionnumber", "Mission.year", "Mission.platform"),
                        FishstationType=c("Fishstation.serialno"), 
@@ -169,6 +169,9 @@ make_foreign_keys <- function(node, keys_table, foreign_keys_table, schematype_f
   if (schematype!="MissionType"){
     foreign_keys <- append(make_foreign_keys(xmlParent(node), keys_table, foreign_keys_table, schematype_function), foreign_keys)
   }
+  if (length(keys_table[[schematype]])==0){
+    return(foreign_keys)
+  }
   for (i in 1:length(keys_table[[schematype]])){
     k <- keys_table[[schematype]][[i]]
     fk <- foreign_keys_table[[schematype]][[i]]
@@ -204,7 +207,7 @@ make_data_frame_parser <- function(framename, foreign_key_generator, drop=c(), v
     return(NULL)
   }
   verbose_parser <- function(node){
-    cat(".")
+    cat("Parsing:", xmlName(node), " ", xmlAttrs(node), "\n")
     return(parser(node))
   }
   if (verbose){
