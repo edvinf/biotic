@@ -38,7 +38,7 @@ keys_biotic1_4 <- list(MissionsType=c(),
                        IndividualType=c("specimenno"),
                        AgedeterminationType=c(),
                        TagType=c(),
-                       PreyType=c(),
+                       PreyType=c("species", "partno"),
                        PreylengthType=c(),
                        CopepodedevstageType=c()
                        )
@@ -53,7 +53,7 @@ foreign_keys_biotic1_4 <- list(MissionsType=c(),
                        IndividualType=c("Individual.specimenno"),
                        AgedeterminationType=c(),
                        TagType=c(),
-                       PreyType=c(),
+                       PreyType=c("Prey.species", "Prey.partno"),
                        PreylengthType=c(),
                        CopepodedevstageType=c()
 )
@@ -228,11 +228,111 @@ biotic_1_4_handlers <- list(
   individual=make_data_frame_parser("Individual", foreing_key_generator_1_4, c("agedetermination", "tag", "text")),
   prey=make_data_frame_parser("Prey", foreing_key_generator_1_4, c("preylength", "copepodedevstage", "text")),
   tag=make_data_frame_parser("Tag", foreing_key_generator_1_4, c("text")),
-  agedetermination=make_data_frame_parser("AgeDetermination", foreing_key_generator_1_4, c("text")),
+  agedetermination=make_data_frame_parser("Agedetermination", foreing_key_generator_1_4, c("text")),
   preylength=make_data_frame_parser("Preylength", foreing_key_generator_1_4, c("text")),
   copepodedevstage=make_data_frame_parser("Copepodedevstage", foreing_key_generator_1_4, c("text"))
 )
 
+#' Merges data into one flat Tibble
+#' Assumes hierarchy is preserved, that is: No fishstations can be present if not mission present.
+#' Otherwise only assumes presence of key-columns, so columns may be dropped before flattening to avoid name conflicts.
+#' Platform is renamed on Fishstation if present due to naming conflict with key column in mission
+#' @param list of Tibbles as returned from parse_biotic
+#' @return Tibble with merged data.
+flatten <- function(bioticdata, keys=keys_biotic1_4, foreign_keys=foreign_keys_biotic1_4) {
+  require(tibble) # dplyr joins are slow for chars, for some reason. Use merge and cast
+  flat <- bioticdata$Mission
+  if (!is.null(bioticdata$Fishstation)) {
+    
+    # merge does not handle renaming duplicated column names that are used as keys (by=)
+    fs <- bioticdata$Fishstation
+    if (!is.null(fs$platform)){
+      fs<-rename(fs, Fishstation.platform = platform)
+    }
+    flat <-
+      merge(
+        flat,
+        fs,
+        by.x = keys$MissionType,
+        by.y = foreign_keys$MissionType
+      )
+    flat <- as_tibble(flat)
+  }
+  if (!is.null(bioticdata$Catchsample)) {
+    flat <- as_tibble(
+      merge(
+        flat,
+        bioticdata$Catchsample,
+        by.x = c(keys$MissionType, keys$FishstationType),
+        by.y = c(foreign_keys$MissionType, foreign_keys$FishstationType),
+        suffixes = c("", "dup")
+      ))
+  }
+  if (!is.null(bioticdata$Individual)) {
+    flat <- as_tibble(
+      merge(
+        flat,
+        bioticdata$Individual,
+        by.x = c(keys$MissionType, keys$FishstationType, keys$CatchsampleType),
+        by.y = c(foreign_keys$MissionType, foreign_keys$FishstationType, foreign_keys$CatchsampleType),
+        all.y=T
+      ))
+  }
+  
+  if (!is.null(bioticdata$Prey)) {
+    flat <- as_tibble(
+      merge(
+        flat,
+        bioticdata$Prey,
+        by.x = c(keys$MissionType, keys$FishstationType, keys$CatchsampleType),
+        by.y = c(foreign_keys$MissionType, foreign_keys$FishstationType, foreign_keys$CatchsampleType),
+        all.y=T
+      ))
+  }
+  
+  if (!is.null(bioticdata$Agedetermination)) {
+    flat <- as_tibble(
+      merge(
+        flat,
+        bioticdata$Agedetermination,
+        by.x = c(keys$MissionType, keys$FishstationType, keys$CatchsampleType, keys$IndividualType),
+        by.y = c(foreign_keys$MissionType, foreign_keys$FishstationType, foreign_keys$CatchsampleType, foreign_keys$IndividualType),
+        all.y=T
+      ))
+  }
+  
+  if (!is.null(bioticdata$Tag)) {
+    flat <- as_tibble(
+      merge(
+        flat,
+        bioticdata$Tag,
+        by.x = c(keys$MissionType, keys$FishstationType, keys$CatchsampleType, keys$IndividualType),
+        by.y = c(foreign_keys$MissionType, foreign_keys$FishstationType, foreign_keys$CatchsampleType, foreign_keys$IndividualType),
+        all.y=T
+      ))
+  }
+  if (!is.null(bioticdata$PreyLength)) {
+    flat <- as_tibble(
+      merge(
+        flat,
+        bioticdata$PreyLength,
+        by.x = c(keys$MissionType, keys$FishstationType, keys$CatchsampleType, keys$IndividualType, keys$PreyType),
+        by.y = c(foreign_keys$MissionType, foreign_keys$FishstationType, foreign_keys$CatchsampleType, foreign_keys$IndividualType, foreign_keys$PreyType),
+        all.y=T
+      ))
+  }
+  if (!is.null(bioticdata$Copepodedevstage)) {
+    flat <- as_tibble(
+      merge(
+        flat,
+        bioticdata$Copepodedevstage,
+        by.x = c(keys$MissionType, keys$FishstationType, keys$CatchsampleType, keys$IndividualType, keys$PreyType),
+        by.y = c(foreign_keys$MissionType, foreign_keys$FishstationType, foreign_keys$CatchsampleType, foreign_keys$IndividualType, foreign_keys$PreyType),
+        all.y=T
+      ))
+  }
+  return(flat)
+}
 
 #
 # Functions for parsing and data handling.
