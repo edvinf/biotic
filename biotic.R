@@ -201,7 +201,7 @@ make_data_frame_parser <- function(framename, foreign_key_generator, drop=c(), v
   parser <- function(node){
     nlist <- xmlApply(node, xmlValue)
     nlist[which(names(nlist) %in% drop)]<-NULL
-    nlist <- append(nlist, foreign_key_generator(xmlParent(node)))
+    nlist <- append(foreign_key_generator(xmlParent(node)), nlist)
     nlist <- append(nlist, as.list(xmlAttrs(node)))
     bioticdata[[framename]] <<- bind_rows(bioticdata[[framename]], nlist)
     return(NULL)
@@ -255,6 +255,7 @@ biotic_1_4_handlers <- list(
 #' the element serialno in FishstationType in the XML format.
 #' Foreign keys derives their documentation from the corresponding primary key and are named according to the convention <target table>.<primary key>.
 #' For instance the data frame / Tibble Catchsample has a column Fishstation.serialno.
+#' The first columns in each frame / Tibble are the foreign keys.
 parse_biotic <- function(xmlfile, handlers=biotic_1_4_handlers, set_data_types=F, schema=NULL){
   if (set_data_types & is.null(schema)){
     stop("Can not find schema for dataframe annotation.")
