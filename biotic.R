@@ -234,11 +234,12 @@ biotic_1_4_handlers <- list(
 )
 
 #' Merges data into one flat Tibble
-#' Assumes hierarchy is preserved, that is: No fishstations can be present if not mission present.
-#' Otherwise only assumes presence of key-columns, so columns may be dropped before flattening to avoid name conflicts.
-#' Platform is renamed on Fishstation if present due to naming conflict with key column in mission
 #' @param list of Tibbles as returned from parse_biotic
 #' @return Tibble with merged data.
+#' @details 
+#' Assumes hierarchy is preserved, that is: No fishstations can be present if not mission present and so forth..
+#' Otherwise only assumes presence of key-columns, so columns may be dropped before flattening to avoid name conflicts.
+#' Platform is renamed on Fishstation, if present due to naming conflict with key column in mission. If the two platform columns are equal, one is removed.
 flatten <- function(bioticdata, keys=keys_biotic1_4, foreign_keys=foreign_keys_biotic1_4) {
   require(tibble) # dplyr joins are slow for chars, for some reason. Use merge and cast
   flat <- bioticdata$Mission
@@ -247,7 +248,7 @@ flatten <- function(bioticdata, keys=keys_biotic1_4, foreign_keys=foreign_keys_b
     # merge does not handle renaming duplicated column names that are used as keys (by=)
     fs <- bioticdata$Fishstation
     if (!is.null(fs$platform)){
-      fs<-rename(fs, Fishstation.platform = platform)
+      fs<-rename(fs, FS.platform = platform)
     }
     flat <-
       merge(
@@ -256,6 +257,9 @@ flatten <- function(bioticdata, keys=keys_biotic1_4, foreign_keys=foreign_keys_b
         by.x = keys$MissionType,
         by.y = foreign_keys$MissionType
       )
+    if (all(flat$platform == flat$FS.platform)){
+      flat <- flat[,names(flat)!="FS.platform"]
+    }
     flat <- as_tibble(flat)
   }
   if (!is.null(bioticdata$Catchsample)) {
