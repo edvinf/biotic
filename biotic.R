@@ -1,10 +1,10 @@
 require(XML)
 require(dplyr)
 
-test_schema <- "/Users/a5362/code/hi_formats/commons-biotic-jaxb/src/main/resources/bioticv1_4.xsd"
-#test_data <- "/Users/a5362/hi_home/stox/tests/Capelin BS 2012/input/biotic/gs_2012.xml"
-test_data <- "/Users/a5362/Desktop/4-2015-4174-14.xml"
-test_refl_2015 <- "/Users/a5362/hi_home/bifangst/bruskfisk/referansefl_test/refl_hav_2015.xml"
+definitions <- "/Users/a5362/code/masters/hi_biotic_parser/definitions"
+example_files <- "/Users/a5362/code/masters/hi_biotic_parser/example_files"
+test_schema <- paste(definitions,"bioticv1_4_201703021434.xsd", sep="/")
+test_refl_2015 <- paste(example_files, "refl_hav_2015.xml", sep="/")
 
 #
 # Development notes. See documentation for parse_biotic for user documentation.
@@ -416,6 +416,6 @@ cat_dataframes <- function(frames1, frames2){
 }
 
 test <- function(){
-  dd<- parse_biotic(test_data, handlers=biotic_1_4_handlers[c("mission", "fishstation", "catchsample")], set_data_types=T, schema = test_schema)
+  dd<- parse_biotic(test_refl_2015, handlers=biotic_1_4_handlers[c("mission", "fishstation")], set_data_types=T, schema = test_schema)
   print(dd)
 }

@@ -1,0 +1,9 @@
+Within IMR network, development version of the API for database access is exposed on: http://tomcat7.imr.no:8080/apis/nmdapi/biotic/v1/
+
+For example, one can extract by serial number and year:
+http://tomcat7.imr.no:8080/apis/nmdapi/biotic/v1/<year>/<first_serial_no>/<last_serial_no>/serial
+
+For the time being the assignment of serial numbers for stations are maintained at: https://docs.google.com/spreadsheets/d/1qel6xfvuTiYIdJmBEeAhCDeyQaEAgQVi2jeGJAzYivE
+
+Example: Download all data for the high seas referecne fleet in 2015, using wget:
+wget http://tomcat7.imr.no:8080/apis/nmdapi/biotic/v1/2015/86000/98999/serial -O HRF_2015.xml

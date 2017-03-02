@@ -1,0 +1,1565 @@
+<html xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:imrd="http://www.imr.no/formats/nmddocumentation/v1_0">
+<style>
+                table, th, td {
+                border-collapse: collapse;
+                border: 1px solid black;
+                }
+                th, td {
+                padding: 5px;
+                }
+                th {
+                text-align: left;
+                }
+            </style>
+<head>
+<META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>Skjemadokumentasjon NMD</title>
+</head>
+<body>Datamodell for biologiske data samlet inn ved Havforskningsinstituttet.<h2>Toppniv&aring;elementer</h2>
+<p>Elementer tillatt p&aring; &oslash;verste niv&aring; filformatet.</p>
+<ul>
+<li>missions: MissionsType</li>
+<li>mission: MissionType</li>
+</ul>
+<h2>Datatyper</h2>
+<h3>Datatype: MissionsType</h3>
+<h4>Attributter:</h4>
+                        Ingen attributter
+                    <h4>Undernoder:</h4>
+<table>
+<tr>
+<th>
+                                    navn
+                                </th><th>
+                                    type
+                                </th><th>
+                                    forklaring
+                                </th><th>
+                                    referansetabell
+                                </th>
+</tr>
+<tr>
+<td>
+                        &lt;
+                                mission/&gt;
+                            </td><td>MissionType</td><td>Oppdrag/tokt i samling.</td><td></td>
+</tr>
+</table>
+<h3>Datatype: MissionType</h3>
+<h4>Attributter:</h4>
+<table>
+<tr>
+<th>
+                                    navn
+                                </th><th>
+                                    type
+                                </th><th>
+                                    forklaring
+                                </th><th>
+                                    referansetabell
+                                </th>
+</tr>
+<tr>
+<td>missiontype</td><td>xs:string</td><td></td><td><a href="http://tomcat7.imr.no:8080/apis/nmdapi/reference/v1/missiontype">
+                                        link
+                                    </a></td>
+</tr>
+<tr>
+<td>year</td><td>xs:integer</td><td></td><td></td>
+</tr>
+<tr>
+<td>platform</td><td>xs:string</td><td></td><td><a href="http://tomcat7.imr.no:8080/apis/nmdapi/reference/v1/platform">
+                                        link
+                                    </a></td>
+</tr>
+<tr>
+<td>missionnumber</td><td>xs:integer</td><td></td><td></td>
+</tr>
+<tr>
+<td>missiontypename</td><td>xs:string</td><td></td><td></td>
+</tr>
+<tr>
+<td>callsignal</td><td>xs:string</td><td>Radiokallesignal for plattform.</td><td></td>
+</tr>
+<tr>
+<td>platformname</td><td>xs:string</td><td>Navn p&aring; plattform.</td><td></td>
+</tr>
+</table>
+<h4>Undernoder:</h4>
+<table>
+<tr>
+<th>
+                                    navn
+                                </th><th>
+                                    type
+                                </th><th>
+                                    forklaring
+                                </th><th>
+                                    referansetabell
+                                </th>
+</tr>
+<tr>
+<td>
+                        &lt;
+                                cruise/&gt;
+                            </td><td>xs:string</td><td></td><td></td>
+</tr>
+<tr>
+<td>
+                        &lt;
+                                startdate/&gt;
+                            </td><td>xs:string</td><td>Startdato for oppdrag p&aring; format: "dd/mm/&aring;&aring;&aring;&aring;".</td><td></td>
+</tr>
+<tr>
+<td>
+                        &lt;
+                                stopdate/&gt;
+                            </td><td>xs:string</td><td>Sluttdato for oppdrag p&aring; format: "dd/mm/&aring;&aring;&aring;&aring;".</td><td></td>
+</tr>
+<tr>
+<td>
+                        &lt;
+                                purpose/&gt;
+                            </td><td>xs:string</td><td></td><td></td>
+</tr>
+<tr>
+<td>
+                        &lt;
+                                fishstation/&gt;
+                            </td><td>FishstationType</td><td>Fiskestasjoner tatt p&aring; Oppdrag/Tokt. Fiskestasjoner er en generalisering av en fiskeoperasjon og representer en datainnsamling i et definert omr&aring;de og tidsrom med en definert redskapstype. </td><td></td>
+</tr>
+</table>
+<h3>Datatype: FishstationType</h3>
+<h4>Attributter:</h4>
+<table>
+<tr>
+<th>
+                                    navn
+                                </th><th>
+                                    type
+                                </th><th>
+                                    forklaring
+                                </th><th>
+                                    referansetabell
+                                </th>
+</tr>
+<tr>
+<td>serialno</td><td>xs:integer</td><td>Serienummer koblet med &aring;r gir en unik identifisering av Stasjon. Forskjellige plattformer har sine serienummerrekker, men disse omfordeles etter behov. Oversikt over fordeling av serienummer finnes p&aring;: https://docs.google.com/spreadsheets/d/1qel6xfvuTiYIdJmBEeAhCDeyQaEAgQVi2jeGJAzYivE .
+                            Henviser ellers til dokument &rdquo;historiske koder&rdquo; for serienr. brukt i perioden 1989-2003, og til dokument &rdquo;Serienummeroversikt 2003-2014&rdquo;, for serienummer brukt i perioden 2003-2014.</td><td></td>
+</tr>
+</table>
+<h4>Undernoder:</h4>
+<table>
+<tr>
+<th>
+                                    navn
+                                </th><th>
+                                    type
+                                </th><th>
+                                    forklaring
+                                </th><th>
+                                    referansetabell
+                                </th>
+</tr>
+<tr>
+<td>
+                        &lt;
+                                nation/&gt;
+                            </td><td>StringDescriptionType</td><td>Kode for nasjon som tok stasjonen.  Hentes fra referansetabell i Data Manager.</td><td><a href="http://tomcat7.imr.no:8080/apis/nmdapi/reference/v1/nation">
+                                        link
+                                    </a></td>
+</tr>
+<tr>
+<td>
+                        &lt;
+                                platform/&gt;
+                            </td><td>StringDescriptionType</td><td>Plattformkode. Hentes fra referansetabell i Data Manager.</td><td><a href="http://tomcat7.imr.no:8080/apis/nmdapi/reference/v1/platform">
+                                        link
+                                    </a></td>
+</tr>
+<tr>
+<td>
+                        &lt;
+                                station/&gt;
+                            </td><td>xs:integer</td><td>Stasjonsnummer p&aring; hvert fart&oslash;y starter p&aring; nr. 1 ved &aring;rets begynnelse, toktene nummereres fortl&oslash;pende. Det brukes ulike stasjonsnummer serier for fiskestasjon, ctd, plankton etc. Denne regelen kan i noen tilfeller fravik p&aring; kommersielt fiskefart&oslash;y/leiefart&oslash;y.</td><td></td>
+</tr>
+<tr>
+<td>
+                        &lt;
+                                fixedstation/&gt;
+                            </td><td>StringDescriptionType</td><td>Kode som identifiserer en pr&oslash;vetakingsstasjon som gjentas p&aring; samme posisjon med regelmessige intervaller. Blank om stasjonen ikke er en fast stasjon.</td><td><a href="http://tomcat7.imr.no:8080/apis/nmdapi/reference/v1/fixedcoastalstation">
+                                        link
+                                    </a></td>
+</tr>
+<tr>
+<td>
+                        &lt;
+                                startdate/&gt;
+                            </td><td>xs:string</td><td>UTC-Dato (dd/mm/&aring;&aring;&aring;&aring;) da redskapet kom i fiskedypet.</td><td></td>
+</tr>
+<tr>
+<td>
+                        &lt;
+                                starttime/&gt;
+                            </td><td>xs:string</td><td>UTC-Klokkeslett, (tt:mm:ss) da redskapet kom i fiskedypet. For line/garn: N&aring;r f&oslash;rste krok/garn blir satt.</td><td></td>
+</tr>
+<tr>
+<td>
+                        &lt;
+                                stopdate/&gt;
+                            </td><td>xs:string</td><td>UTC-Dato (dd/mm/&aring;&aring;&aring;&aring;) n&aring;r redskapet forlot fiskedypet. </td><td></td>
+</tr>
+<tr>
+<td>
+                        &lt;
+                                stoptime/&gt;
+                            </td><td>xs:string</td><td>UTC-klokkeslett,(tt:mm:ss) da redskapet forlot fiskedypet. For line/garn: N&aring;r siste krok/garn er ferdig trekt .</td><td></td>
+</tr>
+<tr>
+<td>
+                        &lt;
+                                stationtype/&gt;
+                            </td><td>StringDescriptionType</td><td>Brukes til &aring; kode at stasjonen er av en spesiell type.
+                                Blank for vanlig fiskestasjon eller for line og garn i referansefl&aring;ten-dagens totalfangst (d&oslash;gnstasjon)</td><td><a href="http://tomcat7.imr.no:8080/apis/nmdapi/reference/v1/Fishstationtype">
+                                        link
+                                    </a></td>
+</tr>
+<tr>
+<td>
+                        &lt;
+                                latitudestart/&gt;
+                            </td><td>xs:decimal</td><td>Posisjonens bredde i desimalgrader da redskapet kom i fiskedypet (datum: WGS 84).</td><td></td>
+</tr>
+<tr>
+<td>
+                        &lt;
+                                longitudestart/&gt;
+                            </td><td>xs:decimal</td><td>Posisjonens lengde i desimalgrader da redskapet kom i fiskedypet (datum: WGS 84).</td><td></td>
+</tr>
+<tr>
+<td>
+                        &lt;
+                                latitudeend/&gt;
+                            </td><td>xs:decimal</td><td>Posisjonens bredde i desimalgrader, da redskapet forlot fiskedypet (datum WGS 84).</td><td></td>
+</tr>
+<tr>
+<td>
+                        &lt;
+                                longitudeend/&gt;
+                            </td><td>xs:decimal</td><td>Posisjonens lengde i desimalgrader, da redskapet forlot fiskedypet (datum WGS 84).</td><td></td>
+</tr>
+<tr>
+<td>
+                        &lt;
+                                system/&gt;
+                            </td><td>xs:integer</td><td>System for koding av omr&aring;de (&lt;area/&gt; og lokalitet &lt;location/&gt;. Se kart og forklaring i "H&aring;ndbok for pr&oslash;vetaking av fisk og krepsdyr".
+
+                                Utsetting av torsk i Hordaland: 1
+                                Fiskeridirektoratets statistisk omr&aring;de og lokalitet: 2
+                                ICES ruter (Nordsj&oslash;en) tokt: 3
+                                Stratakode bunntr&aring;ltokt i Barentshavet: 4
+                                Stratakode bunntr&aring;ltokt ved Svalbard: 5 
+                                Stratakode reketokt i Barentshavet: 6 
+                                Stratakode reketokt ved Svalbard: 7 
+                                Reker i Skagerrak og i Barentshavet: 8 
+                                0-gruppe unders&oslash;kelser i Barentshavet: 9</td><td></td>
+</tr>
+<tr>
+<td>
+                        &lt;
+                                area/&gt;
+                            </td><td>xs:integer</td><td>Omr&aring;de knyttet opp mot system.</td><td></td>
+</tr>
+<tr>
+<td>
+                        &lt;
+                                location/&gt;
+                            </td><td>xs:string</td><td>Lokalitet knyttet til system og omr&aring;de.</td><td></td>
+</tr>
+<tr>
+<td>
+                        &lt;
+                                bottomdepthstart/&gt;
+                            </td><td>xs:decimal</td><td>Bunndyp i meter n&aring;r redskapet kom i fiskedypet. </td><td></td>
+</tr>
+<tr>
+<td>
+                        &lt;
+                                bottomdepthstop/&gt;
+                            </td><td>xs:decimal</td><td>Bunndyp i meter n&aring;r redskapet forlot fiskedypet. </td><td></td>
+</tr>
+<tr>
+<td>
+                        &lt;
+                                fishingdepthmax/&gt;
+                            </td><td>xs:decimal</td><td>Det maksimale dyp redskapen har fisket i, angitt i meter. Dersom redskapen bare har fisket i et dyp, f&oslash;res dypet her.  For not: Det maksimale dypet av fiskestimen/fiskesl&oslash;ret, angitt i meter. For tr&aring;l: Det maksimale dypet overtelna har g&aring;tt i, etter at tr&aring;len n&aring;dde &oslash;nsket fiskedyp. For andre redskap enn tr&aring;l: Dette felt angir det st&oslash;rste dyp redskapet har fangstet i. For standaridsert tr&aring;ling over flere fiskedyp benyttes koder med verdi &gt; 9000 (f.eks. 0-gruppetok). Se dokumentasjon i "H&aring;ndbok for pr&oslash;vetaking av fisk og krepsdyr"".</td><td></td>
+</tr>
+<tr>
+<td>
+                        &lt;
+                                fishingdepthmin/&gt;
+                            </td><td>xs:decimal</td><td>Det minste dypet redskapen har fisket i, angitt i meter. Fylles ikke ut dersom redskapen bare har fisket i et dyp. For tr&aring;l: Det minimale dyp overtelna gikk i, i hoveddypet, angitt i meter. For andre redskap enn tr&aring;l: Dette felt angir det minste dyp redskapet har fangstet i. For not: Det minimale dypet av fiskestimen/fiskesl&oslash;ret, Angitt i meter.</td><td></td>
+</tr>
+<tr>
+<td>
+                        &lt;
+                                fishingdepthmean/&gt;
+                            </td><td>xs:decimal</td><td>Brukes dersom fiskedyp maks og fiskedyp min ikke er registrert. Fortrinsvis for referansefl&aring;ten. </td><td></td>
+</tr>
+<tr>
+<td>
+                        &lt;
+                                gearno/&gt;
+                            </td><td>xs:integer</td><td>Angir detaljert hvilket redskap som er brukt, se merkeplate for hvert redskap sitt nummer (gjelder forel&oslash;pig tr&aring;l). </td><td></td>
+</tr>
+<tr>
+<td>
+                        &lt;
+                                gear/&gt;
+                            </td><td>StringDescriptionType</td><td>Angir hvilken type redskap som er brukt. Se "H&aring;ndbok for pr&oslash;vetaking av fisk og krepsdyr".</td><td><a href="http://tomcat7.imr.no:8080/apis/nmdapi/reference/v1/equipment">
+                                        link
+                                    </a></td>
+</tr>
+<tr>
+<td>
+                        &lt;
+                                gearcount/&gt;
+                            </td><td>xs:integer</td><td>Antall redskap som er brukt. For garnlenke angis antall garn i lenken, og for line angis antall krok p&aring; linen. For andre redskaper, der flere like redskaper har v&aelig;rt i bruk p&aring; samme stasjon, angis antall redskaper, for eksempel ruser, sn&oslash;rer og teiner.</td><td></td>
+</tr>
+<tr>
+<td>
+                        &lt;
+                                direction/&gt;
+                            </td><td>xs:decimal</td><td>Angir retningen halet foregikk i. Fylles bare ut n&aring;r hele halet foreg&aring;r i en og samme retning. NB! Nord, 0.0 grader kodes som 360 grader.</td><td></td>
+</tr>
+<tr>
+<td>
+                        &lt;
+                                gearspeed/&gt;
+                            </td><td>xs:decimal</td><td>Hastighet under tr&aring;ling i knop. Tr&aring;lens hastighet gjennom vannmassene m&aring;les fortrinnsvis med SCANMAR hastighetsm&aring;ler p&aring; tr&aring;len. Hvis ikke brukes data fra GPS (fart over bunn).</td><td></td>
+</tr>
+<tr>
+<td>
+                        &lt;
+                                startlog/&gt;
+                            </td><td>xs:decimal</td><td>Verdi p&aring; loggen i nautiske mil da redskapet kom i fiskedypet. </td><td></td>
+</tr>
+<tr>
+<td>
+                        &lt;
+                                stoplog/&gt;
+                            </td><td>xs:decimal</td><td>Verdi p&aring; loggen i nautiske mil da redskapet forlot fiskedypet. </td><td></td>
+</tr>
+<tr>
+<td>
+                        &lt;
+                                distance/&gt;
+                            </td><td>xs:decimal</td><td>Tauet distanse i nautiske mil. Bruk data fra GPS hvis mulig. N&aring;r bunntr&aring;l brukes for &aring; m&aring;le bestander kvantitativt, skal det taues en fast distanse over bunn m&aring;lt med GPS. Tauetid, hastighet og distanse skal registreres uavhengig av hverandre. Denne prosedyre b&oslash;r ogs&aring; brukes ved kvalitative hal. Det er ingen standardiseringskrav ved pelagisk tr&aring;ling.</td><td></td>
+</tr>
+<tr>
+<td>
+                        &lt;
+                                gearcondition/&gt;
+                            </td><td>StringDescriptionType</td><td>Redskapets tilstand etter halet/kastet. </td><td><a href="http://tomcat7.imr.no:8080/apis/nmdapi/reference/v1/Gearcondition">
+                                        link
+                                    </a></td>
+</tr>
+<tr>
+<td>
+                        &lt;
+                                trawlquality/&gt;
+                            </td><td>StringDescriptionType</td><td>Angir hvor godt fangsten gjenspeiler mengden av fisk i omr&aring;det, vurdert ut fra m&aring;ten det er tr&aring;lt p&aring; og redskapets oppf&oslash;rsel).</td><td><a href="http://tomcat7.imr.no:8080/apis/nmdapi/reference/v1/Samplequality">
+                                        link
+                                    </a></td>
+</tr>
+<tr>
+<td>
+                        &lt;
+                                trawlopening/&gt;
+                            </td><td>xs:decimal</td><td>Tr&aring;lens gjennomsnittlige &aring;pning i hoveddypet (m). Avleses fra Scanmar. </td><td></td>
+</tr>
+<tr>
+<td>
+                        &lt;
+                                trawlopeningsd/&gt;
+                            </td><td>xs:decimal</td><td>Tr&aring;l&aring;pningens standardavvik (m). Avleses fra tr&aring;lsensor.</td><td></td>
+</tr>
+<tr>
+<td>
+                        &lt;
+                                doorspread/&gt;
+                            </td><td>xs:decimal</td><td>D&oslash;renes gjennomsnittlige avstand i meter. Avleses fra sensor p&aring; d&oslash;rene. </td><td></td>
+</tr>
+<tr>
+<td>
+                        &lt;
+                                doorspreadsd/&gt;
+                            </td><td>xs:decimal</td><td>D&oslash;ravstandens standardavvik (m). N&oslash;yaktighet med &eacute;n desimal. Avleses fra PC tilkoblet scanmar. (Scan-prog.).</td><td></td>
+</tr>
+<tr>
+<td>
+                        &lt;
+                                wirelength/&gt;
+                            </td><td>xs:integer</td><td>Representativ wirelengde (m) p&aring; fiskestasjonen f&oslash;res. </td><td></td>
+</tr>
+<tr>
+<td>
+                        &lt;
+                                soaktime/&gt;
+                            </td><td>xs:decimal</td><td>Tid redskap stod i sj&oslash;en. GItt i desimaltimer.</td><td></td>
+</tr>
+<tr>
+<td>
+                        &lt;
+                                tripno/&gt;
+                            </td><td>xs:integer</td><td>Turnummer for referansefl&aring;ten og kommersielle b&aring;ter. Tur er vanligvis perioden mellom avgang og levering. </td><td></td>
+</tr>
+<tr>
+<td>
+                        &lt;
+                                fishabundance/&gt;
+                            </td><td>StringDescriptionType</td><td>I bruk fra 1998-2003. Se dokument &rdquo;historiske koder&rdquo;.</td><td><a href="http://tomcat7.imr.no:8080/apis/nmdapi/reference/v1/Fiskemengde">
+                                        link
+                                    </a></td>
+</tr>
+<tr>
+<td>
+                        &lt;
+                                fishdistribution/&gt;
+                            </td><td>StringDescriptionType</td><td>I bruk fra 1998-2003. Se dokument &rdquo;historiske koder&rdquo;.</td><td><a href="http://tomcat7.imr.no:8080/apis/nmdapi/reference/v1/Fiskefordeling">
+                                        link
+                                    </a></td>
+</tr>
+<tr>
+<td>
+                        &lt;
+                                landingsite/&gt;
+                            </td><td>StringDescriptionType</td><td>Fiskemotttak der fangsten er levert. </td><td><a href="http://tomcat7.imr.no:8080/apis/nmdapi/reference/v1/DeliveryPlacesHistoricalCodCatches">
+                                        link
+                                    </a></td>
+</tr>
+<tr>
+<td>
+                        &lt;
+                                fishingground/&gt;
+                            </td><td>StringDescriptionType</td><td>Navn (kode) p&aring; fiskefelt hvor fart&oslash;y opererer. Dette gjelder kun overv&aring;kningstjenesten. </td><td><a href="http://tomcat7.imr.no:8080/apis/nmdapi/reference/v1/FISHING_GROUND">
+                                        link
+                                    </a></td>
+</tr>
+<tr>
+<td>
+                        &lt;
+                                countofvessels/&gt;
+                            </td><td>xs:integer</td><td>Antall fiskefart&oslash;y i fiske p&aring; fiskefelt. Dette gjelder kun overv&aring;kningstjenesten. </td><td></td>
+</tr>
+<tr>
+<td>
+                        &lt;
+                                dataquality/&gt;
+                            </td><td>StringDescriptionType</td><td>Kvalitetsmerking av fiskedataene.  Se "H&aring;ndbok for pr&oslash;vetaking af fisk og krepsdyr". Niv&aring; blank vil representere data med sv&aelig;rt variabel kvalitet og det kreves i de fleste tilfellene inng&aring;ende kjennskap til dataene f&oslash;r de brukes.</td><td><a href="http://tomcat7.imr.no:8080/apis/nmdapi/reference/v1/Datakvalitet">
+                                        link
+                                    </a></td>
+</tr>
+<tr>
+<td>
+                        &lt;
+                                haulvalidity/&gt;
+                            </td><td>StringDescriptionType</td><td>Kode for trekkets vellykkethet.</td><td><a href="http://tomcat7.imr.no:8080/apis/nmdapi/reference/v1/HAULVALIDITY">
+                                        link
+                                    </a></td>
+</tr>
+<tr>
+<td>
+                        &lt;
+                                flora/&gt;
+                            </td><td>StringDescriptionType</td><td>Kode for beskrivelse av type bunnvegetasjon.</td><td><a href="http://tomcat7.imr.no:8080/apis/nmdapi/reference/v1/FLORA">
+                                        link
+                                    </a></td>
+</tr>
+<tr>
+<td>
+                        &lt;
+                                vegetationcover/&gt;
+                            </td><td>StringDescriptionType</td><td>Kode for mengden av vegetasjonsdekke p&aring; bunn.</td><td><a href="http://tomcat7.imr.no:8080/apis/nmdapi/reference/v1/VEGETATIONCOVER">
+                                        link
+                                    </a></td>
+</tr>
+<tr>
+<td>
+                        &lt;
+                                visibility/&gt;
+                            </td><td>StringDescriptionType</td><td>Kode for sikt i vannet.</td><td><a href="http://tomcat7.imr.no:8080/apis/nmdapi/reference/v1/VISIBILITY">
+                                        link
+                                    </a></td>
+</tr>
+<tr>
+<td>
+                        &lt;
+                                flowcount/&gt;
+                            </td><td>xs:integer</td><td></td><td></td>
+</tr>
+<tr>
+<td>
+                        &lt;
+                                flowconst/&gt;
+                            </td><td>xs:decimal</td><td></td><td></td>
+</tr>
+<tr>
+<td>
+                        &lt;
+                                waterlevel/&gt;
+                            </td><td>xs:decimal</td><td>tidevannsh&oslash;yden (cm).</td><td></td>
+</tr>
+<tr>
+<td>
+                        &lt;
+                                winddirection/&gt;
+                            </td><td>xs:decimal</td><td>Vindens retning i grader, relativt til nord.</td><td></td>
+</tr>
+<tr>
+<td>
+                        &lt;
+                                windspeed/&gt;
+                            </td><td>xs:decimal</td><td>Vindens styrke (knop).</td><td></td>
+</tr>
+<tr>
+<td>
+                        &lt;
+                                clouds/&gt;
+                            </td><td>StringDescriptionType</td><td>Beskrivelse av skydekke. Meterologisk kodesystem (WMO kode 2700), enhet: okta</td><td><a href="http://tomcat7.imr.no:8080/apis/nmdapi/reference/v1/Clouds">
+                                        link
+                                    </a></td>
+</tr>
+<tr>
+<td>
+                        &lt;
+                                sea/&gt;
+                            </td><td>StringDescriptionType</td><td>Beskrivelse av b&oslash;lgeh&oslash;yde. Meterologisk kodesystem (WMO kode 3700) Douglas Sea Scale.</td><td><a href="http://tomcat7.imr.no:8080/apis/nmdapi/reference/v1/Sea">
+                                        link
+                                    </a></td>
+</tr>
+<tr>
+<td>
+                        &lt;
+                                weather/&gt;
+                            </td><td>StringDescriptionType</td><td>Beskrivelse av v&aelig;r. Meterologisk kodesystem (WMO kode 4561).</td><td><a href="http://tomcat7.imr.no:8080/apis/nmdapi/reference/v1/Weather">
+                                        link
+                                    </a></td>
+</tr>
+<tr>
+<td>
+                        &lt;
+                                comment/&gt;
+                            </td><td>xs:string</td><td>Opplysninger om hendelser p&aring; stasjonen. </td><td></td>
+</tr>
+<tr>
+<td>
+                        &lt;
+                                catchsample/&gt;
+                            </td><td>CatchsampleType</td><td>Fangstpr&oslash;ver tatt p&aring; denne stasjonen.</td><td></td>
+</tr>
+</table>
+<h3>Datatype: CatchsampleType</h3>
+<h4>Attributter:</h4>
+<table>
+<tr>
+<th>
+                                    navn
+                                </th><th>
+                                    type
+                                </th><th>
+                                    forklaring
+                                </th><th>
+                                    referansetabell
+                                </th>
+</tr>
+<tr>
+<td>species</td><td>xs:string</td><td>Art og bestandskode definert ut fra taksonomisk serienummer (TSN/ITIS) og egen bestandstabell.</td><td><a href="http://tomcat7.imr.no:8080/apis/nmdapi/reference/v1/taxa">
+                                        link
+                                    </a></td>
+</tr>
+<tr>
+<td>samplenumber</td><td>xs:integer</td><td>Nummer i rekken av pr&oslash;ver av denne arten p&aring; denne fiskestasjonen, se forklaring i "H&aring;ndbok for pr&oslash;vetaking av fisk og krepsdyr".</td><td></td>
+</tr>
+<tr>
+<td>noname</td><td>xs:string</td><td>Norsk artsnavn.</td><td></td>
+</tr>
+<tr>
+<td>aphia</td><td>xs:string</td><td>Id for art i aphia-databasen.</td><td><a href="http://tomcat7.imr.no:8080/apis/nmdapi/reference/v1/taxa">
+                                        link
+                                    </a></td>
+</tr>
+</table>
+<h4>Undernoder:</h4>
+<table>
+<tr>
+<th>
+                                    navn
+                                </th><th>
+                                    type
+                                </th><th>
+                                    forklaring
+                                </th><th>
+                                    referansetabell
+                                </th>
+</tr>
+<tr>
+<td>
+                        &lt;
+                                sampletype/&gt;
+                            </td><td>StringDescriptionType</td><td>Angir hvordan pr&oslash;ven er tatt og hva slags pr&oslash;ve det er. For historiske koder og tilleggsinformasjon se "H&aring;ndbok for pr&oslash;vetaking av fisk og krepsdyr".</td><td><a href="http://tomcat7.imr.no:8080/apis/nmdapi/reference/v1/Sampletype">
+                                        link
+                                    </a></td>
+</tr>
+<tr>
+<td>
+                        &lt;
+                                group/&gt;
+                            </td><td>StringDescriptionType</td><td>Dette er en kode som skal angi om pr&oslash;ven er tatt fra en spesiell del av fangsten av denne arten. Det er gitt noen tilfeller da koden skal brukes, f.eks. under 0-gruppetokt for &aring; skille 0- og I-gruppe fra resten av fangsten.</td><td><a href="http://tomcat7.imr.no:8080/apis/nmdapi/reference/v1/Group">
+                                        link
+                                    </a></td>
+</tr>
+<tr>
+<td>
+                        &lt;
+                                conservation/&gt;
+                            </td><td>StringDescriptionType</td><td>Konservering.</td><td><a href="http://tomcat7.imr.no:8080/apis/nmdapi/reference/v1/Conservationtype">
+                                        link
+                                    </a></td>
+</tr>
+<tr>
+<td>
+                        &lt;
+                                producttype/&gt;
+                            </td><td>StringDescriptionType</td><td>Beskrivelse av produktet som m&aring;linger av total fangst er utf&oslash;rt p&aring; (&lt;weight/&gt;, &lt;volume/&gt;,). Angir bl.a. grad av prosessering som f.eks. Sl&oslash;ying.</td><td><a href="http://tomcat7.imr.no:8080/apis/nmdapi/reference/v1/Vektmetode">
+                                        link
+                                    </a></td>
+</tr>
+<tr>
+<td>
+                        &lt;
+                                weight/&gt;
+                            </td><td>xs:decimal</td><td>Vekt (Kg) av den delen av fangsten som er representert ved denne pr&oslash;ven. Se &lt;producttype/&gt; for produkttype. Ved subsampling er et estimat for total fangst gitt. &lt;raisingfactor/&gt; gir faktor brukt for oppskalering, men totalfangst kan v&aelig;re estimert ogs&aring; om &lt;raisingfactor/&gt; ikke er gitt.</td><td></td>
+</tr>
+<tr>
+<td>
+                        &lt;
+                                volume/&gt;
+                            </td><td>xs:decimal</td><td>Volum (l) av den delen av fangsten som er representert ved denne pr&oslash;ven. Se &lt;producttype/&gt; for produkttype. Ved subsampling er et estimat for total fangst gitt. &lt;raisingfactor/&gt; gir faktor brukt for oppskalering, men totalfangst kan v&aelig;re estimert ogs&aring; om &lt;raisingfactor/&gt; ikke er gitt.</td><td></td>
+</tr>
+<tr>
+<td>
+                        &lt;
+                                count/&gt;
+                            </td><td>xs:integer</td><td>Antall fisk I den delen av fangsten som er representert ved denne pr&oslash;ven. Ofte estimert fra vekt og antall i lengdepr&oslash;ver ( &lt;lengthsamplecount/&gt;*&lt;weight/&gt;/&lt;lenghsampleweight/&gt;). </td><td></td>
+</tr>
+<tr>
+<td>
+                        &lt;
+                                abundancecategory/&gt;
+                            </td><td>StringDescriptionType</td><td>Kode som beskriver mengde av fangst kvalitativt.</td><td><a href="http://tomcat7.imr.no:8080/apis/nmdapi/reference/v1/ABUNDANCECATEGORY">
+                                        link
+                                    </a></td>
+</tr>
+<tr>
+<td>
+                        &lt;
+                                sampleproducttype/&gt;
+                            </td><td>StringDescriptionType</td><td>Beskrivelse av produktet som pr&oslash;vetaking er utf&oslash;rt p&aring; (&lt;lengthsampleweight/&gt;, &lt;lengthsamplevolume/&gt;). Angir bl.a. grad av prosessering som f.eks. Sl&oslash;ying.</td><td><a href="http://tomcat7.imr.no:8080/apis/nmdapi/reference/v1/Vektmetode">
+                                        link
+                                    </a></td>
+</tr>
+<tr>
+<td>
+                        &lt;
+                                lengthmeasurement/&gt;
+                            </td><td>StringDescriptionType</td><td>Metode for hvordan arten er m&aring;lt. For fisk m&aring;les lengde, for manet diameter, for krepsdyr carapaxlengde o.a., se "H&aring;ndbok for pr&oslash;vetaking av fisk og krepsdyr".</td><td><a href="http://tomcat7.imr.no:8080/apis/nmdapi/reference/v1/Lengthmeasurementtype">
+                                        link
+                                    </a></td>
+</tr>
+<tr>
+<td>
+                        &lt;
+                                lengthsampleweight/&gt;
+                            </td><td>xs:decimal</td><td>Vekt (kg) av lengdem&aring;lt fisk i denne fangspr&oslash;ven. Se &lt;sampleproducttype/&gt; for produkttype.</td><td></td>
+</tr>
+<tr>
+<td>
+                        &lt;
+                                lengthsamplevolume/&gt;
+                            </td><td>xs:decimal</td><td>Volum (l) av lengdem&aring;lt fisk i denne fangspr&oslash;ven. Se &lt;sampleproducttype/&gt; for produkttype.</td><td></td>
+</tr>
+<tr>
+<td>
+                        &lt;
+                                lengthsamplecount/&gt;
+                            </td><td>xs:integer</td><td>Antall lengdem&aring;lt fisk i denne fangstpr&oslash;ven. Inkludert lengdem&aring;lt fisk som det ogs&aring; ble tatt grundigere individm&aring;ling av (&lt;specimensamplecount/&gt;).</td><td></td>
+</tr>
+<tr>
+<td>
+                        &lt;
+                                specimensamplecount/&gt;
+                            </td><td>xs:integer</td><td>Antall fisk som det er tatt individm&aring;ling (&lt;individual/&gt;) av i denne fangstpr&oslash;ven.  Med dette forst&aring;s individm&aring;linger utover lengdem&aring;l.</td><td></td>
+</tr>
+<tr>
+<td>
+                        &lt;
+                                raisingfactor/&gt;
+                            </td><td>xs:decimal</td><td>Brukt dersom fangstpr&oslash;vem&aring;linger (&lt;weight/&gt;, &lt;volume/&gt;, og event. &lt;count/&gt;) er gjort p&aring; et antatt representativt utvalg, og ikke hele fangsten.  Oppgangingsfaktor er forholdet mellom hele fangsten og det representative utvalget. Feltet er ikke alltid fyllt ut, s&aring; en oppgangigsfaktor p&aring; 1 kan ikke antas om feltet st&aring;r tomt. Merk at verdiene i &lt;weight/&gt;, &lt;volume/&gt; og &lt;count/&gt; er ganget opp, s&aring; man m&aring; dele p&aring; &lt;raisingfactor/&gt; for &aring; f&aring; mengden i subsample av fangst.</td><td></td>
+</tr>
+<tr>
+<td>
+                        &lt;
+                                agingstructure/&gt;
+                            </td><td>StringDescriptionType</td><td>Angir om otolitter, fiskeskjell eller annet er brukt for aldersbestemmelse. </td><td><a href="http://tomcat7.imr.no:8080/apis/nmdapi/reference/v1/agingstructure">
+                                        link
+                                    </a></td>
+</tr>
+<tr>
+<td>
+                        &lt;
+                                parasite/&gt;
+                            </td><td>StringDescriptionType</td><td>Angir om parasitter er tatt pr&oslash;ve av/ p&aring;vist. </td><td><a href="http://tomcat7.imr.no:8080/apis/nmdapi/reference/v1/Parasittpr%C3%B8ve">
+                                        link
+                                    </a></td>
+</tr>
+<tr>
+<td>
+                        &lt;
+                                stomach/&gt;
+                            </td><td>StringDescriptionType</td><td>Spesifiserer hvilken type magepr&oslash;ve som eventuelt ble tatt.</td><td><a href="http://tomcat7.imr.no:8080/apis/nmdapi/reference/v1/Opparbeidelse%20mage">
+                                        link
+                                    </a></td>
+</tr>
+<tr>
+<td>
+                        &lt;
+                                genetics/&gt;
+                            </td><td>StringDescriptionType</td><td>Angir om pr&oslash;ver for genetisk klassifikasjon er tatt.</td><td><a href="http://tomcat7.imr.no:8080/apis/nmdapi/reference/v1/GENETIKK_SPD">
+                                        link
+                                    </a></td>
+</tr>
+<tr>
+<td>
+                        &lt;
+                                foreignobject/&gt;
+                            </td><td>StringDescriptionType</td><td>Registrering av ikke-biologisk materiale.</td><td><a href="http://tomcat7.imr.no:8080/apis/nmdapi/reference/v1/BIO_IKKE_BIOLOGISK">
+                                        link
+                                    </a></td>
+</tr>
+<tr>
+<td>
+                        &lt;
+                                comment/&gt;
+                            </td><td>xs:string</td><td>Informasjon om observasjoner/hendelser p&aring; arten. </td><td></td>
+</tr>
+<tr>
+<td>
+                        &lt;
+                                individual/&gt;
+                            </td><td>IndividualType</td><td>Individpr&oslash;ver tatt fra fangstpr&oslash;ven.</td><td></td>
+</tr>
+<tr>
+<td>
+                        &lt;
+                                prey/&gt;
+                            </td><td>PreyType</td><td>Magepr&oslash;ver tatt fra individer i fangstpr&oslash;ven.</td><td></td>
+</tr>
+</table>
+<h3>Datatype: IndividualType</h3>
+<h4>Attributter:</h4>
+<table>
+<tr>
+<th>
+                                    navn
+                                </th><th>
+                                    type
+                                </th><th>
+                                    forklaring
+                                </th><th>
+                                    referansetabell
+                                </th>
+</tr>
+<tr>
+<td>specimenno</td><td>xs:integer</td><td>Individet skal ha fortl&oslash;pende nummer. </td><td></td>
+</tr>
+</table>
+<h4>Undernoder:</h4>
+<table>
+<tr>
+<th>
+                                    navn
+                                </th><th>
+                                    type
+                                </th><th>
+                                    forklaring
+                                </th><th>
+                                    referansetabell
+                                </th>
+</tr>
+<tr>
+<td>
+                        &lt;
+                                producttype/&gt;
+                            </td><td>StringDescriptionType</td><td>Beskrivelse av produktet som pr&oslash;vetaking utf&oslash;rt p&aring; (&lt;weight/&gt;, &lt;volume/&gt;). Angir bl.a. grad av prosessering som f.eks. Sl&oslash;ying.</td><td><a href="http://tomcat7.imr.no:8080/apis/nmdapi/reference/v1/Vektmetode">
+                                        link
+                                    </a></td>
+</tr>
+<tr>
+<td>
+                        &lt;
+                                weight/&gt;
+                            </td><td>xs:decimal</td><td>Vekt (kg). Bruk vektoppl&oslash;sning tilpasset individets st&oslash;rrelse.</td><td></td>
+</tr>
+<tr>
+<td>
+                        &lt;
+                                volume/&gt;
+                            </td><td>xs:decimal</td><td>Volum (l).</td><td></td>
+</tr>
+<tr>
+<td>
+                        &lt;
+                                lengthunit/&gt;
+                            </td><td>StringDescriptionType</td><td>Angir presisjon for lengdem&aring;ling.</td><td><a href="http://tomcat7.imr.no:8080/apis/nmdapi/reference/v1/Lengdeenhet">
+                                        link
+                                    </a></td>
+</tr>
+<tr>
+<td>
+                        &lt;
+                                length/&gt;
+                            </td><td>xs:decimal</td><td>Lengde (m). Presisjon i m&aring;ling er gitt ved &lt;lengthunit/&gt;. Merk at data kan v&aelig;re f&oslash;rt inn med h&oslash;yere oppl&oslash;sning enn det som er angitt i &lt;lenghtunit/&gt;, grunnet elektronsik innlesing fra m&aring;lebrett og lignende. &lt;lengthunit/&gt; angir likevel den presisjonen som er tilsiktet av pr&oslash;vetaker, og lengdem&aring;let b&oslash;r behandles deretter.</td><td></td>
+</tr>
+<tr>
+<td>
+                        &lt;
+                                fat/&gt;
+                            </td><td>StringDescriptionType</td><td>Kode for kvalitativ observasjon av fett i fisk.</td><td><a href="http://tomcat7.imr.no:8080/apis/nmdapi/reference/v1/Fett">
+                                        link
+                                    </a></td>
+</tr>
+<tr>
+<td>
+                        &lt;
+                                fatpercent/&gt;
+                            </td><td>xs:decimal</td><td>M&aring;les elektronisk av instrument fra Distell, kalt fiskefettm&aring;ler. M&aring;ler fettinnhold i prosent av filet (sild og makrell)
+                                Eksempel: 235=23,5%</td><td></td>
+</tr>
+<tr>
+<td>
+                        &lt;
+                                sex/&gt;
+                            </td><td>StringDescriptionType</td><td>Kode for kj&oslash;nn.</td><td><a href="http://tomcat7.imr.no:8080/apis/nmdapi/reference/v1/Kj%C3%B8nn">
+                                        link
+                                    </a></td>
+</tr>
+<tr>
+<td>
+                        &lt;
+                                stage/&gt;
+                            </td><td>StringDescriptionType</td><td>Dette er modning i henhold til den generelle stadiebeskrivelsen, Se "H&aring;ndbok for pr&oslash;vetaking av fisk og krepsdyr". Se ogs&aring; SPESIALSTADIUM for enkelte arter.</td><td><a href="http://tomcat7.imr.no:8080/apis/nmdapi/reference/v1/Stadium">
+                                        link
+                                    </a></td>
+</tr>
+<tr>
+<td>
+                        &lt;
+                                specialstage/&gt;
+                            </td><td>StringDescriptionType</td><td>Dette er modning i henhold til spesielle artsspesifikke stadiebeskrivelser. (f.eks. spesial stadium for bunnfisk p&aring; IBTS-tokt). Detaljert informasjon finnes under relevant art i referansertabellen taxa. Se ellers "H&aring;ndbok for pr&oslash;vetaking av fisk og krepsdyr" for bruk. Ensifrede spesialkoder kodes i "Spesial stadium". Koding av spesialstadium krever ogs&aring; at
+                                kj&oslash;nn er bestemt (gjelder ikke dypvannsreke og sj&oslash;kreps).</td><td><a href="http://tomcat7.imr.no:8080/apis/nmdapi/reference/v1/taxa">
+                                        link
+                                    </a></td>
+</tr>
+<tr>
+<td>
+                        &lt;
+                                eggstage/&gt;
+                            </td><td>StringDescriptionType</td><td>Forbergstadium brukt p&aring; lodde. Detaljert informasjon finnes under oppf&oslash;ring for lodde i referansetabellen taxa. Se  dokument "Historiske koder".</td><td><a href="http://tomcat7.imr.no:8080/apis/nmdapi/reference/v1/taxa">
+                                        link
+                                    </a></td>
+</tr>
+<tr>
+<td>
+                        &lt;
+                                developmentalstage/&gt;
+                            </td><td>StringDescriptionType</td><td>Utviklingsstadier for sildelarver. Detaljert informasjon finnes under relevant oppf&oslash;ring for sild i referansetabellen taxa. Se "H&aring;ndbok for pr&oslash;vetaking av fisk og krepsdyr".</td><td><a href="http://tomcat7.imr.no:8080/apis/nmdapi/reference/v1/taxa">
+                                        link
+                                    </a></td>
+</tr>
+<tr>
+<td>
+                        &lt;
+                                moultingstage/&gt;
+                            </td><td>StringDescriptionType</td><td></td><td><a href="http://tomcat7.imr.no:8080/apis/nmdapi/reference/v1/taxa">
+                                        link
+                                    </a></td>
+</tr>
+<tr>
+<td>
+                        &lt;
+                                stomachfillfield/&gt;
+                            </td><td>StringDescriptionType</td><td>Magefylling bestemt i felt.</td><td><a href="http://tomcat7.imr.no:8080/apis/nmdapi/reference/v1/Magefylling">
+                                        link
+                                    </a></td>
+</tr>
+<tr>
+<td>
+                        &lt;
+                                stomachfilllab/&gt;
+                            </td><td>StringDescriptionType</td><td>Magefylling bestemt i laboratorium.</td><td><a href="http://tomcat7.imr.no:8080/apis/nmdapi/reference/v1/Magefylling">
+                                        link
+                                    </a></td>
+</tr>
+<tr>
+<td>
+                        &lt;
+                                digestion/&gt;
+                            </td><td>StringDescriptionType</td><td>Ford&oslash;yelsesgrad.</td><td><a href="http://tomcat7.imr.no:8080/apis/nmdapi/reference/v1/Ford%C3%B8yningsgrad">
+                                        link
+                                    </a></td>
+</tr>
+<tr>
+<td>
+                        &lt;
+                                liver/&gt;
+                            </td><td>StringDescriptionType</td><td>Kvalitativ beskrivelse av leverst&oslash;rrelse.</td><td><a href="http://tomcat7.imr.no:8080/apis/nmdapi/reference/v1/Lever">
+                                        link
+                                    </a></td>
+</tr>
+<tr>
+<td>
+                        &lt;
+                                liverparasite/&gt;
+                            </td><td>StringDescriptionType</td><td>Kvalitativ beskrivelse av mengden parasitt i lever.</td><td><a href="http://tomcat7.imr.no:8080/apis/nmdapi/reference/v1/Parasitt">
+                                        link
+                                    </a></td>
+</tr>
+<tr>
+<td>
+                        &lt;
+                                gillworms/&gt;
+                            </td><td>StringDescriptionType</td><td>Angir om det ble funnet gjellemark.</td><td><a href="http://tomcat7.imr.no:8080/apis/nmdapi/reference/v1/GJELLEMAKK">
+                                        link
+                                    </a></td>
+</tr>
+<tr>
+<td>
+                        &lt;
+                                swollengills/&gt;
+                            </td><td>StringDescriptionType</td><td>Angir om gjeller er svullet.</td><td><a href="http://tomcat7.imr.no:8080/apis/nmdapi/reference/v1/GJELLESVULL">
+                                        link
+                                    </a></td>
+</tr>
+<tr>
+<td>
+                        &lt;
+                                fungusheart/&gt;
+                            </td><td>StringDescriptionType</td><td>Angir om hjertet viser tegn til soppsykdom.</td><td><a href="http://tomcat7.imr.no:8080/apis/nmdapi/reference/v1/SOPP_HJERTE">
+                                        link
+                                    </a></td>
+</tr>
+<tr>
+<td>
+                        &lt;
+                                fungusspores/&gt;
+                            </td><td>StringDescriptionType</td><td>Angir om mikroskopisk unders&oslash;kelse av hjertevev viser tegn til soppsykdom.</td><td><a href="http://tomcat7.imr.no:8080/apis/nmdapi/reference/v1/SOPP_SPORER">
+                                        link
+                                    </a></td>
+</tr>
+<tr>
+<td>
+                        &lt;
+                                fungusouter/&gt;
+                            </td><td>StringDescriptionType</td><td>Angir om det finnes ytre tegn p&aring; soppsykdom.</td><td><a href="http://tomcat7.imr.no:8080/apis/nmdapi/reference/v1/SOPP_YTRE">
+                                        link
+                                    </a></td>
+</tr>
+<tr>
+<td>
+                        &lt;
+                                blackspot/&gt;
+                            </td><td>StringDescriptionType</td><td>Sm&aring; svarte prikker i fiskeskinnnet, gjelder torsk.</td><td><a href="http://tomcat7.imr.no:8080/apis/nmdapi/reference/v1/SVARTPRIKK">
+                                        link
+                                    </a></td>
+</tr>
+<tr>
+<td>
+                        &lt;
+                                vertebrae/&gt;
+                            </td><td>xs:integer</td><td>Antall virvler. Se "H&aring;ndbok for pr&oslash;vetaking av fisk og krepsdyr."</td><td></td>
+</tr>
+<tr>
+<td>
+                        &lt;
+                                gonadweight/&gt;
+                            </td><td>xs:decimal</td><td>Vekt av gonade (kg).</td><td></td>
+</tr>
+<tr>
+<td>
+                        &lt;
+                                liverweight/&gt;
+                            </td><td>xs:decimal</td><td>Vekt av lever (kg).</td><td></td>
+</tr>
+<tr>
+<td>
+                        &lt;
+                                stomachweight/&gt;
+                            </td><td>xs:decimal</td><td>Vekt av mage (kg).</td><td></td>
+</tr>
+<tr>
+<td>
+                        &lt;
+                                diameter/&gt;
+                            </td><td>xs:decimal</td><td>Diameter (m).</td><td></td>
+</tr>
+<tr>
+<td>
+                        &lt;
+                                mantlelength/&gt;
+                            </td><td>xs:decimal</td><td>Kappelengde (m).</td><td></td>
+</tr>
+<tr>
+<td>
+                        &lt;
+                                carapacelength/&gt;
+                            </td><td>xs:decimal</td><td>Carapax lengde (m).</td><td></td>
+</tr>
+<tr>
+<td>
+                        &lt;
+                                headlength/&gt;
+                            </td><td>xs:decimal</td><td>Hodelengde (m).</td><td></td>
+</tr>
+<tr>
+<td>
+                        &lt;
+                                snouttoendoftail/&gt;
+                            </td><td>xs:decimal</td><td>Snute til ende av sporen (m).</td><td></td>
+</tr>
+<tr>
+<td>
+                        &lt;
+                                snouttoendsqueezed/&gt;
+                            </td><td>xs:decimal</td><td>Snute til ende sammenkneppet spor (m).</td><td></td>
+</tr>
+<tr>
+<td>
+                        &lt;
+                                snouttoanalfin/&gt;
+                            </td><td>xs:decimal</td><td>Snute til gattfinne (m).</td><td></td>
+</tr>
+<tr>
+<td>
+                        &lt;
+                                snouttodorsalfin/&gt;
+                            </td><td>xs:decimal</td><td>Snute til ryggfinne (m).</td><td></td>
+</tr>
+<tr>
+<td>
+                        &lt;
+                                forklength/&gt;
+                            </td><td>xs:decimal</td><td>Snute til innerst i sporten (Gaffellengde, m).</td><td></td>
+</tr>
+<tr>
+<td>
+                        &lt;
+                                snouttoboneknob/&gt;
+                            </td><td>xs:decimal</td><td>Snute til beinknute (m).</td><td></td>
+</tr>
+<tr>
+<td>
+                        &lt;
+                                lengthwithouthead/&gt;
+                            </td><td>xs:decimal</td><td>Hodekappet lengde (m).</td><td></td>
+</tr>
+<tr>
+<td>
+                        &lt;
+                                carapacewidth/&gt;
+                            </td><td>xs:decimal</td><td>Carapax bredde (m).</td><td></td>
+</tr>
+<tr>
+<td>
+                        &lt;
+                                rightclawwidth/&gt;
+                            </td><td>xs:decimal</td><td>H&oslash;yre klo bredde (m).</td><td></td>
+</tr>
+<tr>
+<td>
+                        &lt;
+                                rightclawlength/&gt;
+                            </td><td>xs:decimal</td><td>H&oslash;yre klo lengde (m).</td><td></td>
+</tr>
+<tr>
+<td>
+                        &lt;
+                                meroswidth/&gt;
+                            </td><td>xs:decimal</td><td>Bredde 3dje fot merus (m).</td><td></td>
+</tr>
+<tr>
+<td>
+                        &lt;
+                                meroslength/&gt;
+                            </td><td>xs:decimal</td><td>Lengde 3dje fot merus (m).</td><td></td>
+</tr>
+<tr>
+<td>
+                        &lt;
+                                japanesecut/&gt;
+                            </td><td>xs:decimal</td><td>Japankutt (m).</td><td></td>
+</tr>
+<tr>
+<td>
+                        &lt;
+                                geneticsnumber/&gt;
+                            </td><td>xs:integer</td><td>F&oslash;lgenummer p&aring; genetiske pr&oslash;ver.</td><td></td>
+</tr>
+<tr>
+<td>
+                        &lt;
+                                comment/&gt;
+                            </td><td>xs:string</td><td>Kommentarfelt.</td><td></td>
+</tr>
+<tr>
+<td>
+                        &lt;
+                                agedetermination/&gt;
+                            </td><td>AgedeterminationType</td><td>Alderslesinger gjort av dette individet.</td><td></td>
+</tr>
+<tr>
+<td>
+                        &lt;
+                                tag/&gt;
+                            </td><td>TagType</td><td>Merker p&aring; dette individet.</td><td></td>
+</tr>
+<tr>
+<td>
+                        &lt;
+                                abdomenwidth/&gt;
+                            </td><td>xs:decimal</td><td>Abdomen vidde (m).</td><td></td>
+</tr>
+</table>
+<h3>Datatype: AgedeterminationType</h3>
+<h4>Attributter:</h4>
+<table>
+<tr>
+<th>
+                                    navn
+                                </th><th>
+                                    type
+                                </th><th>
+                                    forklaring
+                                </th><th>
+                                    referansetabell
+                                </th>
+</tr>
+<tr>
+<td>no</td><td>xs:integer</td><td></td><td></td>
+</tr>
+</table>
+<h4>Undernoder:</h4>
+<table>
+<tr>
+<th>
+                                    navn
+                                </th><th>
+                                    type
+                                </th><th>
+                                    forklaring
+                                </th><th>
+                                    referansetabell
+                                </th>
+</tr>
+<tr>
+<td>
+                        &lt;
+                                age/&gt;
+                            </td><td>xs:integer</td><td>Alder. Se "H&aring;ndbok for pr&oslash;vetaking av fisk og krepsdyr" for instruksjon om hvordan alder leses fra otolitt, fiskjeskjel eller finnestr&aring;le for ulike arter.</td><td></td>
+</tr>
+<tr>
+<td>
+                        &lt;
+                                spawningage/&gt;
+                            </td><td>xs:integer</td><td>Fiskens alder ved f&oslash;rstegangs gyting. </td><td></td>
+</tr>
+<tr>
+<td>
+                        &lt;
+                                spawningzones/&gt;
+                            </td><td>xs:integer</td><td>Antall gytesoner.</td><td></td>
+</tr>
+<tr>
+<td>
+                        &lt;
+                                readability/&gt;
+                            </td><td>StringDescriptionType</td><td>Kode for lesbarhet av aldersmedium.</td><td><a href="http://tomcat7.imr.no:8080/apis/nmdapi/reference/v1/OTOLITH_READABILITY">
+                                        link
+                                    </a></td>
+</tr>
+<tr>
+<td>
+                        &lt;
+                                otolithtype/&gt;
+                            </td><td>StringDescriptionType</td><td>Klassifikasjon av otolitt. Se "H&aring;ndbok for pr&oslash;vetaking av fisk og krepsdyr".</td><td></td>
+</tr>
+<tr>
+<td>
+                        &lt;
+                                otolithedge/&gt;
+                            </td><td>StringDescriptionType</td><td>Beskrivelse av rand for otolitt eller fiskeskjell. Merk at angitt referansetabell kun gjelder for otolitt.</td><td><a href="http://tomcat7.imr.no:8080/apis/nmdapi/reference/v1/OTOLITH_EDGE">
+                                        link
+                                    </a></td>
+</tr>
+<tr>
+<td>
+                        &lt;
+                                otolithcentre/&gt;
+                            </td><td>StringDescriptionType</td><td>Beskrivelse av otolittkjerne.</td><td><a href="http://tomcat7.imr.no:8080/apis/nmdapi/reference/v1/OTOLITH_CENTRE">
+                                        link
+                                    </a></td>
+</tr>
+<tr>
+<td>
+                        &lt;
+                                calibration/&gt;
+                            </td><td>xs:integer</td><td>Antall m&aring;lestreker i m&aring;leokkularet pr 2 millimeter. Oppgitt for det okkular og den forst&oslash;rrelse som ble brukt ved lesing av vekstsoner. </td><td></td>
+</tr>
+<tr>
+<td>
+                        &lt;
+                                growthzone1/&gt;
+                            </td><td>xs:integer</td><td>St&oslash;rrelse p&aring; vekstsone angitt i antall m&aring;lestreker (se &lt;calibration/&gt;).</td><td></td>
+</tr>
+<tr>
+<td>
+                        &lt;
+                                growthzone2/&gt;
+                            </td><td>xs:integer</td><td>St&oslash;rrelse p&aring; vekstsone angitt i antall m&aring;lestreker (se &lt;calibration/&gt;).</td><td></td>
+</tr>
+<tr>
+<td>
+                        &lt;
+                                growthzone3/&gt;
+                            </td><td>xs:integer</td><td>St&oslash;rrelse p&aring; vekstsone angitt i antall m&aring;lestreker (se &lt;calibration/&gt;).</td><td></td>
+</tr>
+<tr>
+<td>
+                        &lt;
+                                growthzone4/&gt;
+                            </td><td>xs:integer</td><td>St&oslash;rrelse p&aring; vekstsone angitt i antall m&aring;lestreker (se &lt;calibration/&gt;).</td><td></td>
+</tr>
+<tr>
+<td>
+                        &lt;
+                                growthzone5/&gt;
+                            </td><td>xs:integer</td><td>St&oslash;rrelse p&aring; vekstsone angitt i antall m&aring;lestreker (se &lt;calibration/&gt;).</td><td></td>
+</tr>
+<tr>
+<td>
+                        &lt;
+                                growthzone6/&gt;
+                            </td><td>xs:integer</td><td>St&oslash;rrelse p&aring; vekstsone angitt i antall m&aring;lestreker (se &lt;calibration/&gt;).</td><td></td>
+</tr>
+<tr>
+<td>
+                        &lt;
+                                growthzone7/&gt;
+                            </td><td>xs:integer</td><td>St&oslash;rrelse p&aring; vekstsone angitt i antall m&aring;lestreker (se &lt;calibration/&gt;).</td><td></td>
+</tr>
+<tr>
+<td>
+                        &lt;
+                                growthzone8/&gt;
+                            </td><td>xs:integer</td><td>St&oslash;rrelse p&aring; vekstsone angitt i antall m&aring;lestreker (se &lt;calibration/&gt;).</td><td></td>
+</tr>
+<tr>
+<td>
+                        &lt;
+                                growthzone9/&gt;
+                            </td><td>xs:integer</td><td>St&oslash;rrelse p&aring; vekstsone angitt i antall m&aring;lestreker (se &lt;calibration/&gt;).</td><td></td>
+</tr>
+<tr>
+<td>
+                        &lt;
+                                growthzonestotal/&gt;
+                            </td><td>xs:integer</td><td>Totalt antall vekstsoner m&aring;lt. </td><td></td>
+</tr>
+<tr>
+<td>
+                        &lt;
+                                coastalannuli/&gt;
+                            </td><td>xs:integer</td><td>Gjelder historisk materiale for norsk v&aring;rgytende sild. Se dokument "Veksttyper sild".</td><td></td>
+</tr>
+<tr>
+<td>
+                        &lt;
+                                oceanicannuli/&gt;
+                            </td><td>xs:integer</td><td>Gjelder historisk materiale for norsk v&aring;rgytende sild. Se dokument "Veksttyper sild".</td><td></td>
+</tr>
+</table>
+<h3>Datatype: TagType</h3>
+<h4>Attributter:</h4>
+<table>
+<tr>
+<th>
+                                    navn
+                                </th><th>
+                                    type
+                                </th><th>
+                                    forklaring
+                                </th><th>
+                                    referansetabell
+                                </th>
+</tr>
+<tr>
+<td>tagno</td><td>xs:integer</td><td>Beskrivelse av merketypen som er brukt.</td><td></td>
+</tr>
+</table>
+<h4>Undernoder:</h4>
+<table>
+<tr>
+<th>
+                                    navn
+                                </th><th>
+                                    type
+                                </th><th>
+                                    forklaring
+                                </th><th>
+                                    referansetabell
+                                </th>
+</tr>
+<tr>
+<td>
+                        &lt;
+                                tagtype/&gt;
+                            </td><td>StringDescriptionType</td><td>Merkenummer av gjenfangster eller utsettinger av fisk. </td><td><a href="http://tomcat7.imr.no:8080/apis/nmdapi/reference/v1/MARKINGTYPE">
+                                        link
+                                    </a></td>
+</tr>
+</table>
+<h3>Datatype: PreyType</h3>
+<h4>Attributter:</h4>
+<table>
+<tr>
+<th>
+                                    navn
+                                </th><th>
+                                    type
+                                </th><th>
+                                    forklaring
+                                </th><th>
+                                    referansetabell
+                                </th>
+</tr>
+<tr>
+<td>fishno</td><td>xs:integer</td><td>Identifiserer individet byttedyret ble tatt fra. Refererer &lt;specimenno/&gt; i IndividualType.</td><td></td>
+</tr>
+<tr>
+<td>partno</td><td>xs:integer</td><td>Identifiserer pr&oslash;ve. Bruk forskjellig delpr&oslash;venummer om flere byttedyr av samme art blir tatt fra samme individid. Se ellers "H&aring;ndbok for pr&oslash;vetaking av fisk og krepsdyr".</td><td></td>
+</tr>
+<tr>
+<td>species</td><td>xs:string</td><td>Byttedyr art (TSN artskode)</td><td><a href="http://tomcat7.imr.no:8080/apis/nmdapi/reference/v1/taxa">
+                                        link
+                                    </a></td>
+</tr>
+</table>
+<h4>Undernoder:</h4>
+<table>
+<tr>
+<th>
+                                    navn
+                                </th><th>
+                                    type
+                                </th><th>
+                                    forklaring
+                                </th><th>
+                                    referansetabell
+                                </th>
+</tr>
+<tr>
+<td>
+                        &lt;
+                                digestion/&gt;
+                            </td><td>StringDescriptionType</td><td>Ford&oslash;yelsesgrad av de forskjellige byttedyrkategoriene. </td><td><a href="http://tomcat7.imr.no:8080/apis/nmdapi/reference/v1/Ford%C3%B8yningsgrad">
+                                        link
+                                    </a></td>
+</tr>
+<tr>
+<td>
+                        &lt;
+                                totalcount/&gt;
+                            </td><td>xs:integer</td><td>Antall individer av bytterdyrkategori i magen.</td><td></td>
+</tr>
+<tr>
+<td>
+                        &lt;
+                                weightresolution/&gt;
+                            </td><td>StringDescriptionType</td><td>Enhet brukt ved veiing. &lt;totalweight/&gt; er standardisert ihht dokumentasjon for det feltet, men dette feltet er informativt mtp presisjon i m&aring;ling.</td><td><a href="http://tomcat7.imr.no:8080/apis/nmdapi/reference/v1/PreyWeightUnit">
+                                        link
+                                    </a></td>
+</tr>
+<tr>
+<td>
+                        &lt;
+                                totalweight/&gt;
+                            </td><td>xs:decimal</td><td>Total vekt for byttedyr (kg). Presisjon i m&aring;ling er angitt ved &lt;weightresolution/&gt;.</td><td></td>
+</tr>
+<tr>
+<td>
+                        &lt;
+                                interval/&gt;
+                            </td><td>StringDescriptionType</td><td>Interval for lengdegrupper m&aring;lt i lengdem&aring;linger &lt;preylength/&gt;.</td><td><a href="http://tomcat7.imr.no:8080/apis/nmdapi/reference/v1/Lengdeenhet">
+                                        link
+                                    </a></td>
+</tr>
+<tr>
+<td>
+                        &lt;
+                                devstage/&gt;
+                            </td><td>StringDescriptionType</td><td>Utviklingstrinn for byttedyr.</td><td><a href="http://tomcat7.imr.no:8080/apis/nmdapi/reference/v1/BIO_UTVIKLINGSTRINN">
+                                        link
+                                    </a></td>
+</tr>
+<tr>
+<td>
+                        &lt;
+                                lengthmeasurement/&gt;
+                            </td><td>StringDescriptionType</td><td>Kode for metode for lengdem&aring;linger gitt som &lt;preylength/&gt;.</td><td><a href="http://tomcat7.imr.no:8080/apis/nmdapi/reference/v1/Lengthmeasurementtype">
+                                        link
+                                    </a></td>
+</tr>
+<tr>
+<td>
+                        &lt;
+                                preylength/&gt;
+                            </td><td>PreylengthType</td><td>Lengdem&aring;linger av denne byttedyrtypen.</td><td></td>
+</tr>
+<tr>
+<td>
+                        &lt;
+                                copepodedevstage/&gt;
+                            </td><td>CopepodedevstageType</td><td>Bestemmelser av copepode-utviklingsstadier for denne type byttedyr.</td><td></td>
+</tr>
+</table>
+<h3>Datatype: PreylengthType</h3>
+<h4>Attributter:</h4>
+<table>
+<tr>
+<th>
+                                    navn
+                                </th><th>
+                                    type
+                                </th><th>
+                                    forklaring
+                                </th><th>
+                                    referansetabell
+                                </th>
+</tr>
+<tr>
+<td>length</td><td>xs:decimal</td><td>Laveste grense (inklusive) for organismer telt i &lt;count/&gt;.</td><td></td>
+</tr>
+</table>
+<h4>Undernoder:</h4>
+<table>
+<tr>
+<th>
+                                    navn
+                                </th><th>
+                                    type
+                                </th><th>
+                                    forklaring
+                                </th><th>
+                                    referansetabell
+                                </th>
+</tr>
+<tr>
+<td>
+                        &lt;
+                                count/&gt;
+                            </td><td>xs:integer</td><td>Antall organismer i intervallet gitt ved nedre grense &lt;length/&gt; og &lt;PreyType/interval/&gt;.</td><td></td>
+</tr>
+</table>
+<h3>Datatype: CopepodedevstageType</h3>
+<h4>Attributter:</h4>
+<table>
+<tr>
+<th>
+                                    navn
+                                </th><th>
+                                    type
+                                </th><th>
+                                    forklaring
+                                </th><th>
+                                    referansetabell
+                                </th>
+</tr>
+<tr>
+<td>copepodedevstage</td><td>xs:string</td><td>kopepodittstadium hvis antall er gitt i &lt;count/&gt;. </td><td></td>
+</tr>
+</table>
+<h4>Undernoder:</h4>
+<table>
+<tr>
+<th>
+                                    navn
+                                </th><th>
+                                    type
+                                </th><th>
+                                    forklaring
+                                </th><th>
+                                    referansetabell
+                                </th>
+</tr>
+<tr>
+<td>
+                        &lt;
+                                count/&gt;
+                            </td><td>xs:integer</td><td>Antall organismer i gitt kopepodittstadium &lt;copepodedevstage/&gt;.</td><td></td>
+</tr>
+</table>
+<h3>Datatype: StringDescriptionType</h3>
+<h4>Attributter:</h4>
+<table>
+<tr>
+<th>
+                                    navn
+                                </th><th>
+                                    type
+                                </th><th>
+                                    forklaring
+                                </th><th>
+                                    referansetabell
+                                </th>
+</tr>
+<tr>
+<td>description</td><td>xs:string</td><td>Verdi som henviser til referansetabell.</td><td></td>
+</tr>
+</table>
+<h4>Undernoder:</h4>
+                        Ingen underelementer
+                    <h3>Datatype: ListType</h3>
+<h4>Attributter:</h4>
+                        Ingen attributter
+                    <h4>Undernoder:</h4>
+<table>
+<tr>
+<th>
+                                    navn
+                                </th><th>
+                                    type
+                                </th><th>
+                                    forklaring
+                                </th><th>
+                                    referansetabell
+                                </th>
+</tr>
+<tr>
+<td>
+                        &lt;
+                                row/&gt;
+                            </td><td>xs:anyType</td><td>Element i liste. Type ikke i bruk.</td><td></td>
+</tr>
+</table>
+</body>
+</html>
