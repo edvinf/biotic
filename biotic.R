@@ -1,8 +1,8 @@
 require(XML)
 require(dplyr)
 
-definitions <- "/Users/a5362/code/masters/hi_biotic_parser/definitions"
-example_files <- "/Users/a5362/code/masters/hi_biotic_parser/example_files"
+definitions <- "/Users/a5362/code/github/hi_biotic_parser/definitions"
+example_files <- "/Users/a5362/code/github/hi_biotic_parser/example_files"
 test_schema <- paste(definitions,"bioticv1_4_201703021434.xsd", sep="/")
 test_refl_2015 <- paste(example_files, "refl_hav_2015.xml", sep="/")
 
