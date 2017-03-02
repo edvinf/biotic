@@ -1,0 +1,5 @@
+file overview:
+biotic.R : R code for parsing and handling biotic data.
+definitions: contain .xsd definitions and html documentation for datamodel. These are snapshots of the development maintained in a different repo. Snapshot time and date are reflected in their filename.
+example_files/refl_hav_2015.xml example of a biotic file (version 1.4)
+example_files/nmd_api.txt instructions for how to access nmd api.
