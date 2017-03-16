@@ -362,6 +362,9 @@ flatten <- function(bioticdata, keys=keys_biotic1_4, foreign_keys=foreign_keys_b
 #' For instance the data frame / Tibble Catchsample has a column Fishstation.serialno.
 #' The first columns in each frame / Tibble are the foreign keys.
 parse_biotic <- function(xmlfile, handlers=biotic_1_4_handlers, set_data_types=F, schema=NULL){
+  if (!file.exists(xmlfile)){
+    stop(paste("Can not find file:", xmlfile))
+  }
   if (set_data_types & is.null(schema)){
     stop("Can not find schema for dataframe annotation.")
   }
