@@ -65,10 +65,10 @@
                                     </a></td>
 </tr>
 <tr>
-<td>year</td><td>xs:integer</td><td></td><td></td>
+<td>year</td><td>xs:integer</td><td>&Aring;ret oppdraget utf&oslash;res. B&aring;de start og slutt for oppdrag er definert til &aring; falle i dette &aring;ret. Om en tur krysser et &aring;rskifte vil turen bli registrert som minst to oppdrag.</td><td></td>
 </tr>
 <tr>
-<td>platform</td><td>xs:string</td><td></td><td><a href="http://tomcat7.imr.no:8080/apis/nmdapi/reference/v1/platform">
+<td>platform</td><td>xs:string</td><td>Angir platform hvor fangsten ble tatt. For tokt er dette vanligvis identisk med &lt;platform/&gt; p&aring; mission, men disse kan v&aelig;re forskjellig i tilfeller hvor innsamlingsplattformen ikke er den samme som fangstplatformen. For eksempel for pr&oslash;veb&aring;t.</td><td><a href="http://tomcat7.imr.no:8080/apis/nmdapi/reference/v1/platform">
                                         link
                                     </a></td>
 </tr>
@@ -145,7 +145,7 @@
 </tr>
 <tr>
 <td>serialno</td><td>xs:integer</td><td>Serienummer koblet med &aring;r gir en unik identifisering av Stasjon. Forskjellige plattformer har sine serienummerrekker, men disse omfordeles etter behov. Oversikt over fordeling av serienummer finnes p&aring;: https://docs.google.com/spreadsheets/d/1qel6xfvuTiYIdJmBEeAhCDeyQaEAgQVi2jeGJAzYivE .
-                            Henviser ellers til dokument &rdquo;historiske koder&rdquo; for serienr. brukt i perioden 1989-2003, og til dokument &rdquo;Serienummeroversikt 2003-2014&rdquo;, for serienummer brukt i perioden 2003-2014.</td><td></td>
+Henviser ellers til dokument &rdquo;historiske koder&rdquo; for serienr. brukt i perioden 1989-2003, og til dokument &rdquo;Serienummeroversikt 2003-2014&rdquo;, for serienummer brukt i perioden 2003-2014.</td><td></td>
 </tr>
 </table>
 <h4>Undernoder:</h4>
@@ -220,7 +220,7 @@
                         &lt;
                                 stationtype/&gt;
                             </td><td>StringDescriptionType</td><td>Brukes til &aring; kode at stasjonen er av en spesiell type.
-                                Blank for vanlig fiskestasjon eller for line og garn i referansefl&aring;ten-dagens totalfangst (d&oslash;gnstasjon)</td><td><a href="http://tomcat7.imr.no:8080/apis/nmdapi/reference/v1/Fishstationtype">
+Blank for vanlig fiskestasjon eller for line og garn i referansefl&aring;ten-dagens totalfangst (d&oslash;gnstasjon)</td><td><a href="http://tomcat7.imr.no:8080/apis/nmdapi/reference/v1/Fishstationtype">
                                         link
                                     </a></td>
 </tr>
@@ -254,15 +254,15 @@
                                 system/&gt;
                             </td><td>xs:integer</td><td>System for koding av omr&aring;de (&lt;area/&gt; og lokalitet &lt;location/&gt;. Se kart og forklaring i "H&aring;ndbok for pr&oslash;vetaking av fisk og krepsdyr".
 
-                                Utsetting av torsk i Hordaland: 1
-                                Fiskeridirektoratets statistisk omr&aring;de og lokalitet: 2
-                                ICES ruter (Nordsj&oslash;en) tokt: 3
-                                Stratakode bunntr&aring;ltokt i Barentshavet: 4
-                                Stratakode bunntr&aring;ltokt ved Svalbard: 5 
-                                Stratakode reketokt i Barentshavet: 6 
-                                Stratakode reketokt ved Svalbard: 7 
-                                Reker i Skagerrak og i Barentshavet: 8 
-                                0-gruppe unders&oslash;kelser i Barentshavet: 9</td><td></td>
+Utsetting av torsk i Hordaland: 1
+Fiskeridirektoratets statistisk omr&aring;de og lokalitet: 2
+ICES ruter (Nordsj&oslash;en) tokt: 3
+Stratakode bunntr&aring;ltokt i Barentshavet: 4
+Stratakode bunntr&aring;ltokt ved Svalbard: 5 
+Stratakode reketokt i Barentshavet: 6 
+Stratakode reketokt ved Svalbard: 7 
+Reker i Skagerrak og i Barentshavet: 8 
+0-gruppe unders&oslash;kelser i Barentshavet: 9</td><td></td>
 </tr>
 <tr>
 <td>
@@ -829,7 +829,7 @@
 <td>
                         &lt;
                                 length/&gt;
-                            </td><td>xs:decimal</td><td>Lengde (m). Presisjon i m&aring;ling er gitt ved &lt;lengthunit/&gt;. Merk at data kan v&aelig;re f&oslash;rt inn med h&oslash;yere oppl&oslash;sning enn det som er angitt i &lt;lenghtunit/&gt;, grunnet elektronsik innlesing fra m&aring;lebrett og lignende. &lt;lengthunit/&gt; angir likevel den presisjonen som er tilsiktet av pr&oslash;vetaker, og lengdem&aring;let b&oslash;r behandles deretter.</td><td></td>
+                            </td><td>xs:decimal</td><td>Lengde (m). Som angitt i &lt;CatchsampleType/lengthmeasurement&gt;. Presisjon i m&aring;ling er gitt ved &lt;lengthunit/&gt;. Merk at data kan v&aelig;re f&oslash;rt inn med h&oslash;yere oppl&oslash;sning enn det som er angitt i &lt;lenghtunit/&gt;, grunnet elektronsik innlesing fra m&aring;lebrett og lignende. &lt;lengthunit/&gt; angir likevel den presisjonen som er tilsiktet av pr&oslash;vetaker, og lengdem&aring;let b&oslash;r behandles deretter.</td><td></td>
 </tr>
 <tr>
 <td>
@@ -844,7 +844,7 @@
                         &lt;
                                 fatpercent/&gt;
                             </td><td>xs:decimal</td><td>M&aring;les elektronisk av instrument fra Distell, kalt fiskefettm&aring;ler. M&aring;ler fettinnhold i prosent av filet (sild og makrell)
-                                Eksempel: 235=23,5%</td><td></td>
+Eksempel: 235=23,5%</td><td></td>
 </tr>
 <tr>
 <td>
@@ -867,7 +867,7 @@
                         &lt;
                                 specialstage/&gt;
                             </td><td>StringDescriptionType</td><td>Dette er modning i henhold til spesielle artsspesifikke stadiebeskrivelser. (f.eks. spesial stadium for bunnfisk p&aring; IBTS-tokt). Detaljert informasjon finnes under relevant art i referansertabellen taxa. Se ellers "H&aring;ndbok for pr&oslash;vetaking av fisk og krepsdyr" for bruk. Ensifrede spesialkoder kodes i "Spesial stadium". Koding av spesialstadium krever ogs&aring; at
-                                kj&oslash;nn er bestemt (gjelder ikke dypvannsreke og sj&oslash;kreps).</td><td><a href="http://tomcat7.imr.no:8080/apis/nmdapi/reference/v1/taxa">
+kj&oslash;nn er bestemt (gjelder ikke dypvannsreke og sj&oslash;kreps).</td><td><a href="http://tomcat7.imr.no:8080/apis/nmdapi/reference/v1/taxa">
                                         link
                                     </a></td>
 </tr>
@@ -1011,103 +1011,103 @@
 <td>
                         &lt;
                                 diameter/&gt;
-                            </td><td>xs:decimal</td><td>Diameter (m).</td><td></td>
+                            </td><td>xs:decimal</td><td>Diameter (m). Kun brukt om dette er m&aring;lt i tillegg til hovedlengdem&aring;l (&lt;CatchsampleType/lengthmeasurement&gt;).</td><td></td>
 </tr>
 <tr>
 <td>
                         &lt;
                                 mantlelength/&gt;
-                            </td><td>xs:decimal</td><td>Kappelengde (m).</td><td></td>
+                            </td><td>xs:decimal</td><td>Kappelengde (m). Kun brukt om dette er m&aring;lt i tillegg til hovedlengdem&aring;l (&lt;CatchsampleType/lengthmeasurement&gt;).</td><td></td>
 </tr>
 <tr>
 <td>
                         &lt;
                                 carapacelength/&gt;
-                            </td><td>xs:decimal</td><td>Carapax lengde (m).</td><td></td>
+                            </td><td>xs:decimal</td><td>Carapax lengde (m). Kun brukt om dette er m&aring;lt i tillegg til hovedlengdem&aring;l (&lt;CatchsampleType/lengthmeasurement&gt;).</td><td></td>
 </tr>
 <tr>
 <td>
                         &lt;
                                 headlength/&gt;
-                            </td><td>xs:decimal</td><td>Hodelengde (m).</td><td></td>
+                            </td><td>xs:decimal</td><td>Hodelengde (m). Kun brukt om dette er m&aring;lt i tillegg til hovedlengdem&aring;l (&lt;CatchsampleType/lengthmeasurement&gt;).</td><td></td>
 </tr>
 <tr>
 <td>
                         &lt;
                                 snouttoendoftail/&gt;
-                            </td><td>xs:decimal</td><td>Snute til ende av sporen (m).</td><td></td>
+                            </td><td>xs:decimal</td><td>Snute til ende av sporen (m). Kun brukt om dette er m&aring;lt i tillegg til hovedlengdem&aring;l (&lt;CatchsampleType/lengthmeasurement&gt;).</td><td></td>
 </tr>
 <tr>
 <td>
                         &lt;
                                 snouttoendsqueezed/&gt;
-                            </td><td>xs:decimal</td><td>Snute til ende sammenkneppet spor (m).</td><td></td>
+                            </td><td>xs:decimal</td><td>Snute til ende sammenkneppet spor (m). Kun brukt om dette er m&aring;lt i tillegg til hovedlengdem&aring;l (&lt;CatchsampleType/lengthmeasurement&gt;).</td><td></td>
 </tr>
 <tr>
 <td>
                         &lt;
                                 snouttoanalfin/&gt;
-                            </td><td>xs:decimal</td><td>Snute til gattfinne (m).</td><td></td>
+                            </td><td>xs:decimal</td><td>Snute til gattfinne (m). Kun brukt om dette er m&aring;lt i tillegg til hovedlengdem&aring;l (&lt;CatchsampleType/lengthmeasurement&gt;).</td><td></td>
 </tr>
 <tr>
 <td>
                         &lt;
                                 snouttodorsalfin/&gt;
-                            </td><td>xs:decimal</td><td>Snute til ryggfinne (m).</td><td></td>
+                            </td><td>xs:decimal</td><td>Snute til ryggfinne (m). Kun brukt om dette er m&aring;lt i tillegg til hovedlengdem&aring;l (&lt;CatchsampleType/lengthmeasurement&gt;).</td><td></td>
 </tr>
 <tr>
 <td>
                         &lt;
                                 forklength/&gt;
-                            </td><td>xs:decimal</td><td>Snute til innerst i sporten (Gaffellengde, m).</td><td></td>
+                            </td><td>xs:decimal</td><td>Snute til innerst i sporten (Gaffellengde, m). Kun brukt om dette er m&aring;lt i tillegg til hovedlengdem&aring;l (&lt;CatchsampleType/lengthmeasurement&gt;).</td><td></td>
 </tr>
 <tr>
 <td>
                         &lt;
                                 snouttoboneknob/&gt;
-                            </td><td>xs:decimal</td><td>Snute til beinknute (m).</td><td></td>
+                            </td><td>xs:decimal</td><td>Snute til beinknute (m). Kun brukt om dette er m&aring;lt i tillegg til hovedlengdem&aring;l (&lt;CatchsampleType/lengthmeasurement&gt;).</td><td></td>
 </tr>
 <tr>
 <td>
                         &lt;
                                 lengthwithouthead/&gt;
-                            </td><td>xs:decimal</td><td>Hodekappet lengde (m).</td><td></td>
+                            </td><td>xs:decimal</td><td>Hodekappet lengde (m). Kun brukt om dette er m&aring;lt i tillegg til hovedlengdem&aring;l (&lt;CatchsampleType/lengthmeasurement&gt;).</td><td></td>
 </tr>
 <tr>
 <td>
                         &lt;
                                 carapacewidth/&gt;
-                            </td><td>xs:decimal</td><td>Carapax bredde (m).</td><td></td>
+                            </td><td>xs:decimal</td><td>Carapax bredde (m). Kun brukt om dette er m&aring;lt i tillegg til hovedlengdem&aring;l (&lt;CatchsampleType/lengthmeasurement&gt;).</td><td></td>
 </tr>
 <tr>
 <td>
                         &lt;
                                 rightclawwidth/&gt;
-                            </td><td>xs:decimal</td><td>H&oslash;yre klo bredde (m).</td><td></td>
+                            </td><td>xs:decimal</td><td>H&oslash;yre klo bredde (m). Kun brukt om dette er m&aring;lt i tillegg til hovedlengdem&aring;l (&lt;CatchsampleType/lengthmeasurement&gt;).</td><td></td>
 </tr>
 <tr>
 <td>
                         &lt;
                                 rightclawlength/&gt;
-                            </td><td>xs:decimal</td><td>H&oslash;yre klo lengde (m).</td><td></td>
+                            </td><td>xs:decimal</td><td>H&oslash;yre klo lengde (m). Kun brukt om dette er m&aring;lt i tillegg til hovedlengdem&aring;l (&lt;CatchsampleType/lengthmeasurement&gt;).</td><td></td>
 </tr>
 <tr>
 <td>
                         &lt;
                                 meroswidth/&gt;
-                            </td><td>xs:decimal</td><td>Bredde 3dje fot merus (m).</td><td></td>
+                            </td><td>xs:decimal</td><td>Bredde 3dje fot merus (m). Kun brukt om dette er m&aring;lt i tillegg til hovedlengdem&aring;l (&lt;CatchsampleType/lengthmeasurement&gt;).</td><td></td>
 </tr>
 <tr>
 <td>
                         &lt;
                                 meroslength/&gt;
-                            </td><td>xs:decimal</td><td>Lengde 3dje fot merus (m).</td><td></td>
+                            </td><td>xs:decimal</td><td>Lengde 3dje fot merus (m). Kun brukt om dette er m&aring;lt i tillegg til hovedlengdem&aring;l (&lt;CatchsampleType/lengthmeasurement&gt;).</td><td></td>
 </tr>
 <tr>
 <td>
                         &lt;
                                 japanesecut/&gt;
-                            </td><td>xs:decimal</td><td>Japankutt (m).</td><td></td>
+                            </td><td>xs:decimal</td><td>Japankutt (m). Kun brukt om dette er m&aring;lt i tillegg til hovedlengdem&aring;l (&lt;CatchsampleType/lengthmeasurement&gt;).</td><td></td>
 </tr>
 <tr>
 <td>
@@ -1137,7 +1137,7 @@
 <td>
                         &lt;
                                 abdomenwidth/&gt;
-                            </td><td>xs:decimal</td><td>Abdomen vidde (m).</td><td></td>
+                            </td><td>xs:decimal</td><td>Abdomen vidde (m). Kun brukt om dette er m&aring;lt i tillegg til hovedlengdem&aring;l (&lt;CatchsampleType/lengthmeasurement&gt;).</td><td></td>
 </tr>
 </table>
 <h3>Datatype: AgedeterminationType</h3>
