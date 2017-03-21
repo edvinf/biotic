@@ -243,7 +243,6 @@ biotic_1_4_handlers <- list(
 flatten <- function(bioticdata, keys=keys_biotic1_4, foreign_keys=foreign_keys_biotic1_4) {
   require(tibble) # dplyr joins are slow for chars, for some reason. Use merge and cast
   flat <- bioticdata$Mission
-  
   if (!is.null(bioticdata$Fishstation)) {
 
     # merge does not handle renaming duplicated column names that are used as keys (by=)
@@ -256,7 +255,8 @@ flatten <- function(bioticdata, keys=keys_biotic1_4, foreign_keys=foreign_keys_b
         flat,
         fs,
         by.x = keys$MissionType,
-        by.y = foreign_keys$MissionType
+        by.y = foreign_keys$MissionType,
+        suffixes = c("", ".fishstation")
       )
     if ("platform" %in% names(flat) & all(flat$platform == flat$FS.platform)){
       flat <- flat[,names(flat)!="FS.platform"]
@@ -270,7 +270,7 @@ flatten <- function(bioticdata, keys=keys_biotic1_4, foreign_keys=foreign_keys_b
         bioticdata$Catchsample,
         by.x = c(keys$MissionType, keys$FishstationType),
         by.y = c(foreign_keys$MissionType, foreign_keys$FishstationType),
-        suffixes = c("", "dup")
+        suffixes = c("", ".catchsample")
       ))
   }
   if (!is.null(bioticdata$Individual)) {
@@ -280,7 +280,8 @@ flatten <- function(bioticdata, keys=keys_biotic1_4, foreign_keys=foreign_keys_b
         bioticdata$Individual,
         by.x = c(keys$MissionType, keys$FishstationType, keys$CatchsampleType),
         by.y = c(foreign_keys$MissionType, foreign_keys$FishstationType, foreign_keys$CatchsampleType),
-        all.y=T
+        all.y=T,
+        suffixes = c("", ".individual")
       ))
   }
   
@@ -291,7 +292,8 @@ flatten <- function(bioticdata, keys=keys_biotic1_4, foreign_keys=foreign_keys_b
         bioticdata$Prey,
         by.x = c(keys$MissionType, keys$FishstationType, keys$CatchsampleType),
         by.y = c(foreign_keys$MissionType, foreign_keys$FishstationType, foreign_keys$CatchsampleType),
-        all.y=T
+        all.y=T,
+        suffixes = c("", ".prey")
       ))
   }
   
@@ -302,7 +304,8 @@ flatten <- function(bioticdata, keys=keys_biotic1_4, foreign_keys=foreign_keys_b
         bioticdata$Agedetermination,
         by.x = c(keys$MissionType, keys$FishstationType, keys$CatchsampleType, keys$IndividualType),
         by.y = c(foreign_keys$MissionType, foreign_keys$FishstationType, foreign_keys$CatchsampleType, foreign_keys$IndividualType),
-        all.y=T
+        all.y=T,
+        suffixes = c("", ".agedetermination")
       ))
   }
   
@@ -313,7 +316,8 @@ flatten <- function(bioticdata, keys=keys_biotic1_4, foreign_keys=foreign_keys_b
         bioticdata$Tag,
         by.x = c(keys$MissionType, keys$FishstationType, keys$CatchsampleType, keys$IndividualType),
         by.y = c(foreign_keys$MissionType, foreign_keys$FishstationType, foreign_keys$CatchsampleType, foreign_keys$IndividualType),
-        all.y=T
+        all.y=T,
+        suffixes = c("", ".tag")
       ))
   }
   if (!is.null(bioticdata$PreyLength)) {
@@ -323,7 +327,8 @@ flatten <- function(bioticdata, keys=keys_biotic1_4, foreign_keys=foreign_keys_b
         bioticdata$PreyLength,
         by.x = c(keys$MissionType, keys$FishstationType, keys$CatchsampleType, keys$IndividualType, keys$PreyType),
         by.y = c(foreign_keys$MissionType, foreign_keys$FishstationType, foreign_keys$CatchsampleType, foreign_keys$IndividualType, foreign_keys$PreyType),
-        all.y=T
+        all.y=T,
+        suffixes = c("", ".preylength")
       ))
   }
   if (!is.null(bioticdata$Copepodedevstage)) {
@@ -333,7 +338,8 @@ flatten <- function(bioticdata, keys=keys_biotic1_4, foreign_keys=foreign_keys_b
         bioticdata$Copepodedevstage,
         by.x = c(keys$MissionType, keys$FishstationType, keys$CatchsampleType, keys$IndividualType, keys$PreyType),
         by.y = c(foreign_keys$MissionType, foreign_keys$FishstationType, foreign_keys$CatchsampleType, foreign_keys$IndividualType, foreign_keys$PreyType),
-        all.y=T
+        all.y=T,
+        suffixes = c("", ".copepodedevstage")
       ))
   }
   return(flat)
