@@ -197,13 +197,16 @@ set_blanks_to_NA <- function(dataframes){
 
 bioticdata <- list()
 #creates handler for parsing specific xml elements
-make_data_frame_parser <- function(framename, foreign_key_generator, drop=c(), verbose=T){
+make_data_frame_parser <- function(framename, foreign_key_generator, drop=c(), verbose=F){
+  bioticdata[[framename]] <<- list()
+  num=1
   parser <- function(node){
     nlist <- xmlApply(node, xmlValue)
     nlist[which(names(nlist) %in% drop)]<-NULL
     nlist <- append(foreign_key_generator(xmlParent(node)), nlist)
     nlist <- append(nlist, as.list(xmlAttrs(node)))
-    bioticdata[[framename]] <<- bind_rows(bioticdata[[framename]], nlist)
+    bioticdata[[framename]][[num]] <<- nlist
+    num <<- num + 1
     return(NULL)
   }
   verbose_parser <- function(node){
@@ -222,8 +225,8 @@ foreing_key_generator_1_4 <- function(node){return(make_foreign_keys(node, keys_
 biotic_1_4_handlers <- list(
   #<text/> is added to drop, because xmlInternalTreeParse(trim=T) does not handle \n
   #missions=make_data_frame_parser("Missions", foreing_key_generator_1_4, c("mission", "text")),
-  mission=make_data_frame_parser("Mission", foreing_key_generator_1_4, c("fishstation", "text")),
-  fishstation=make_data_frame_parser("Fishstation", foreing_key_generator_1_4, c("catchsample", "text")), 
+  mission=make_data_frame_parser("Mission", foreing_key_generator_1_4, c("fishstation", "text"), T),
+  fishstation=make_data_frame_parser("Fishstation", foreing_key_generator_1_4, c("catchsample", "text"), T), 
   catchsample=make_data_frame_parser("Catchsample", foreing_key_generator_1_4, c("prey", "individual", "text")),
   individual=make_data_frame_parser("Individual", foreing_key_generator_1_4, c("agedetermination", "tag", "text")),
   prey=make_data_frame_parser("Prey", foreing_key_generator_1_4, c("preylength", "copepodedevstage", "text")),
@@ -378,10 +381,15 @@ parse_biotic <- function(xmlfile, handlers=biotic_1_4_handlers, set_data_types=F
     warning("Schemafile specified, but set_data_types is False.")
   }
   
-  bioticdata <<- list()
+  bpre <- bioticdata
   xmlInternalTreeParse(xmlfile, handlers=handlers, ignoreBlanks=T, trim=T)
   d <- bioticdata
-  bioticdata <<- list()
+  bioticdata <<- bpre
+  
+  for (n in names(d)){
+    d[[n]]<-bind_rows(d[[n]])
+  }
+  
   d <- set_blanks_to_NA(d)
   if (set_data_types & !is.null(schema)){
     schema <- xmlParse(schema)
