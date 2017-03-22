@@ -12,7 +12,7 @@ load_biotic_by_serial_year <- function(serial_lower, serial_upper, year, dir, fi
   version <- "v1"
   
   if (!is.null(filename)){
-    destfile <- filename
+    destfile <- paste(dir, filename, sep="/")
   }
   else{
     destfile <- paste(dir, paste("biotic", version, serial_lower, serial_upper, year, ".xml", sep="_") ,sep="/")    
@@ -39,28 +39,33 @@ load_biotic_by_serial_year <- function(serial_lower, serial_upper, year, dir, fi
 #' @param year_upper last year to include
 #' @param specieslist list of tns codes to include
 #' @param handlers passed to parse_biotic
+#' @param chunks Denotes how many download to split the serial number range in. Total downloads: chunks*(year_upper-year_lower+1)
 #' @return Tibble with all data as flat file.
-filter_by_species <- function(serial_lower, serial_upper, year_lower, year_upper, specieslist, handlers=biotic_1_4_handlers){
+filter_by_species <- function(serial_lower, serial_upper, year_lower, year_upper, specieslist, handlers=biotic_1_4_handlers, chunks = 20){
   if (year_lower > year_upper){
     stop("Illegal range of years")
   }
-  source("/Users/a5362/code/github/hi_biotic_parser")
+  source("/Users/a5362/code/github/hi_biotic_parser/biotic.R")
   tmpdir <- "/Users/a5362/t"
   tmp_file <- "tmp.xml"
   
   flat <- NULL
+  stepsize = ceiling((serial_upper-serial_lower)/chunks)
   for (y in year_lower:year_upper){
-    xml <- load_biotic_by_serial_year(serial_lower, serial_upper, y, tmpdir, tmp_file, T)
-    if (!is.null(xml)){
-      bioticdata <- parse_biotic(xml, handlers=handlers)
-      cflat <- flatten(bioticdata)
-      cflat <- cflat[cflat$species %in% specieslist,]
-      if (is.null(flat)){
-        flat <- cflat        
+    for (s in seq(serial_lower, serial_upper, stepsize)){
+      xml <- load_biotic_by_serial_year(s, min(s+stepsize, serial_upper), y, tmpdir, tmp_file, T)
+      if (!is.null(xml)){
+        bioticdata <- parse_biotic(xml, handlers=handlers)
+        cflat <- flatten(bioticdata)
+        cflat <- cflat[cflat$species %in% specieslist,]
+        if (is.null(flat)){
+          flat <- cflat        
+        }
+        else{
+          flat <- bind_rows(flat, cflat)        
+        }
       }
-      else{
-        flat <- bind_rows(flat, cflat)        
-      }
+      
     }
   }
   return(flat)

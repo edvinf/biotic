@@ -246,7 +246,7 @@ biotic_1_4_handlers <- list(
 flatten <- function(bioticdata, keys=keys_biotic1_4, foreign_keys=foreign_keys_biotic1_4) {
   require(tibble) # dplyr joins are slow for chars, for some reason. Use merge and cast
   flat <- bioticdata$Mission
-  if (!is.null(bioticdata$Fishstation)) {
+  if (!is.null(bioticdata$Fishstation) && nrow(bioticdata$Fishstation)>0) {
 
     # merge does not handle renaming duplicated column names that are used as keys (by=)
     fs <- bioticdata$Fishstation
@@ -266,7 +266,7 @@ flatten <- function(bioticdata, keys=keys_biotic1_4, foreign_keys=foreign_keys_b
     }
     flat <- as_tibble(flat)
   }
-  if (!is.null(bioticdata$Catchsample)) {
+  if (!is.null(bioticdata$Catchsample) && nrow(bioticdata$Catchsample)>0) {
     flat <- as_tibble(
       merge(
         flat,
@@ -276,7 +276,7 @@ flatten <- function(bioticdata, keys=keys_biotic1_4, foreign_keys=foreign_keys_b
         suffixes = c("", ".catchsample")
       ))
   }
-  if (!is.null(bioticdata$Individual)) {
+  if (!is.null(bioticdata$Individual) && nrow(bioticdata$Individual)>0) {
     flat <- as_tibble(
       merge(
         flat,
@@ -288,7 +288,7 @@ flatten <- function(bioticdata, keys=keys_biotic1_4, foreign_keys=foreign_keys_b
       ))
   }
   
-  if (!is.null(bioticdata$Prey)) {
+  if (!is.null(bioticdata$Prey) && nrow(bioticdata$Prey)>0) {
     flat <- as_tibble(
       merge(
         flat,
@@ -300,7 +300,7 @@ flatten <- function(bioticdata, keys=keys_biotic1_4, foreign_keys=foreign_keys_b
       ))
   }
   
-  if (!is.null(bioticdata$Agedetermination)) {
+  if (!is.null(bioticdata$Agedetermination) && nrow(bioticdata$Agedetermination)>0) {
     flat <- as_tibble(
       merge(
         flat,
@@ -312,7 +312,7 @@ flatten <- function(bioticdata, keys=keys_biotic1_4, foreign_keys=foreign_keys_b
       ))
   }
   
-  if (!is.null(bioticdata$Tag)) {
+  if (!is.null(bioticdata$Tag) && nrow(bioticdata$Tag)>0) {
     flat <- as_tibble(
       merge(
         flat,
@@ -323,7 +323,8 @@ flatten <- function(bioticdata, keys=keys_biotic1_4, foreign_keys=foreign_keys_b
         suffixes = c("", ".tag")
       ))
   }
-  if (!is.null(bioticdata$PreyLength)) {
+  
+  if (!is.null(bioticdata$PreyLength) && nrow(bioticdata$PreyLength)>0) {
     flat <- as_tibble(
       merge(
         flat,
@@ -334,7 +335,7 @@ flatten <- function(bioticdata, keys=keys_biotic1_4, foreign_keys=foreign_keys_b
         suffixes = c("", ".preylength")
       ))
   }
-  if (!is.null(bioticdata$Copepodedevstage)) {
+  if (!is.null(bioticdata$Copepodedevstage) && nrow(bioticdata$Copepodedevstage)>0) {
     flat <- as_tibble(
       merge(
         flat,
