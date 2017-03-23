@@ -8,7 +8,7 @@ nmd_base_url <- "http://tomcat7.imr.no:8080/apis/nmdapi"
 #' @param filename target filename, one will be generated if NULL.
 #' @param overwrite logical: if TRUE existing files in dir will be overwritte
 #' @return filename or NULL of something went wrong
-load_biotic_by_serial_year <- function(serial_lower, serial_upper, year, dir, filename=NULL, overwrite=Fr){
+load_biotic_by_serial_year <- function(serial_lower, serial_upper, year, dir, filename=NULL, overwrite=F){
   version <- "v1"
   
   if (!is.null(filename)){
