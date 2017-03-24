@@ -32,6 +32,13 @@ load_biotic_by_serial_year <- function(serial_lower, serial_upper, year, dir, fi
   }
 }
 
+
+#
+#
+# Example of application
+#
+#
+
 #' Parses to a flat table all data for a given list of species, for range of serial numbers and a range of years.
 #' @param serial_lower first serial number to include
 #' @param serial_upper last serial number to include
@@ -46,8 +53,10 @@ filter_by_species <- function(serial_lower, serial_upper, year_lower, year_upper
     stop("Illegal range of years")
   }
   source("/Users/a5362/code/github/hi_biotic_parser/biotic.R")
+  source("/Users/a5362/code/github/hi_biotic_parser/xml_filter.R")
   tmpdir <- "/Users/a5362/t"
   tmp_file <- "tmp.xml"
+  filtered_file <- "tmp_filtered.xml"
   
   flat <- NULL
   stepsize = ceiling((serial_upper-serial_lower)/chunks)
@@ -55,9 +64,9 @@ filter_by_species <- function(serial_lower, serial_upper, year_lower, year_upper
     for (s in seq(serial_lower, serial_upper, stepsize)){
       xml <- load_biotic_by_serial_year(s, min(s+stepsize, serial_upper), y, tmpdir, tmp_file, T)
       if (!is.null(xml)){
-        bioticdata <- parse_biotic(xml, handlers=handlers)
+        apply_xml_filters(xml, filtered_file, c(function(tree){retain_species_catch(tree, specieslist)}, drop_childless_stations, drop_childless_missions))
+        bioticdata <- parse_biotic(filtered_file, handlers=handlers)
         cflat <- flatten(bioticdata)
-        cflat <- cflat[cflat$species %in% specieslist,]
         if (is.null(flat)){
           flat <- cflat        
         }
@@ -65,7 +74,6 @@ filter_by_species <- function(serial_lower, serial_upper, year_lower, year_upper
           flat <- bind_rows(flat, cflat)        
         }
       }
-      
     }
   }
   return(flat)
