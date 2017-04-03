@@ -1,0 +1,1556 @@
+<html xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:imrd="http://www.imr.no/formats/nmddocumentation/v1_0">
+<style>
+                table, th, td {
+                border-collapse: collapse;
+                border: 1px solid black;
+                }
+                th, td {
+                padding: 5px;
+                }
+                th {
+                text-align: left;
+                }
+            </style>
+<head>
+<META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>Documentation for NMD schema</title>
+</head>
+<body>Datamodel for biological samples collected by or for the Institute of Marine Research in Norway.<h2>Top-level elements</h2>
+<ul>
+<li>missions: MissionsType</li>
+<li>mission: MissionType</li>
+</ul>
+<h2>Data types</h2>
+<h3>Data type: MissionsType</h3>
+<h4>Attributes:</h4>
+                        No attributes
+                    <h4>Children:</h4>
+<table>
+<tr>
+<th>
+                                    name
+                                </th><th>
+                                    type
+                                </th><th>
+                                    description
+                                </th><th>
+                                    reference table
+                                </th>
+</tr>
+<tr>
+<td>
+                        &lt;
+                                mission/&gt;
+                            </td><td>MissionType</td><td>Missions in collection.</td><td></td>
+</tr>
+</table>
+<h3>Data type: MissionType</h3>
+<h4>Attributes:</h4>
+<table>
+<tr>
+<th>
+                                    name
+                                </th><th>
+                                    type
+                                </th><th>
+                                    description
+                                </th><th>
+                                    reference table
+                                </th>
+</tr>
+<tr>
+<td>missiontype</td><td>xs:string</td><td></td><td><a href="http://tomcat7.imr.no:8080/apis/nmdapi/reference/v1/missiontype">
+                                        link
+                                    </a></td>
+</tr>
+<tr>
+<td>year</td><td>xs:integer</td><td>The year of the mission. Both the start and the end of the mission is defined to be in this year. If a trip overlaps with newyear, data will be registered in separate missions.</td><td></td>
+</tr>
+<tr>
+<td>platform</td><td>xs:string</td><td>The platform that caught the catch samples. For survey cruises this is normally the same as &lt;platform/&gt; on parent element mission, but these may differ when a data collection platform collects samples from a fishing platform (such as samples collected from commercial fisheries).</td><td><a href="http://tomcat7.imr.no:8080/apis/nmdapi/reference/v1/platform">
+                                        link
+                                    </a></td>
+</tr>
+<tr>
+<td>missionnumber</td><td>xs:integer</td><td></td><td></td>
+</tr>
+<tr>
+<td>missiontypename</td><td>xs:string</td><td></td><td></td>
+</tr>
+<tr>
+<td>callsignal</td><td>xs:string</td><td>Call sign for platform.</td><td></td>
+</tr>
+<tr>
+<td>platformname</td><td>xs:string</td><td>Name of plattform.</td><td></td>
+</tr>
+</table>
+<h4>Children:</h4>
+<table>
+<tr>
+<th>
+                                    name
+                                </th><th>
+                                    type
+                                </th><th>
+                                    description
+                                </th><th>
+                                    reference table
+                                </th>
+</tr>
+<tr>
+<td>
+                        &lt;
+                                cruise/&gt;
+                            </td><td>xs:string</td><td></td><td></td>
+</tr>
+<tr>
+<td>
+                        &lt;
+                                startdate/&gt;
+                            </td><td>xs:string</td><td>Start date of mission, formatted as "dd/mm/yyyy".</td><td></td>
+</tr>
+<tr>
+<td>
+                        &lt;
+                                stopdate/&gt;
+                            </td><td>xs:string</td><td>End date of mission, formatted as "dd/mm/yyyy".</td><td></td>
+</tr>
+<tr>
+<td>
+                        &lt;
+                                purpose/&gt;
+                            </td><td>xs:string</td><td></td><td></td>
+</tr>
+<tr>
+<td>
+                        &lt;
+                                fishstation/&gt;
+                            </td><td>FishstationType</td><td>Fishstations sampled on this mission. Fishstations are a generalisation of fishing operations and represent data collection in a defined area and timespan, with a defined gear.</td><td></td>
+</tr>
+</table>
+<h3>Data type: FishstationType</h3>
+<h4>Attributes:</h4>
+<table>
+<tr>
+<th>
+                                    name
+                                </th><th>
+                                    type
+                                </th><th>
+                                    description
+                                </th><th>
+                                    reference table
+                                </th>
+</tr>
+<tr>
+<td>serialno</td><td>xs:integer</td><td>A fishstation is uniquely defined within a year by its serial number. Ranges of serial numbers are typically used for each platform type, but are reallocated when needed. See Norwegian documentation for details on this matter.</td><td></td>
+</tr>
+</table>
+<h4>Children:</h4>
+<table>
+<tr>
+<th>
+                                    name
+                                </th><th>
+                                    type
+                                </th><th>
+                                    description
+                                </th><th>
+                                    reference table
+                                </th>
+</tr>
+<tr>
+<td>
+                        &lt;
+                                nation/&gt;
+                            </td><td>StringDescriptionType</td><td>Code identifying the nation that sampled the station. Obtained from reference table in Data Manager.</td><td><a href="http://tomcat7.imr.no:8080/apis/nmdapi/reference/v1/nation">
+                                        link
+                                    </a></td>
+</tr>
+<tr>
+<td>
+                        &lt;
+                                platform/&gt;
+                            </td><td>StringDescriptionType</td><td>Code identifying the platform. Obtained from reference table in Data Manager.</td><td><a href="http://tomcat7.imr.no:8080/apis/nmdapi/reference/v1/platform">
+                                        link
+                                    </a></td>
+</tr>
+<tr>
+<td>
+                        &lt;
+                                station/&gt;
+                            </td><td>xs:integer</td><td>Identifies station. Stations are numbered sequantiually in a year for each vessel starting at 1 for the first station of the year. For some kinds of gear the station number will be repeated in different registrations. Different number series are used for fishstation, plankton, ctd, etc. This rule is not necessarrilly adhered to on commercial vessels or rented vessels.</td><td></td>
+</tr>
+<tr>
+<td>
+                        &lt;
+                                fixedstation/&gt;
+                            </td><td>StringDescriptionType</td><td>Code that identifies a regular station that is repeated in the same position at regular intervals. Left blank if the station is not a regular station.</td><td><a href="http://tomcat7.imr.no:8080/apis/nmdapi/reference/v1/fixedcoastalstation">
+                                        link
+                                    </a></td>
+</tr>
+<tr>
+<td>
+                        &lt;
+                                startdate/&gt;
+                            </td><td>xs:string</td><td>UTC-Date (dd/mm/yyyy) when the gear reached fishing depth.</td><td></td>
+</tr>
+<tr>
+<td>
+                        &lt;
+                                starttime/&gt;
+                            </td><td>xs:string</td><td>UTC-Time (hh:mm:ss) when the gear reached fishing depth. For longline or gillnet, this is the time when the first hook or net was set.</td><td></td>
+</tr>
+<tr>
+<td>
+                        &lt;
+                                stopdate/&gt;
+                            </td><td>xs:string</td><td>UTC-Date (dd/mm/yyyy) when the gear left fishing depth.</td><td></td>
+</tr>
+<tr>
+<td>
+                        &lt;
+                                stoptime/&gt;
+                            </td><td>xs:string</td><td>UTC-time (hh:mm:ss) when the gear reached fishing depth. For longline or gillnet, this is the time when the last hook or net left the water.</td><td></td>
+</tr>
+<tr>
+<td>
+                        &lt;
+                                stationtype/&gt;
+                            </td><td>StringDescriptionType</td><td>Code for the type of station. Left blank for regular fishing station or for longline or gillnet in the reference fleets daily totals.</td><td><a href="http://tomcat7.imr.no:8080/apis/nmdapi/reference/v1/Fishstationtype">
+                                        link
+                                    </a></td>
+</tr>
+<tr>
+<td>
+                        &lt;
+                                latitudestart/&gt;
+                            </td><td>xs:decimal</td><td>Latitudinal position, when the gear reach the fishing depth. (decimal degrees, datum: WGS 84).</td><td></td>
+</tr>
+<tr>
+<td>
+                        &lt;
+                                longitudestart/&gt;
+                            </td><td>xs:decimal</td><td>Longitudinal position, when the gear reach the fishing depth. (decimal degrees, datum: WGS 84).</td><td></td>
+</tr>
+<tr>
+<td>
+                        &lt;
+                                latitudeend/&gt;
+                            </td><td>xs:decimal</td><td>Latitudinal position, when the gear left the fishing depth. (decimal degrees, datum: WGS 84).</td><td></td>
+</tr>
+<tr>
+<td>
+                        &lt;
+                                longitudeend/&gt;
+                            </td><td>xs:decimal</td><td>Longitudinal position, when the gear left the fishing depth. (decimal degrees, datum: WGS 84).</td><td></td>
+</tr>
+<tr>
+<td>
+                        &lt;
+                                system/&gt;
+                            </td><td>xs:integer</td><td>System for coding &lt;area/&gt; and &lt;location/&gt;.
+
+                                The most important are:
+                                Statistical areas and locations defined by the Norwegian directorate of fisheries: 2
+                                ICES areas: 3
+
+                                See Norwegian documentation for additional details.</td><td></td>
+</tr>
+<tr>
+<td>
+                        &lt;
+                                area/&gt;
+                            </td><td>xs:integer</td><td>Area as defined by system.</td><td></td>
+</tr>
+<tr>
+<td>
+                        &lt;
+                                location/&gt;
+                            </td><td>xs:string</td><td>Location within area, as defined by system.</td><td></td>
+</tr>
+<tr>
+<td>
+                        &lt;
+                                bottomdepthstart/&gt;
+                            </td><td>xs:decimal</td><td>Depth in meters, when the gear reached fishing depth.</td><td></td>
+</tr>
+<tr>
+<td>
+                        &lt;
+                                bottomdepthstop/&gt;
+                            </td><td>xs:decimal</td><td>Depth in meters, when the gear left fishing depth.</td><td></td>
+</tr>
+<tr>
+<td>
+                        &lt;
+                                fishingdepthmax/&gt;
+                            </td><td>xs:decimal</td><td>The maximal fishing depth of the gear, given in meters. If the gear has been fishing at constant depth, this field should be filled. For seine, use the maximal depth of the shoal or school, for trawl use the maximal depth of the headline i for the duration of the station. For standardised trawling over multimple depths, codes &gt; 9000 are used. See Norwegian documentation for further details.</td><td></td>
+</tr>
+<tr>
+<td>
+                        &lt;
+                                fishingdepthmin/&gt;
+                            </td><td>xs:decimal</td><td>The minimal depth the gear has been fishing, given in meters. Not filled if the gear has fished at constant depth. For trawl, use the minimal depth of the headline i for the duration of the station. For seine, give the minimal depth of the shoal or school.</td><td></td>
+</tr>
+<tr>
+<td>
+                        &lt;
+                                fishingdepthmean/&gt;
+                            </td><td>xs:decimal</td><td>Used if minimal and maximal fishing depth can not be given. Primarily used by for data contribution form fishing vessels (the reference fleet).</td><td></td>
+</tr>
+<tr>
+<td>
+                        &lt;
+                                gearno/&gt;
+                            </td><td>xs:integer</td><td>Specify the exact gear used, see identifier on gear (if present).</td><td></td>
+</tr>
+<tr>
+<td>
+                        &lt;
+                                gear/&gt;
+                            </td><td>StringDescriptionType</td><td>Code for the gear used. See Norwegian documentation for additional details.</td><td><a href="http://tomcat7.imr.no:8080/apis/nmdapi/reference/v1/equipment">
+                                        link
+                                    </a></td>
+</tr>
+<tr>
+<td>
+                        &lt;
+                                gearcount/&gt;
+                            </td><td>xs:integer</td><td>The number of gears used, for chained gears or fishing with multiple identical gears. For gillnets: the number of nets in the chain. For longlines, the number of hooks on the line. For other gear (such as traps): the number of gears.</td><td></td>
+</tr>
+<tr>
+<td>
+                        &lt;
+                                direction/&gt;
+                            </td><td>xs:decimal</td><td>Direction of haul, relative to north. Only filled if the hauled was done in approximately constant direction. North is entered as 360 degrees.</td><td></td>
+</tr>
+<tr>
+<td>
+                        &lt;
+                                gearspeed/&gt;
+                            </td><td>xs:decimal</td><td>Speed during trawling in knots (nm/h). The speed of the gear through the water is prefferrably measured with SCANMAR speedsensor mounted on trawl. Alternatively, the speed can be read from GPS (speed over ground).</td><td></td>
+</tr>
+<tr>
+<td>
+                        &lt;
+                                startlog/&gt;
+                            </td><td>xs:decimal</td><td>Log (nm) read at start of station.</td><td></td>
+</tr>
+<tr>
+<td>
+                        &lt;
+                                stoplog/&gt;
+                            </td><td>xs:decimal</td><td>Log (nm) at end of station.</td><td></td>
+</tr>
+<tr>
+<td>
+                        &lt;
+                                distance/&gt;
+                            </td><td>xs:decimal</td><td>Towed distance in nautical miles. GPS data should be used when possible. When bottom trawling for quantitative estimates of stocks, the trawl should be towed a given distance over the seabed as measured by GPS. Time, speed and distance for the haul should be registered independet of each other. This prosedure should also be used for qualitative hauls. There are no stanardds in these repspects for pelagic trawling.</td><td></td>
+</tr>
+<tr>
+<td>
+                        &lt;
+                                gearcondition/&gt;
+                            </td><td>StringDescriptionType</td><td>Condition of the gear after haul.</td><td><a href="http://tomcat7.imr.no:8080/apis/nmdapi/reference/v1/Gearcondition">
+                                        link
+                                    </a></td>
+</tr>
+<tr>
+<td>
+                        &lt;
+                                trawlquality/&gt;
+                            </td><td>StringDescriptionType</td><td>Specifies how the catch reflect the amount of fish and composition of species in the area, based on the way catch was fished or reported and based on the behaviour of the gear during fishing.</td><td><a href="http://tomcat7.imr.no:8080/apis/nmdapi/reference/v1/Samplequality">
+                                        link
+                                    </a></td>
+</tr>
+<tr>
+<td>
+                        &lt;
+                                trawlopening/&gt;
+                            </td><td>xs:decimal</td><td>Mean opening of trawl during station (m). Read from SCANMAR .</td><td></td>
+</tr>
+<tr>
+<td>
+                        &lt;
+                                trawlopeningsd/&gt;
+                            </td><td>xs:decimal</td><td>Standard deviation of trawl opening (m). Read from SCANMAR.</td><td></td>
+</tr>
+<tr>
+<td>
+                        &lt;
+                                doorspread/&gt;
+                            </td><td>xs:decimal</td><td>Mean distance between trawl-doors (m). Read from sensors mounted on doors.</td><td></td>
+</tr>
+<tr>
+<td>
+                        &lt;
+                                doorspreadsd/&gt;
+                            </td><td>xs:decimal</td><td>Standard deviation of door spread (m). Accurate to one decimal point. Read from PC connected to SCANMAR (Scan-prog.)</td><td></td>
+</tr>
+<tr>
+<td>
+                        &lt;
+                                wirelength/&gt;
+                            </td><td>xs:integer</td><td>Representative length of trawl-wires (m) during the station.</td><td></td>
+</tr>
+<tr>
+<td>
+                        &lt;
+                                soaktime/&gt;
+                            </td><td>xs:decimal</td><td>Time the gear has been in the sea. Given in decimal hours.</td><td></td>
+</tr>
+<tr>
+<td>
+                        &lt;
+                                tripno/&gt;
+                            </td><td>xs:integer</td><td>Trip number. Used by commercial vessels, such as the reference fleet. A trip is usually defined as the time period between departure from port and landing of catch.</td><td></td>
+</tr>
+<tr>
+<td>
+                        &lt;
+                                fishabundance/&gt;
+                            </td><td>StringDescriptionType</td><td>Code for amount of fish. Special field used 1989-1993. Legacy codes. See Norwegian documentation for additional information.</td><td><a href="http://tomcat7.imr.no:8080/apis/nmdapi/reference/v1/Fiskemengde">
+                                        link
+                                    </a></td>
+</tr>
+<tr>
+<td>
+                        &lt;
+                                fishdistribution/&gt;
+                            </td><td>StringDescriptionType</td><td>Code for vertical distribution of fish. Special field used 1989-1993. Legacy codes. See Norwegian documentation for additional information.</td><td><a href="http://tomcat7.imr.no:8080/apis/nmdapi/reference/v1/Fiskefordeling">
+                                        link
+                                    </a></td>
+</tr>
+<tr>
+<td>
+                        &lt;
+                                landingsite/&gt;
+                            </td><td>StringDescriptionType</td><td>Identifies where the fish was landed.</td><td><a href="http://tomcat7.imr.no:8080/apis/nmdapi/reference/v1/DeliveryPlacesHistoricalCodCatches">
+                                        link
+                                    </a></td>
+</tr>
+<tr>
+<td>
+                        &lt;
+                                fishingground/&gt;
+                            </td><td>StringDescriptionType</td><td>Name (code) of fishing grounds where the vessel is fishing. Reported from inspections. By the directorate of fisheries.</td><td><a href="http://tomcat7.imr.no:8080/apis/nmdapi/reference/v1/FISHING_GROUND">
+                                        link
+                                    </a></td>
+</tr>
+<tr>
+<td>
+                        &lt;
+                                countofvessels/&gt;
+                            </td><td>xs:integer</td><td>Number of vessels fishing on fishing grounds. Reported from inspections from the directorate of fisheries.</td><td></td>
+</tr>
+<tr>
+<td>
+                        &lt;
+                                dataquality/&gt;
+                            </td><td>StringDescriptionType</td><td>Code for the quality of the data. See Norwegian documentation for additional details. If this field is not filled,  specific knowledge of how the station was sampled is likely required to interpret the data from this station.</td><td><a href="http://tomcat7.imr.no:8080/apis/nmdapi/reference/v1/Datakvalitet">
+                                        link
+                                    </a></td>
+</tr>
+<tr>
+<td>
+                        &lt;
+                                haulvalidity/&gt;
+                            </td><td>StringDescriptionType</td><td>Code for vailidty of haul.</td><td><a href="http://tomcat7.imr.no:8080/apis/nmdapi/reference/v1/HAULVALIDITY">
+                                        link
+                                    </a></td>
+</tr>
+<tr>
+<td>
+                        &lt;
+                                flora/&gt;
+                            </td><td>StringDescriptionType</td><td>Code for describing the kind of vegetation on seabed.</td><td><a href="http://tomcat7.imr.no:8080/apis/nmdapi/reference/v1/FLORA">
+                                        link
+                                    </a></td>
+</tr>
+<tr>
+<td>
+                        &lt;
+                                vegetationcover/&gt;
+                            </td><td>StringDescriptionType</td><td>Code for the amount of vegetational cover at seabed.</td><td><a href="http://tomcat7.imr.no:8080/apis/nmdapi/reference/v1/VEGETATIONCOVER">
+                                        link
+                                    </a></td>
+</tr>
+<tr>
+<td>
+                        &lt;
+                                visibility/&gt;
+                            </td><td>StringDescriptionType</td><td>Code for visibility through the water.</td><td><a href="http://tomcat7.imr.no:8080/apis/nmdapi/reference/v1/VISIBILITY">
+                                        link
+                                    </a></td>
+</tr>
+<tr>
+<td>
+                        &lt;
+                                flowcount/&gt;
+                            </td><td>xs:integer</td><td></td><td></td>
+</tr>
+<tr>
+<td>
+                        &lt;
+                                flowconst/&gt;
+                            </td><td>xs:decimal</td><td></td><td></td>
+</tr>
+<tr>
+<td>
+                        &lt;
+                                waterlevel/&gt;
+                            </td><td>xs:decimal</td><td>Height of tide (cm). Measured with 5 cm presicion relative to normal height which is subjectively determined from growth on rocks etc.</td><td></td>
+</tr>
+<tr>
+<td>
+                        &lt;
+                                winddirection/&gt;
+                            </td><td>xs:decimal</td><td>Direction of wind in degrees, relative to north.</td><td></td>
+</tr>
+<tr>
+<td>
+                        &lt;
+                                windspeed/&gt;
+                            </td><td>xs:decimal</td><td>Wind speed (knots).</td><td></td>
+</tr>
+<tr>
+<td>
+                        &lt;
+                                clouds/&gt;
+                            </td><td>StringDescriptionType</td><td>Meterological code (WMO code 2700) describing the cloud coverage in unit: okta.</td><td><a href="http://tomcat7.imr.no:8080/apis/nmdapi/reference/v1/Clouds">
+                                        link
+                                    </a></td>
+</tr>
+<tr>
+<td>
+                        &lt;
+                                sea/&gt;
+                            </td><td>StringDescriptionType</td><td>Meterological code (WMO code 3700, Douglas Sea scale) describing height of waves.</td><td><a href="http://tomcat7.imr.no:8080/apis/nmdapi/reference/v1/Sea">
+                                        link
+                                    </a></td>
+</tr>
+<tr>
+<td>
+                        &lt;
+                                weather/&gt;
+                            </td><td>StringDescriptionType</td><td>Meterological code (WMO code 4561) describing the weather.</td><td><a href="http://tomcat7.imr.no:8080/apis/nmdapi/reference/v1/Weather">
+                                        link
+                                    </a></td>
+</tr>
+<tr>
+<td>
+                        &lt;
+                                comment/&gt;
+                            </td><td>xs:string</td><td>Information about noteworethy events at the station.</td><td></td>
+</tr>
+<tr>
+<td>
+                        &lt;
+                                catchsample/&gt;
+                            </td><td>CatchsampleType</td><td>Catch samples from this station.</td><td></td>
+</tr>
+</table>
+<h3>Data type: CatchsampleType</h3>
+<h4>Attributes:</h4>
+<table>
+<tr>
+<th>
+                                    name
+                                </th><th>
+                                    type
+                                </th><th>
+                                    description
+                                </th><th>
+                                    reference table
+                                </th>
+</tr>
+<tr>
+<td>species</td><td>xs:string</td><td>Species and stock code defined from taxonomic serial number (TSN/ITIS) and a customised stock table.</td><td><a href="http://tomcat7.imr.no:8080/apis/nmdapi/reference/v1/taxa">
+                                        link
+                                    </a></td>
+</tr>
+<tr>
+<td>samplenumber</td><td>xs:integer</td><td>Number to identify the sample given species and station. See Norwegian documentaiton for additional information.</td><td></td>
+</tr>
+<tr>
+<td>noname</td><td>xs:string</td><td>Norwegian name for species.</td><td></td>
+</tr>
+<tr>
+<td>aphia</td><td>xs:string</td><td>Code for species in the aphia database.</td><td><a href="http://tomcat7.imr.no:8080/apis/nmdapi/reference/v1/taxa">
+                                        link
+                                    </a></td>
+</tr>
+</table>
+<h4>Children:</h4>
+<table>
+<tr>
+<th>
+                                    name
+                                </th><th>
+                                    type
+                                </th><th>
+                                    description
+                                </th><th>
+                                    reference table
+                                </th>
+</tr>
+<tr>
+<td>
+                        &lt;
+                                sampletype/&gt;
+                            </td><td>StringDescriptionType</td><td>Code for the type of sample. See Norwegian documentation for historical codes and additional information.</td><td><a href="http://tomcat7.imr.no:8080/apis/nmdapi/reference/v1/Sampletype">
+                                        link
+                                    </a></td>
+</tr>
+<tr>
+<td>
+                        &lt;
+                                group/&gt;
+                            </td><td>StringDescriptionType</td><td>Code to flag if the sample is taken from a particular segment of the catch for this species. See Norwegian documentation for additional details.</td><td><a href="http://tomcat7.imr.no:8080/apis/nmdapi/reference/v1/Group">
+                                        link
+                                    </a></td>
+</tr>
+<tr>
+<td>
+                        &lt;
+                                conservation/&gt;
+                            </td><td>StringDescriptionType</td><td>Code for how the sample is conserved.</td><td><a href="http://tomcat7.imr.no:8080/apis/nmdapi/reference/v1/Conservationtype">
+                                        link
+                                    </a></td>
+</tr>
+<tr>
+<td>
+                        &lt;
+                                producttype/&gt;
+                            </td><td>StringDescriptionType</td><td>Description of the product on which measurements of total catch are performed &lt;weight/&gt;, &lt;volume/&gt;. Amongst other things the degree of prosessing (gutting)  of fish is desribed.</td><td><a href="http://tomcat7.imr.no:8080/apis/nmdapi/reference/v1/Vektmetode">
+                                        link
+                                    </a></td>
+</tr>
+<tr>
+<td>
+                        &lt;
+                                weight/&gt;
+                            </td><td>xs:decimal</td><td>Weigth (kg) of the part of the total catch that is represented by this sample. See &lt;producttype/&gt; for product. If catch has been subsampled this is an estimate. The raising factor used is given by &lt;raisingfactor/&gt;, but total catch may be estimated even if &lt;raisingfactor/&gt; is not given.</td><td></td>
+</tr>
+<tr>
+<td>
+                        &lt;
+                                volume/&gt;
+                            </td><td>xs:decimal</td><td>Volume(l) of the part of the total catch that is represented by this sample. See &lt;producttype/&gt; for product type. If catch has been subsampled this is an estimate. The raising factor used is given by &lt;raisingfactor/&gt;, but total catch may be estimated even if &lt;raisingfactor/&gt; is not given.</td><td></td>
+</tr>
+<tr>
+<td>
+                        &lt;
+                                count/&gt;
+                            </td><td>xs:integer</td><td>Count of fish in the part of the total catch that is represented by this sample. Often estimated from weight and count in length-measurements (&lt;lengthsamplecount/&gt;*&lt;weight/&gt;/&lt;lenghsampleweight/&gt;).</td><td></td>
+</tr>
+<tr>
+<td>
+                        &lt;
+                                abundancecategory/&gt;
+                            </td><td>StringDescriptionType</td><td>Code for qualitative description of the amount of catch.</td><td><a href="http://tomcat7.imr.no:8080/apis/nmdapi/reference/v1/ABUNDANCECATEGORY">
+                                        link
+                                    </a></td>
+</tr>
+<tr>
+<td>
+                        &lt;
+                                sampleproducttype/&gt;
+                            </td><td>StringDescriptionType</td><td>Description of the product on which sample measurements were made (&lt;lengthsampleweight/&gt;, &lt;lengthsamplevolume/&gt;). Amongst other things the degree of prosessing (gutting)  of fish is desribed.</td><td><a href="http://tomcat7.imr.no:8080/apis/nmdapi/reference/v1/Vektmetode">
+                                        link
+                                    </a></td>
+</tr>
+<tr>
+<td>
+                        &lt;
+                                lengthmeasurement/&gt;
+                            </td><td>StringDescriptionType</td><td>Method of measurement. Lenght is  measured for fish, diameter for jellyfish and carapax length etc. for shellfish. See Norwegian documentation for additional details.</td><td><a href="http://tomcat7.imr.no:8080/apis/nmdapi/reference/v1/Lengthmeasurementtype">
+                                        link
+                                    </a></td>
+</tr>
+<tr>
+<td>
+                        &lt;
+                                lengthsampleweight/&gt;
+                            </td><td>xs:decimal</td><td>Weight (kg) of the fish for which length was measured. See &lt;sampleproducttype/&gt; for product type.</td><td></td>
+</tr>
+<tr>
+<td>
+                        &lt;
+                                lengthsamplevolume/&gt;
+                            </td><td>xs:decimal</td><td>Volume (l)  of the fish for which length was measured. See &lt;sampleproducttype/&gt; for product type.</td><td></td>
+</tr>
+<tr>
+<td>
+                        &lt;
+                                lengthsamplecount/&gt;
+                            </td><td>xs:integer</td><td>Count of fish for which length was measured. Including samples where more measurements than length were done (&lt;specimensamplecount/&gt;.</td><td></td>
+</tr>
+<tr>
+<td>
+                        &lt;
+                                specimensamplecount/&gt;
+                            </td><td>xs:integer</td><td>Count of fish for which detailed individual samples were taken (&lt;individual/&gt;). This refers to all samples where more than length measurements were taken.</td><td></td>
+</tr>
+<tr>
+<td>
+                        &lt;
+                                raisingfactor/&gt;
+                            </td><td>xs:decimal</td><td>Used if catch sample measurements  (&lt;weight/&gt;, &lt;volume/&gt;, and sometimes &lt;count/&gt;)  were done on a representative subsample, rather than the entire catch. The raising factor is the ratio of the total catch to the subsample. This field is not always given, even when subsampling was done. Note that &lt;weight/&gt;, &lt;volume/&gt; and &lt;count/&gt; are the raised values. For example, you may divide &lt;weight/&gt; by &lt;raisingfactor/&gt; to get the weight of the subsample.</td><td></td>
+</tr>
+<tr>
+<td>
+                        &lt;
+                                agingstructure/&gt;
+                            </td><td>StringDescriptionType</td><td>Specifies which kind of structure is used for age determination.</td><td><a href="http://tomcat7.imr.no:8080/apis/nmdapi/reference/v1/agingstructure">
+                                        link
+                                    </a></td>
+</tr>
+<tr>
+<td>
+                        &lt;
+                                parasite/&gt;
+                            </td><td>StringDescriptionType</td><td>Specifies if parasites were checked for or found.</td><td><a href="http://tomcat7.imr.no:8080/apis/nmdapi/reference/v1/Parasittpr%C3%B8ve">
+                                        link
+                                    </a></td>
+</tr>
+<tr>
+<td>
+                        &lt;
+                                stomach/&gt;
+                            </td><td>StringDescriptionType</td><td>Specifies the kind of stomach sampling done, if any.</td><td><a href="http://tomcat7.imr.no:8080/apis/nmdapi/reference/v1/Opparbeidelse%20mage">
+                                        link
+                                    </a></td>
+</tr>
+<tr>
+<td>
+                        &lt;
+                                genetics/&gt;
+                            </td><td>StringDescriptionType</td><td>Specifies if  samples for genetic identification was taken.</td><td><a href="http://tomcat7.imr.no:8080/apis/nmdapi/reference/v1/GENETIKK_SPD">
+                                        link
+                                    </a></td>
+</tr>
+<tr>
+<td>
+                        &lt;
+                                foreignobject/&gt;
+                            </td><td>StringDescriptionType</td><td>Registering of non-biological material.</td><td><a href="http://tomcat7.imr.no:8080/apis/nmdapi/reference/v1/BIO_IKKE_BIOLOGISK">
+                                        link
+                                    </a></td>
+</tr>
+<tr>
+<td>
+                        &lt;
+                                comment/&gt;
+                            </td><td>xs:string</td><td>Information about observations on species or incidents while measuring.</td><td></td>
+</tr>
+<tr>
+<td>
+                        &lt;
+                                individual/&gt;
+                            </td><td>IndividualType</td><td>Samples of individuals from this catch sample.</td><td></td>
+</tr>
+<tr>
+<td>
+                        &lt;
+                                prey/&gt;
+                            </td><td>PreyType</td><td>Stmach samples of prey from individuals in this catch sample.</td><td></td>
+</tr>
+</table>
+<h3>Data type: IndividualType</h3>
+<h4>Attributes:</h4>
+<table>
+<tr>
+<th>
+                                    name
+                                </th><th>
+                                    type
+                                </th><th>
+                                    description
+                                </th><th>
+                                    reference table
+                                </th>
+</tr>
+<tr>
+<td>specimenno</td><td>xs:integer</td><td>Sequentially assigned identifier for sample of individual of this species.</td><td></td>
+</tr>
+</table>
+<h4>Children:</h4>
+<table>
+<tr>
+<th>
+                                    name
+                                </th><th>
+                                    type
+                                </th><th>
+                                    description
+                                </th><th>
+                                    reference table
+                                </th>
+</tr>
+<tr>
+<td>
+                        &lt;
+                                producttype/&gt;
+                            </td><td>StringDescriptionType</td><td>Description of the product on which sample measurements was made (&lt;weight/&gt;, &lt;volume/&gt;). Amongst other things the degree of prosessing (gutting)  of fish is desribed.</td><td><a href="http://tomcat7.imr.no:8080/apis/nmdapi/reference/v1/Vektmetode">
+                                        link
+                                    </a></td>
+</tr>
+<tr>
+<td>
+                        &lt;
+                                weight/&gt;
+                            </td><td>xs:decimal</td><td>Weight (kg).</td><td></td>
+</tr>
+<tr>
+<td>
+                        &lt;
+                                volume/&gt;
+                            </td><td>xs:decimal</td><td>Volume (l).</td><td></td>
+</tr>
+<tr>
+<td>
+                        &lt;
+                                lengthunit/&gt;
+                            </td><td>StringDescriptionType</td><td>Code for the precision used when measuring length.</td><td><a href="http://tomcat7.imr.no:8080/apis/nmdapi/reference/v1/Lengdeenhet">
+                                        link
+                                    </a></td>
+</tr>
+<tr>
+<td>
+                        &lt;
+                                length/&gt;
+                            </td><td>xs:decimal</td><td>Length (m). Measured to the precision specified by &lt;lenghtunit/&gt;. As specified in &lt;CatchsampleType/lengthmeasurement&gt;. Electronic registration from measuring devices may provide data that seem to be of higher resolution, but the resolution provided in &lt;lengthunit/&gt; still reflects the intended precision of the person measuring.</td><td></td>
+</tr>
+<tr>
+<td>
+                        &lt;
+                                fat/&gt;
+                            </td><td>StringDescriptionType</td><td>Code for qualitative specification of fat in fish.</td><td><a href="http://tomcat7.imr.no:8080/apis/nmdapi/reference/v1/Fett">
+                                        link
+                                    </a></td>
+</tr>
+<tr>
+<td>
+                        &lt;
+                                fatpercent/&gt;
+                            </td><td>xs:decimal</td><td>Measurement of fat content as fraction in filet (%) using instrument from Distell. Used for Herring and Mackarell.</td><td></td>
+</tr>
+<tr>
+<td>
+                        &lt;
+                                sex/&gt;
+                            </td><td>StringDescriptionType</td><td>Codef or sex.</td><td><a href="http://tomcat7.imr.no:8080/apis/nmdapi/reference/v1/Kj%C3%B8nn">
+                                        link
+                                    </a></td>
+</tr>
+<tr>
+<td>
+                        &lt;
+                                stage/&gt;
+                            </td><td>StringDescriptionType</td><td>Maturation given by the general description of stadium. See the Norwegian documentation for additional detail.</td><td><a href="http://tomcat7.imr.no:8080/apis/nmdapi/reference/v1/Stadium">
+                                        link
+                                    </a></td>
+</tr>
+<tr>
+<td>
+                        &lt;
+                                specialstage/&gt;
+                            </td><td>StringDescriptionType</td><td>Maturation given by species specific descriptions. See the reference table and the Norwegian documentation for additional details.</td><td><a href="http://tomcat7.imr.no:8080/apis/nmdapi/reference/v1/taxa">
+                                        link
+                                    </a></td>
+</tr>
+<tr>
+<td>
+                        &lt;
+                                eggstage/&gt;
+                            </td><td>StringDescriptionType</td><td>Stadium used for capelin. See the reference table and the Norwegian documentation for additional information.</td><td><a href="http://tomcat7.imr.no:8080/apis/nmdapi/reference/v1/taxa">
+                                        link
+                                    </a></td>
+</tr>
+<tr>
+<td>
+                        &lt;
+                                developmentalstage/&gt;
+                            </td><td>StringDescriptionType</td><td>Developmental stage for herring larvae. See the reference table and Norwegian documentation for additional details.</td><td><a href="http://tomcat7.imr.no:8080/apis/nmdapi/reference/v1/taxa">
+                                        link
+                                    </a></td>
+</tr>
+<tr>
+<td>
+                        &lt;
+                                moultingstage/&gt;
+                            </td><td>StringDescriptionType</td><td></td><td><a href="http://tomcat7.imr.no:8080/apis/nmdapi/reference/v1/taxa">
+                                        link
+                                    </a></td>
+</tr>
+<tr>
+<td>
+                        &lt;
+                                stomachfillfield/&gt;
+                            </td><td>StringDescriptionType</td><td>Stomach content, as determined in field.</td><td><a href="http://tomcat7.imr.no:8080/apis/nmdapi/reference/v1/Magefylling">
+                                        link
+                                    </a></td>
+</tr>
+<tr>
+<td>
+                        &lt;
+                                stomachfilllab/&gt;
+                            </td><td>StringDescriptionType</td><td>Stomach content, as determined in laboratory.</td><td><a href="http://tomcat7.imr.no:8080/apis/nmdapi/reference/v1/Magefylling">
+                                        link
+                                    </a></td>
+</tr>
+<tr>
+<td>
+                        &lt;
+                                digestion/&gt;
+                            </td><td>StringDescriptionType</td><td>Degree of digestion.</td><td><a href="http://tomcat7.imr.no:8080/apis/nmdapi/reference/v1/Ford%C3%B8yningsgrad">
+                                        link
+                                    </a></td>
+</tr>
+<tr>
+<td>
+                        &lt;
+                                liver/&gt;
+                            </td><td>StringDescriptionType</td><td>Qualitative description of the size of the liver.</td><td><a href="http://tomcat7.imr.no:8080/apis/nmdapi/reference/v1/Lever">
+                                        link
+                                    </a></td>
+</tr>
+<tr>
+<td>
+                        &lt;
+                                liverparasite/&gt;
+                            </td><td>StringDescriptionType</td><td>Qualitative description of the amount of parasite on the liver.</td><td><a href="http://tomcat7.imr.no:8080/apis/nmdapi/reference/v1/Parasitt">
+                                        link
+                                    </a></td>
+</tr>
+<tr>
+<td>
+                        &lt;
+                                gillworms/&gt;
+                            </td><td>StringDescriptionType</td><td>Denotes any finding of gillworms.</td><td><a href="http://tomcat7.imr.no:8080/apis/nmdapi/reference/v1/GJELLEMAKK">
+                                        link
+                                    </a></td>
+</tr>
+<tr>
+<td>
+                        &lt;
+                                swollengills/&gt;
+                            </td><td>StringDescriptionType</td><td>Denotes if gills are swollen.</td><td><a href="http://tomcat7.imr.no:8080/apis/nmdapi/reference/v1/GJELLESVULL">
+                                        link
+                                    </a></td>
+</tr>
+<tr>
+<td>
+                        &lt;
+                                fungusheart/&gt;
+                            </td><td>StringDescriptionType</td><td>Signs of fungal disease from inspection of heart.</td><td><a href="http://tomcat7.imr.no:8080/apis/nmdapi/reference/v1/SOPP_HJERTE">
+                                        link
+                                    </a></td>
+</tr>
+<tr>
+<td>
+                        &lt;
+                                fungusspores/&gt;
+                            </td><td>StringDescriptionType</td><td>Signs of fungal disease from microscopic examination of heart.</td><td><a href="http://tomcat7.imr.no:8080/apis/nmdapi/reference/v1/SOPP_SPORER">
+                                        link
+                                    </a></td>
+</tr>
+<tr>
+<td>
+                        &lt;
+                                fungusouter/&gt;
+                            </td><td>StringDescriptionType</td><td>Signs of fungal disease from external examination.</td><td><a href="http://tomcat7.imr.no:8080/apis/nmdapi/reference/v1/SOPP_YTRE">
+                                        link
+                                    </a></td>
+</tr>
+<tr>
+<td>
+                        &lt;
+                                blackspot/&gt;
+                            </td><td>StringDescriptionType</td><td>Small black spots on the fish. Used for cod.</td><td><a href="http://tomcat7.imr.no:8080/apis/nmdapi/reference/v1/SVARTPRIKK">
+                                        link
+                                    </a></td>
+</tr>
+<tr>
+<td>
+                        &lt;
+                                vertebrae/&gt;
+                            </td><td>xs:integer</td><td>The number of vertebrae. See Norwegian documentation for additional details.</td><td></td>
+</tr>
+<tr>
+<td>
+                        &lt;
+                                gonadweight/&gt;
+                            </td><td>xs:decimal</td><td>Weight gonade (kg).</td><td></td>
+</tr>
+<tr>
+<td>
+                        &lt;
+                                liverweight/&gt;
+                            </td><td>xs:decimal</td><td>Weight liver (kg).</td><td></td>
+</tr>
+<tr>
+<td>
+                        &lt;
+                                stomachweight/&gt;
+                            </td><td>xs:decimal</td><td>Weight stomach (kg).</td><td></td>
+</tr>
+<tr>
+<td>
+                        &lt;
+                                diameter/&gt;
+                            </td><td>xs:decimal</td><td>Diameter (m). Only specified if this is measured in addition to main length measurement (&lt;CatchsampleType/lengthmeasurement&gt;).</td><td></td>
+</tr>
+<tr>
+<td>
+                        &lt;
+                                mantlelength/&gt;
+                            </td><td>xs:decimal</td><td>Mantle length (m). Only specified if this is measured in addition to main length measurement (&lt;CatchsampleType/lengthmeasurement&gt;).</td><td></td>
+</tr>
+<tr>
+<td>
+                        &lt;
+                                carapacelength/&gt;
+                            </td><td>xs:decimal</td><td>Carapace length (m). Only specified if this is measured in addition to main length measurement (&lt;CatchsampleType/lengthmeasurement&gt;).</td><td></td>
+</tr>
+<tr>
+<td>
+                        &lt;
+                                headlength/&gt;
+                            </td><td>xs:decimal</td><td>Head length (m). Only specified if this is measured in addition to main length measurement (&lt;CatchsampleType/lengthmeasurement&gt;).</td><td></td>
+</tr>
+<tr>
+<td>
+                        &lt;
+                                snouttoendoftail/&gt;
+                            </td><td>xs:decimal</td><td>Snout to end of tail (m). Only specified if this is measured in addition to main length measurement (&lt;CatchsampleType/lengthmeasurement&gt;).</td><td></td>
+</tr>
+<tr>
+<td>
+                        &lt;
+                                snouttoendsqueezed/&gt;
+                            </td><td>xs:decimal</td><td>Snout to end of tail squeezed (m). Only specified if this is measured in addition to main length measurement (&lt;CatchsampleType/lengthmeasurement&gt;).</td><td></td>
+</tr>
+<tr>
+<td>
+                        &lt;
+                                snouttoanalfin/&gt;
+                            </td><td>xs:decimal</td><td>Snout to anal fin (m). Only specified if this is measured in addition to main length measurement (&lt;CatchsampleType/lengthmeasurement&gt;).</td><td></td>
+</tr>
+<tr>
+<td>
+                        &lt;
+                                snouttodorsalfin/&gt;
+                            </td><td>xs:decimal</td><td>Snout to dorsal fin (m). Only specified if this is measured in addition to main length measurement (&lt;CatchsampleType/lengthmeasurement&gt;).</td><td></td>
+</tr>
+<tr>
+<td>
+                        &lt;
+                                forklength/&gt;
+                            </td><td>xs:decimal</td><td>Snout to fork in tail (Fork length, m). Only specified if this is measured in addition to main length measurement (&lt;CatchsampleType/lengthmeasurement&gt;).</td><td></td>
+</tr>
+<tr>
+<td>
+                        &lt;
+                                snouttoboneknob/&gt;
+                            </td><td>xs:decimal</td><td>Snout to bone knob (m). Only specified if this is measured in addition to main length measurement (&lt;CatchsampleType/lengthmeasurement&gt;).</td><td></td>
+</tr>
+<tr>
+<td>
+                        &lt;
+                                lengthwithouthead/&gt;
+                            </td><td>xs:decimal</td><td>Length without head (m). Only specified if this is measured in addition to main length measurement (&lt;CatchsampleType/lengthmeasurement&gt;).</td><td></td>
+</tr>
+<tr>
+<td>
+                        &lt;
+                                carapacewidth/&gt;
+                            </td><td>xs:decimal</td><td>Carapace width (m). Only specified if this is measured in addition to main length measurement (&lt;CatchsampleType/lengthmeasurement&gt;).</td><td></td>
+</tr>
+<tr>
+<td>
+                        &lt;
+                                rightclawwidth/&gt;
+                            </td><td>xs:decimal</td><td>Width of right claw (m). Only specified if this is measured in addition to main length measurement (&lt;CatchsampleType/lengthmeasurement&gt;).</td><td></td>
+</tr>
+<tr>
+<td>
+                        &lt;
+                                rightclawlength/&gt;
+                            </td><td>xs:decimal</td><td>Length of right claw (m). Only specified if this is measured in addition to main length measurement (&lt;CatchsampleType/lengthmeasurement&gt;).</td><td></td>
+</tr>
+<tr>
+<td>
+                        &lt;
+                                meroswidth/&gt;
+                            </td><td>xs:decimal</td><td>Width of third foot meros (m). Only specified if this is measured in addition to main length measurement (&lt;CatchsampleType/lengthmeasurement&gt;).</td><td></td>
+</tr>
+<tr>
+<td>
+                        &lt;
+                                meroslength/&gt;
+                            </td><td>xs:decimal</td><td>Length of third foot meros (m). Only specified if this is measured in addition to main length measurement (&lt;CatchsampleType/lengthmeasurement&gt;).</td><td></td>
+</tr>
+<tr>
+<td>
+                        &lt;
+                                japanesecut/&gt;
+                            </td><td>xs:decimal</td><td>Japanese cut (m). Only specified if this is measured in addition to main length measurement (&lt;CatchsampleType/lengthmeasurement&gt;).</td><td></td>
+</tr>
+<tr>
+<td>
+                        &lt;
+                                geneticsnumber/&gt;
+                            </td><td>xs:integer</td><td>Identifier for samples for genetics.</td><td></td>
+</tr>
+<tr>
+<td>
+                        &lt;
+                                comment/&gt;
+                            </td><td>xs:string</td><td>Comments.</td><td></td>
+</tr>
+<tr>
+<td>
+                        &lt;
+                                agedetermination/&gt;
+                            </td><td>AgedeterminationType</td><td>Age readings for this individual.</td><td></td>
+</tr>
+<tr>
+<td>
+                        &lt;
+                                tag/&gt;
+                            </td><td>TagType</td><td>Tags on this individual.</td><td></td>
+</tr>
+<tr>
+<td>
+                        &lt;
+                                abdomenwidth/&gt;
+                            </td><td>xs:decimal</td><td>Abdomen width (m). Only specified if this is measured in addition to main length measurement (&lt;CatchsampleType/lengthmeasurement&gt;).</td><td></td>
+</tr>
+</table>
+<h3>Data type: AgedeterminationType</h3>
+<h4>Attributes:</h4>
+<table>
+<tr>
+<th>
+                                    name
+                                </th><th>
+                                    type
+                                </th><th>
+                                    description
+                                </th><th>
+                                    reference table
+                                </th>
+</tr>
+<tr>
+<td>no</td><td>xs:integer</td><td></td><td></td>
+</tr>
+</table>
+<h4>Children:</h4>
+<table>
+<tr>
+<th>
+                                    name
+                                </th><th>
+                                    type
+                                </th><th>
+                                    description
+                                </th><th>
+                                    reference table
+                                </th>
+</tr>
+<tr>
+<td>
+                        &lt;
+                                age/&gt;
+                            </td><td>xs:integer</td><td>Age. See Norwegian documentation for details about how age is determined.</td><td></td>
+</tr>
+<tr>
+<td>
+                        &lt;
+                                spawningage/&gt;
+                            </td><td>xs:integer</td><td>Age of specimen at first spawning.</td><td></td>
+</tr>
+<tr>
+<td>
+                        &lt;
+                                spawningzones/&gt;
+                            </td><td>xs:integer</td><td>The number of spawning zones read.</td><td></td>
+</tr>
+<tr>
+<td>
+                        &lt;
+                                readability/&gt;
+                            </td><td>StringDescriptionType</td><td>Code for readability of aging structure.</td><td><a href="http://tomcat7.imr.no:8080/apis/nmdapi/reference/v1/OTOLITH_READABILITY">
+                                        link
+                                    </a></td>
+</tr>
+<tr>
+<td>
+                        &lt;
+                                otolithtype/&gt;
+                            </td><td>StringDescriptionType</td><td>Classification of otholith. See Norwegian documentation for additional details.</td><td></td>
+</tr>
+<tr>
+<td>
+                        &lt;
+                                otolithedge/&gt;
+                            </td><td>StringDescriptionType</td><td>Desciption of edge on otholith or scale. Note that the given reference table is only valid for otholiths.</td><td><a href="http://tomcat7.imr.no:8080/apis/nmdapi/reference/v1/OTOLITH_EDGE">
+                                        link
+                                    </a></td>
+</tr>
+<tr>
+<td>
+                        &lt;
+                                otolithcentre/&gt;
+                            </td><td>StringDescriptionType</td><td>Description of otholith core.</td><td><a href="http://tomcat7.imr.no:8080/apis/nmdapi/reference/v1/OTOLITH_CENTRE">
+                                        link
+                                    </a></td>
+</tr>
+<tr>
+<td>
+                        &lt;
+                                calibration/&gt;
+                            </td><td>xs:integer</td><td>The number of divisions in the eyepiece graticule on 2 milimeters. Calibration is done for the lens and magnification used when reading the growthzones.</td><td></td>
+</tr>
+<tr>
+<td>
+                        &lt;
+                                growthzone1/&gt;
+                            </td><td>xs:integer</td><td>Size of growth zone in integer number of divisions (see &lt;calibration/&gt;).</td><td></td>
+</tr>
+<tr>
+<td>
+                        &lt;
+                                growthzone2/&gt;
+                            </td><td>xs:integer</td><td>Size of growth zone in integer number of divisions (see &lt;calibration/&gt;).</td><td></td>
+</tr>
+<tr>
+<td>
+                        &lt;
+                                growthzone3/&gt;
+                            </td><td>xs:integer</td><td>Size of growth zone in integer number of divisions (see &lt;calibration/&gt;).</td><td></td>
+</tr>
+<tr>
+<td>
+                        &lt;
+                                growthzone4/&gt;
+                            </td><td>xs:integer</td><td>Size of growth zone in integer number of divisions (see &lt;calibration/&gt;).</td><td></td>
+</tr>
+<tr>
+<td>
+                        &lt;
+                                growthzone5/&gt;
+                            </td><td>xs:integer</td><td>Size of growth zone in integer number of divisions (see &lt;calibration/&gt;).</td><td></td>
+</tr>
+<tr>
+<td>
+                        &lt;
+                                growthzone6/&gt;
+                            </td><td>xs:integer</td><td>Size of growth zone in integer number of divisions (see &lt;calibration/&gt;).</td><td></td>
+</tr>
+<tr>
+<td>
+                        &lt;
+                                growthzone7/&gt;
+                            </td><td>xs:integer</td><td>Size of growth zone in integer number of divisions (see &lt;calibration/&gt;).</td><td></td>
+</tr>
+<tr>
+<td>
+                        &lt;
+                                growthzone8/&gt;
+                            </td><td>xs:integer</td><td>Size of growth zone in integer number of divisions (see &lt;calibration/&gt;).</td><td></td>
+</tr>
+<tr>
+<td>
+                        &lt;
+                                growthzone9/&gt;
+                            </td><td>xs:integer</td><td>Size of growth zone in integer number of divisions (see &lt;calibration/&gt;).</td><td></td>
+</tr>
+<tr>
+<td>
+                        &lt;
+                                growthzonestotal/&gt;
+                            </td><td>xs:integer</td><td>Total number of growth zones measured.</td><td></td>
+</tr>
+<tr>
+<td>
+                        &lt;
+                                coastalannuli/&gt;
+                            </td><td>xs:integer</td><td>Historically used for a Norwegian stock of herring. See Norwgeian documentaiton for additional details.</td><td></td>
+</tr>
+<tr>
+<td>
+                        &lt;
+                                oceanicannuli/&gt;
+                            </td><td>xs:integer</td><td>Historically used for a Norwegian stock of herring. See Norwgeian documentaiton for additional details.</td><td></td>
+</tr>
+</table>
+<h3>Data type: TagType</h3>
+<h4>Attributes:</h4>
+<table>
+<tr>
+<th>
+                                    name
+                                </th><th>
+                                    type
+                                </th><th>
+                                    description
+                                </th><th>
+                                    reference table
+                                </th>
+</tr>
+<tr>
+<td>tagno</td><td>xs:integer</td><td>Code for the type of tag used.</td><td></td>
+</tr>
+</table>
+<h4>Children:</h4>
+<table>
+<tr>
+<th>
+                                    name
+                                </th><th>
+                                    type
+                                </th><th>
+                                    description
+                                </th><th>
+                                    reference table
+                                </th>
+</tr>
+<tr>
+<td>
+                        &lt;
+                                tagtype/&gt;
+                            </td><td>StringDescriptionType</td><td>Tag number for tagged or recaptured fish.</td><td><a href="http://tomcat7.imr.no:8080/apis/nmdapi/reference/v1/MARKINGTYPE">
+                                        link
+                                    </a></td>
+</tr>
+</table>
+<h3>Data type: PreyType</h3>
+<h4>Attributes:</h4>
+<table>
+<tr>
+<th>
+                                    name
+                                </th><th>
+                                    type
+                                </th><th>
+                                    description
+                                </th><th>
+                                    reference table
+                                </th>
+</tr>
+<tr>
+<td>fishno</td><td>xs:integer</td><td>Identifies the individual the prey was sampled from. Refers &lt;specimenno/&gt; in IndividualType.</td><td></td>
+</tr>
+<tr>
+<td>partno</td><td>xs:integer</td><td>Identifies the prey sample. Use different number for different prey samples that are of the same species and taken from the same individual.</td><td></td>
+</tr>
+<tr>
+<td>species</td><td>xs:string</td><td>Species of prey (TSN code).</td><td><a href="http://tomcat7.imr.no:8080/apis/nmdapi/reference/v1/taxa">
+                                        link
+                                    </a></td>
+</tr>
+</table>
+<h4>Children:</h4>
+<table>
+<tr>
+<th>
+                                    name
+                                </th><th>
+                                    type
+                                </th><th>
+                                    description
+                                </th><th>
+                                    reference table
+                                </th>
+</tr>
+<tr>
+<td>
+                        &lt;
+                                digestion/&gt;
+                            </td><td>StringDescriptionType</td><td>Degree of digestion of prey.</td><td><a href="http://tomcat7.imr.no:8080/apis/nmdapi/reference/v1/Ford%C3%B8yningsgrad">
+                                        link
+                                    </a></td>
+</tr>
+<tr>
+<td>
+                        &lt;
+                                totalcount/&gt;
+                            </td><td>xs:integer</td><td>Number of individuals of this prey in stomach.</td><td></td>
+</tr>
+<tr>
+<td>
+                        &lt;
+                                weightresolution/&gt;
+                            </td><td>StringDescriptionType</td><td>The unit used for weighing. &lt;totalweight/&gt; is standardized, but the unit is informative of the precision of measurement.</td><td><a href="http://tomcat7.imr.no:8080/apis/nmdapi/reference/v1/PreyWeightUnit">
+                                        link
+                                    </a></td>
+</tr>
+<tr>
+<td>
+                        &lt;
+                                totalweight/&gt;
+                            </td><td>xs:decimal</td><td>Total weight of prey (kg). Precision of measurement as identified in &lt;weightresolution/&gt;.</td><td></td>
+</tr>
+<tr>
+<td>
+                        &lt;
+                                interval/&gt;
+                            </td><td>StringDescriptionType</td><td>Interval for length groups measured &lt;preylength/&gt;.</td><td><a href="http://tomcat7.imr.no:8080/apis/nmdapi/reference/v1/Lengdeenhet">
+                                        link
+                                    </a></td>
+</tr>
+<tr>
+<td>
+                        &lt;
+                                devstage/&gt;
+                            </td><td>StringDescriptionType</td><td>Developmental stage for prey.</td><td><a href="http://tomcat7.imr.no:8080/apis/nmdapi/reference/v1/BIO_UTVIKLINGSTRINN">
+                                        link
+                                    </a></td>
+</tr>
+<tr>
+<td>
+                        &lt;
+                                lengthmeasurement/&gt;
+                            </td><td>StringDescriptionType</td><td>Code for method of measurement for lenghts given as &lt;preylength/&gt;.</td><td><a href="http://tomcat7.imr.no:8080/apis/nmdapi/reference/v1/Lengthmeasurementtype">
+                                        link
+                                    </a></td>
+</tr>
+<tr>
+<td>
+                        &lt;
+                                preylength/&gt;
+                            </td><td>PreylengthType</td><td>Length measurements of this prey.</td><td></td>
+</tr>
+<tr>
+<td>
+                        &lt;
+                                copepodedevstage/&gt;
+                            </td><td>CopepodedevstageType</td><td>Determinations of copepode developmental stage for this prey.</td><td></td>
+</tr>
+</table>
+<h3>Data type: PreylengthType</h3>
+<h4>Attributes:</h4>
+<table>
+<tr>
+<th>
+                                    name
+                                </th><th>
+                                    type
+                                </th><th>
+                                    description
+                                </th><th>
+                                    reference table
+                                </th>
+</tr>
+<tr>
+<td>length</td><td>xs:decimal</td><td>Shortest length (inclusive) for organisms counted in &lt;count/&gt;.</td><td></td>
+</tr>
+</table>
+<h4>Children:</h4>
+<table>
+<tr>
+<th>
+                                    name
+                                </th><th>
+                                    type
+                                </th><th>
+                                    description
+                                </th><th>
+                                    reference table
+                                </th>
+</tr>
+<tr>
+<td>
+                        &lt;
+                                count/&gt;
+                            </td><td>xs:integer</td><td>The number of organisms in the interval given by the lower limit &lt;length/&gt; and PreyType/&lt;interval/&gt;.</td><td></td>
+</tr>
+</table>
+<h3>Data type: CopepodedevstageType</h3>
+<h4>Attributes:</h4>
+<table>
+<tr>
+<th>
+                                    name
+                                </th><th>
+                                    type
+                                </th><th>
+                                    description
+                                </th><th>
+                                    reference table
+                                </th>
+</tr>
+<tr>
+<td>copepodedevstage</td><td>xs:string</td><td>Copepode stadium whoose count is given in &lt;count/&gt;.</td><td></td>
+</tr>
+</table>
+<h4>Children:</h4>
+<table>
+<tr>
+<th>
+                                    name
+                                </th><th>
+                                    type
+                                </th><th>
+                                    description
+                                </th><th>
+                                    reference table
+                                </th>
+</tr>
+<tr>
+<td>
+                        &lt;
+                                count/&gt;
+                            </td><td>xs:integer</td><td>The number of organisms in the given developmental stage &lt;copepodedevstage/&gt;.</td><td></td>
+</tr>
+</table>
+<h3>Data type: StringDescriptionType</h3>
+<h4>Attributes:</h4>
+<table>
+<tr>
+<th>
+                                    name
+                                </th><th>
+                                    type
+                                </th><th>
+                                    description
+                                </th><th>
+                                    reference table
+                                </th>
+</tr>
+<tr>
+<td>description</td><td>xs:string</td><td>Identifies value in reference table.</td><td></td>
+</tr>
+</table>
+<h4>Children:</h4>
+                        No children
+                    <h3>Data type: ListType</h3>
+<h4>Attributes:</h4>
+                        No attributes
+                    <h4>Children:</h4>
+<table>
+<tr>
+<th>
+                                    name
+                                </th><th>
+                                    type
+                                </th><th>
+                                    description
+                                </th><th>
+                                    reference table
+                                </th>
+</tr>
+<tr>
+<td>
+                        &lt;
+                                row/&gt;
+                            </td><td>xs:anyType</td><td>Element of a list. Type not used.</td><td></td>
+</tr>
+</table>
+</body>
+</html>
