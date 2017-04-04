@@ -56,5 +56,5 @@ test_that("retain_species_catch retains catchsamples with single species",{
 
 context("file handling")
 test_that("apply_xml_filters finishes without errors", {
-  apply_xml_filters(test_refl_2015, "/dev/stderr", c(function(tree){retain_species_catch(tree, c("171342", "172930"))}, drop_childless_stations, drop_childless_missions))
+  apply_xml_filters(test_refl_2015, "/dev/null", c(function(tree){retain_species_catch(tree, c("171342", "172930"))}, drop_childless_stations, drop_childless_missions))
 })

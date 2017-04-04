@@ -47,13 +47,13 @@ keys_biotic1_4 <- list(MissionsType=c(),
 # Data frames will have foreign key columns relating it to all its parent elements
 # This list defines the column names for the foreign keys and must be structured exactly like the keys-table above.
 foreign_keys_biotic1_4 <- list(MissionsType=c(), 
-                       MissionType=c("Mission.missiontype", "Mission.missionnumber", "Mission.year", "Mission.platform"),
-                       FishstationType=c("Fishstation.serialno"), 
-                       CatchsampleType=c("Catchsample.species", "Catchsample.samplenumber"),
-                       IndividualType=c("Individual.specimenno"),
+                       MissionType=c("missiontype.Mission", "missionnumber.Mission", "year.Mission", "platform.Mission"),
+                       FishstationType=c("serialno.Fishstation"), 
+                       CatchsampleType=c("species.Catchsample", "samplenumber.Catchsample"),
+                       IndividualType=c("specimenno.Individual"),
                        AgedeterminationType=c(),
                        TagType=c(),
-                       PreyType=c("Prey.species", "Prey.partno"),
+                       PreyType=c("species.Prey", "partno.Prey"),
                        PreylengthType=c(),
                        CopepodedevstageType=c()
 )
@@ -77,7 +77,7 @@ dm <- list(StringDescriptionType="as.character", "xs:integer"="as.integer", "xs:
 #'Set data types for bioticdata. 
 #'Relies on the assumption that each tibble is named as the complexType in the xsd, excluding the suffix "Type"
 #'Assumes fixed namespace prefix ns for http://www.w3.org/2001/XMLSchema
-#'@param bioticdata list of tibbles as returned by parse_biotic
+#'@param data list of tibbles as returned by parse_biotic
 #'@param schema XMLInternalDocument representing the xsd
 #'@param datatype_mapping list mapping data types in schema to names of functions used to convert to R data types
 #'@param keys list mapping schematypes to keys
@@ -195,17 +195,17 @@ set_blanks_to_NA <- function(dataframes){
   return(d)
 }
 
-bioticdata <- list()
+data <- list()
 #creates handler for parsing specific xml elements
 make_data_frame_parser <- function(framename, foreign_key_generator, drop=c(), verbose=F){
-  bioticdata[[framename]] <<- list()
+  data[[framename]] <<- list()
   num=1
   parser <- function(node){
     nlist <- xmlApply(node, xmlValue)
     nlist[which(names(nlist) %in% drop)]<-NULL
     nlist <- append(foreign_key_generator(xmlParent(node)), nlist)
     nlist <- append(nlist, as.list(xmlAttrs(node)))
-    bioticdata[[framename]][[num]] <<- nlist
+    data[[framename]][[num]] <<- nlist
     num <<- num + 1
     return(NULL)
   }
@@ -235,6 +235,26 @@ biotic_1_4_handlers <- list(
   preylength=make_data_frame_parser("Preylength", foreing_key_generator_1_4, c("text")),
   copepodedevstage=make_data_frame_parser("Copepodedevstage", foreing_key_generator_1_4, c("text"))
 )
+
+#' Changes column names so that it is suffix by the name of the data frame it belongs to. 
+#' Use before merging to ease trace to documentation.
+#' Only column names that does not already contain a dot (".") will be changed.
+#' @param data a named list of data frames as returned by parse_biotic.
+add_suffixes <- function(data){
+  for (n in names(data)){
+    if (!is.null(data[[n]]) & ncol(data[[n]])>0){
+      cn <- colnames(data[[n]])
+      for (i in 1:length(cn)){
+        if (!grepl(".", cn[[i]], fixed=T)){
+          cn[[i]] <- paste(cn[[i]], n, sep=".")
+        }
+      }
+      
+      colnames(data[[n]]) <- cn
+    }
+  }
+  return(data)
+}
 
 #' Merges data into one flat Tibble
 #' @param list of Tibbles as returned from parse_biotic
@@ -382,10 +402,10 @@ parse_biotic <- function(xmlfile, handlers=biotic_1_4_handlers, set_data_types=F
     warning("Schemafile specified, but set_data_types is False.")
   }
   
-  bpre <- bioticdata
+  bpre <- data
   xmlInternalTreeParse(xmlfile, handlers=handlers, ignoreBlanks=T, trim=T)
-  d <- bioticdata
-  bioticdata <<- bpre
+  d <- data
+  data <<- bpre
   
   for (n in names(d)){
     d[[n]]<-bind_rows(d[[n]])
