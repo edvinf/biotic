@@ -261,29 +261,20 @@ add_suffixes <- function(data){
 #' @return Tibble with merged data.
 #' @details 
 #' Assumes hierarchy is preserved, that is: No fishstations can be present if not mission present and so forth..
-#' Otherwise only assumes presence of key and foreign key columns, so columns may be dropped before flattening to avoid name conflicts.
-#' Platform is renamed on Fishstation, if present due to naming conflict with key column in mission. If the two platform columns are equal, one is removed.
+#' Otherwise only assumes presence of key and foreign key columns, so columns may be dropped before flattening.
+#' All key columns are assumed to be named the same acrossdata frames and to be unqiuely named within a dataframe
+#' @usage
+#' e.g. flatten(parsebiotic(test_refl_2015, lift_names=T))
 flatten <- function(bioticdata, keys=keys_biotic1_4, foreign_keys=foreign_keys_biotic1_4) {
   require(tibble) # dplyr joins are slow for chars, for some reason. Use merge and cast
   flat <- bioticdata$Mission
   if (!is.null(bioticdata$Fishstation) && nrow(bioticdata$Fishstation)>0) {
-
-    # merge does not handle renaming duplicated column names that are used as keys (by=)
-    fs <- bioticdata$Fishstation
-    if ("platform" %in% names(fs)){
-      fs<-rename(fs, FS.platform = platform)
-    }
     flat <- 
       merge(
         flat,
-        fs,
-        by.x = keys$MissionType,
-        by.y = foreign_keys$MissionType,
-        suffixes = c("", ".fishstation")
+        bioticdata$Fishstation,
+        all.x=T
       )
-    if ("platform" %in% names(flat) & all(flat$platform == flat$FS.platform)){
-      flat <- flat[,names(flat)!="FS.platform"]
-    }
     flat <- as_tibble(flat)
   }
   if (!is.null(bioticdata$Catchsample) && nrow(bioticdata$Catchsample)>0) {
@@ -291,9 +282,7 @@ flatten <- function(bioticdata, keys=keys_biotic1_4, foreign_keys=foreign_keys_b
       merge(
         flat,
         bioticdata$Catchsample,
-        by.x = c(keys$MissionType, keys$FishstationType),
-        by.y = c(foreign_keys$MissionType, foreign_keys$FishstationType),
-        suffixes = c("", ".catchsample")
+        all.x=T
       ))
   }
   if (!is.null(bioticdata$Individual) && nrow(bioticdata$Individual)>0) {
@@ -301,10 +290,7 @@ flatten <- function(bioticdata, keys=keys_biotic1_4, foreign_keys=foreign_keys_b
       merge(
         flat,
         bioticdata$Individual,
-        by.x = c(keys$MissionType, keys$FishstationType, keys$CatchsampleType),
-        by.y = c(foreign_keys$MissionType, foreign_keys$FishstationType, foreign_keys$CatchsampleType),
-        all.y=T,
-        suffixes = c("", ".individual")
+        all.x=T
       ))
   }
   
@@ -313,10 +299,7 @@ flatten <- function(bioticdata, keys=keys_biotic1_4, foreign_keys=foreign_keys_b
       merge(
         flat,
         bioticdata$Prey,
-        by.x = c(keys$MissionType, keys$FishstationType, keys$CatchsampleType),
-        by.y = c(foreign_keys$MissionType, foreign_keys$FishstationType, foreign_keys$CatchsampleType),
-        all.y=T,
-        suffixes = c("", ".prey")
+        all.x=T
       ))
   }
   
@@ -325,10 +308,7 @@ flatten <- function(bioticdata, keys=keys_biotic1_4, foreign_keys=foreign_keys_b
       merge(
         flat,
         bioticdata$Agedetermination,
-        by.x = c(keys$MissionType, keys$FishstationType, keys$CatchsampleType, keys$IndividualType),
-        by.y = c(foreign_keys$MissionType, foreign_keys$FishstationType, foreign_keys$CatchsampleType, foreign_keys$IndividualType),
-        all.y=T,
-        suffixes = c("", ".agedetermination")
+        all.x=T
       ))
   }
   
@@ -337,10 +317,7 @@ flatten <- function(bioticdata, keys=keys_biotic1_4, foreign_keys=foreign_keys_b
       merge(
         flat,
         bioticdata$Tag,
-        by.x = c(keys$MissionType, keys$FishstationType, keys$CatchsampleType, keys$IndividualType),
-        by.y = c(foreign_keys$MissionType, foreign_keys$FishstationType, foreign_keys$CatchsampleType, foreign_keys$IndividualType),
-        all.y=T,
-        suffixes = c("", ".tag")
+        all.x=T
       ))
   }
   
@@ -349,10 +326,7 @@ flatten <- function(bioticdata, keys=keys_biotic1_4, foreign_keys=foreign_keys_b
       merge(
         flat,
         bioticdata$PreyLength,
-        by.x = c(keys$MissionType, keys$FishstationType, keys$CatchsampleType, keys$IndividualType, keys$PreyType),
-        by.y = c(foreign_keys$MissionType, foreign_keys$FishstationType, foreign_keys$CatchsampleType, foreign_keys$IndividualType, foreign_keys$PreyType),
-        all.y=T,
-        suffixes = c("", ".preylength")
+        all.x=T
       ))
   }
   if (!is.null(bioticdata$Copepodedevstage) && nrow(bioticdata$Copepodedevstage)>0) {
@@ -360,10 +334,7 @@ flatten <- function(bioticdata, keys=keys_biotic1_4, foreign_keys=foreign_keys_b
       merge(
         flat,
         bioticdata$Copepodedevstage,
-        by.x = c(keys$MissionType, keys$FishstationType, keys$CatchsampleType, keys$IndividualType, keys$PreyType),
-        by.y = c(foreign_keys$MissionType, foreign_keys$FishstationType, foreign_keys$CatchsampleType, foreign_keys$IndividualType, foreign_keys$PreyType),
-        all.y=T,
-        suffixes = c("", ".copepodedevstage")
+        all.x=T
       ))
   }
   return(flat)
@@ -378,6 +349,7 @@ flatten <- function(bioticdata, keys=keys_biotic1_4, foreign_keys=foreign_keys_b
 #' @param handlers list of handlers determining which table to parse and which version of biotic is parsed. Default: all and 1.4.
 #' @param set_data_types logical: Indicate if data types should be set for columns. If False all datatypes will be character.
 #' @param schema path to schemafile used for setting datatypes. Only used if set_data_types=T
+#' @param lift_names logical: If true all columns are renamed with <name>.<data frame>, whenever they do not already have a dot (".") in their name.
 #' @return named list of data frames / Tibbles, one for each complex type in xml.
 #' @usage 
 #' parse_biotic(xmlfile)
@@ -391,7 +363,11 @@ flatten <- function(bioticdata, keys=keys_biotic1_4, foreign_keys=foreign_keys_b
 #' Foreign keys derives their documentation from the corresponding primary key and are named according to the convention <target table>.<primary key>.
 #' For instance the data frame / Tibble Catchsample has a column Fishstation.serialno.
 #' The first columns in each frame / Tibble are the foreign keys.
-parse_biotic <- function(xmlfile, handlers=biotic_1_4_handlers, set_data_types=F, schema=NULL){
+#' 
+#' lift_names makes foreing keys named the same as the corresponsing primary keys in other tables if default handlers are used for parsing.
+#' For example, the column missiontype in Table Mission, will be renamed to missiontype.Mission, which is the same as the corresponding column is called on Fishstation.
+#' This akes merging easier, and allows columns to be consistnetly named after merging. It also helps tracing the variable to xml format for documentation purposes.
+parse_biotic <- function(xmlfile, handlers=biotic_1_4_handlers, set_data_types=F, schema=NULL, lift_names=T){
   if (!file.exists(xmlfile)){
     stop(paste("Can not find file:", xmlfile))
   }
@@ -416,6 +392,11 @@ parse_biotic <- function(xmlfile, handlers=biotic_1_4_handlers, set_data_types=F
     schema <- xmlParse(schema)
     d <- set_data_types(d, schema, keys=keys_biotic1_4, foreign_keys=foreign_keys_biotic1_4)
   }
+  
+  if (lift_names){
+    d <- add_suffixes(d)
+  }
+  
   return(d)
 }
 

@@ -24,9 +24,12 @@ source("biotic.R")
 bioticdata <- parse_biotic(destfile)
 
 #
-# make a table linking individuals to positions
-#
-
-# select which tables and columns to keep, make sure to keep all key columns (see keys_biotic1_4 in biotic.R)
+# Make one big flat table.
 #
 table <- flatten(bioticdata)
+
+#
+# Use datatypes from xml. Set location of test_schema in file biotic.R
+#
+biotic_w_dtypes <- parse_biotic(destfile, schema=test_schema, set_data_types = T)
+table_w_dtypes <- flatten(biotic_w_dtypes)
