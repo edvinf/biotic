@@ -82,9 +82,9 @@ filter_by_species <- function(serial_lower, serial_upper, year_lower, year_upper
 
 example_blb <- function(){
   specieslist <- c("164740", "164760", "164760") #brosme, lange, blålange
-  ss <- 0
-  se <- 99999
-  ys <- 1970
+  ss <- 86000
+  se <- 87000
+  ys <- 2015
   ye <- 2016
   path <- "/Users/a5362/t"
   data <- filter_by_species(ss,se,ys,ye, specieslist, handlers=biotic_1_4_handlers[c("mission", "fishstation", "catchsample", "individual", "agedetermination")])

@@ -256,7 +256,7 @@ add_suffixes <- function(data){
   return(data)
 }
 
-#' Merges data into one flat Tibble
+#' Merges data into one flat Tibble, with records from higher levels in hierarchy repeated.
 #' @param list of Tibbles as returned from parse_biotic
 #' @return Tibble with merged data.
 #' @details 

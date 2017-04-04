@@ -25,6 +25,7 @@ bioticdata <- parse_biotic(destfile)
 
 #
 # Make one big flat table.
+# Note that records will be repeated. If there are n individuals sampled from one catchsample. The data for catchsample will be repeated at least n times (more if some individuals have for instance several age-readings)
 #
 table <- flatten(bioticdata)
 
@@ -33,3 +34,24 @@ table <- flatten(bioticdata)
 #
 biotic_w_dtypes <- parse_biotic(destfile, schema=test_schema, set_data_types = T)
 table_w_dtypes <- flatten(biotic_w_dtypes)
+
+
+#
+# To control better where repition might occour, use merge with the dataframes on bioticdata or biotic_w_dtypes
+# In the following example, for instance, you will know that no catchsamples are repated, and that any fishstation were no catchsample was recorded is excluded.
+#
+catches <- merge(biotic_w_dtypes$Catchsample, biotic_w_dtypes$Fishstation)
+
+#
+# since column names are rather long, it might be useful to know that standard data frames allow shorthand notations.
+# That is, you only have to specify colun names up to the piint when they are unique
+# First convert the data to standard data frame
+std_df <- as.data.frame(table_w_dtypes)
+# then compare for instance
+print(all(std_df$year == std_df$year.Mission))
+# if abbreviation is not unique, the column vectir us null
+print(std_df$weight)
+#while these are resolved
+print(length(std_df$weight.Individual))
+print(length(std_df$weight.Catchsample))
+print(length(std_df$weight.C))
