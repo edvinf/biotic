@@ -77,7 +77,7 @@ dm <- list(StringDescriptionType="as.character", "xs:integer"="as.integer", "xs:
 #'Set data types for bioticdata. 
 #'Relies on the assumption that each tibble is named as the complexType in the xsd, excluding the suffix "Type"
 #'Assumes fixed namespace prefix ns for http://www.w3.org/2001/XMLSchema
-#'@param data list of tibbles as returned by parse_biotic
+#'@param _parsed_data_ list of tibbles as returned by parse_biotic
 #'@param schema XMLInternalDocument representing the xsd
 #'@param datatype_mapping list mapping data types in schema to names of functions used to convert to R data types
 #'@param keys list mapping schematypes to keys
@@ -195,17 +195,17 @@ set_blanks_to_NA <- function(dataframes){
   return(d)
 }
 
-data <- list()
+parsed_data_ <- list()
 #creates handler for parsing specific xml elements
 make_data_frame_parser <- function(framename, foreign_key_generator, drop=c(), verbose=F){
-  data[[framename]] <<- list()
+  parsed_data_[[framename]] <<- list()
   num=1
   parser <- function(node){
     nlist <- xmlApply(node, xmlValue)
     nlist[which(names(nlist) %in% drop)]<-NULL
     nlist <- append(foreign_key_generator(xmlParent(node)), nlist)
     nlist <- append(nlist, as.list(xmlAttrs(node)))
-    data[[framename]][[num]] <<- nlist
+    parsed_data_[[framename]][[num]] <<- nlist
     num <<- num + 1
     return(NULL)
   }
@@ -225,21 +225,21 @@ foreing_key_generator_1_4 <- function(node){return(make_foreign_keys(node, keys_
 biotic_1_4_handlers <- list(
   #<text/> is added to drop, because xmlInternalTreeParse(trim=T) does not handle \n
   #missions=make_data_frame_parser("Missions", foreing_key_generator_1_4, c("mission", "text")),
-  mission=make_data_frame_parser("Mission", foreing_key_generator_1_4, c("fishstation", "text"), T),
-  fishstation=make_data_frame_parser("Fishstation", foreing_key_generator_1_4, c("catchsample", "text"), T), 
-  catchsample=make_data_frame_parser("Catchsample", foreing_key_generator_1_4, c("prey", "individual", "text")),
-  individual=make_data_frame_parser("Individual", foreing_key_generator_1_4, c("agedetermination", "tag", "text")),
-  prey=make_data_frame_parser("Prey", foreing_key_generator_1_4, c("preylength", "copepodedevstage", "text")),
-  tag=make_data_frame_parser("Tag", foreing_key_generator_1_4, c("text")),
-  agedetermination=make_data_frame_parser("Agedetermination", foreing_key_generator_1_4, c("text")),
-  preylength=make_data_frame_parser("Preylength", foreing_key_generator_1_4, c("text")),
-  copepodedevstage=make_data_frame_parser("Copepodedevstage", foreing_key_generator_1_4, c("text"))
+  mission=make_data_frame_parser("mission", foreing_key_generator_1_4, c("fishstation", "text"), T),
+  fishstation=make_data_frame_parser("fishstation", foreing_key_generator_1_4, c("catchsample", "text"), T), 
+  catchsample=make_data_frame_parser("catchsample", foreing_key_generator_1_4, c("prey", "individual", "text")),
+  individual=make_data_frame_parser("individual", foreing_key_generator_1_4, c("agedetermination", "tag", "text")),
+  prey=make_data_frame_parser("prey", foreing_key_generator_1_4, c("preylength", "copepodedevstage", "text")),
+  tag=make_data_frame_parser("tag", foreing_key_generator_1_4, c("text")),
+  agedetermination=make_data_frame_parser("agedetermination", foreing_key_generator_1_4, c("text")),
+  preylength=make_data_frame_parser("preylength", foreing_key_generator_1_4, c("text")),
+  copepodedevstage=make_data_frame_parser("copepodedevstage", foreing_key_generator_1_4, c("text"))
 )
 
 #' Changes column names so that it is suffix by the name of the data frame it belongs to. 
 #' Use before merging to ease trace to documentation.
 #' Only column names that does not already contain a dot (".") will be changed.
-#' @param data a named list of data frames as returned by parse_biotic.
+#' @param _parsed_data_ a named list of data frames as returned by parse_biotic.
 add_suffixes <- function(data){
   for (n in names(data)){
     if (!is.null(data[[n]]) & ncol(data[[n]])>0){
@@ -341,6 +341,19 @@ flatten <- function(bioticdata, keys=keys_biotic1_4, foreign_keys=foreign_keys_b
 }
 
 #
+# Pre-allocates space for lists in parsed_data_
+#
+allocate_space <- function(xmlfile, handlers){
+  doc <- xmlParse(xmlfile)
+  ns = "m"
+  for (n in names(handlers)){
+    path <- paste("//",ns,":",n, sep="")
+    total <- length(getNodeSet(doc, path, ns))
+    parsed_data_[[n]]<<-vector("list",total)
+  }
+}
+
+#
 # Functions for parsing and data handling.
 #
 
@@ -378,10 +391,11 @@ parse_biotic <- function(xmlfile, handlers=biotic_1_4_handlers, set_data_types=F
     warning("Schemafile specified, but set_data_types is False.")
   }
   
-  bpre <- data
+  bpre <- parsed_data_
+  allocate_space(xmlfile, handlers)
   xmlInternalTreeParse(xmlfile, handlers=handlers, ignoreBlanks=T, trim=T)
-  d <- data
-  data <<- bpre
+  d <- parsed_data_
+  parsed_data_ <<- bpre
   
   for (n in names(d)){
     d[[n]]<-bind_rows(d[[n]])
@@ -435,6 +449,7 @@ cat_dataframes <- function(frames1, frames2){
 }
 
 test <- function(){
-  dd<- parse_biotic(test_refl_2015, handlers=biotic_1_4_handlers[c("mission", "fishstation")], set_data_types=T, schema = test_schema)
+  #dd<- parse_biotic(test_refl_2015, handlers=biotic_1_4_handlers[c("mission", "fishstation")], set_data_types=T, schema = test_schema)
+  dd<- parse_biotic(test_refl_2015, handlers=biotic_1_4_handlers, set_data_types=T, schema = test_schema)
   print(dd)
 }
