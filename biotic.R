@@ -47,13 +47,13 @@ keys_biotic1_4 <- list(MissionsType=c(),
 # Data frames will have foreign key columns relating it to all its parent elements
 # This list defines the column names for the foreign keys and must be structured exactly like the keys-table above.
 foreign_keys_biotic1_4 <- list(MissionsType=c(), 
-                       MissionType=c("missiontype.Mission", "missionnumber.Mission", "year.Mission", "platform.Mission"),
-                       FishstationType=c("serialno.Fishstation"), 
-                       CatchsampleType=c("species.Catchsample", "samplenumber.Catchsample"),
-                       IndividualType=c("specimenno.Individual"),
+                       MissionType=c("missiontype.mission", "missionnumber.mission", "year.mission", "platform.mission"),
+                       FishstationType=c("serialno.fishstation"), 
+                       CatchsampleType=c("species.catchsample", "samplenumber.catchsample"),
+                       IndividualType=c("specimenno.individual"),
                        AgedeterminationType=c(),
                        TagType=c(),
-                       PreyType=c("species.Prey", "partno.Prey"),
+                       PreyType=c("species.prey", "partno.prey"),
                        PreylengthType=c(),
                        CopepodedevstageType=c()
 )
