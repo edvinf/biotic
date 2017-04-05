@@ -267,76 +267,75 @@ add_suffixes <- function(data){
 #' e.g. flatten(parsebiotic(test_refl_2015, lift_names=T))
 flatten <- function(bioticdata, keys=keys_biotic1_4, foreign_keys=foreign_keys_biotic1_4) {
   require(tibble) # dplyr joins are slow for chars, for some reason. Use merge and cast
-  flat <- bioticdata$Mission
-  if (!is.null(bioticdata$Fishstation) && nrow(bioticdata$Fishstation)>0) {
+  flat <- bioticdata$mission
+  if (!is.null(bioticdata$fishstation) && nrow(bioticdata$fishstation)>0) {
     flat <- 
       merge(
         flat,
-        bioticdata$Fishstation,
+        bioticdata$fishstation,
         all.x=T
       )
     flat <- as_tibble(flat)
   }
-  if (!is.null(bioticdata$Catchsample) && nrow(bioticdata$Catchsample)>0) {
+
+  if (!is.null(bioticdata$catchsample) && nrow(bioticdata$catchsample)>0) {
     flat <- as_tibble(
       merge(
         flat,
-        bioticdata$Catchsample,
+        bioticdata$catchsample,
         all.x=T
       ))
   }
-  if (!is.null(bioticdata$Individual) && nrow(bioticdata$Individual)>0) {
+  if (!is.null(bioticdata$individual) && nrow(bioticdata$individual)>0) {
     flat <- as_tibble(
       merge(
         flat,
-        bioticdata$Individual,
-        all.x=T
-      ))
-  }
-  
-  if (!is.null(bioticdata$Prey) && nrow(bioticdata$Prey)>0) {
-    flat <- as_tibble(
-      merge(
-        flat,
-        bioticdata$Prey,
+        bioticdata$individual,
         all.x=T
       ))
   }
   
-  if (!is.null(bioticdata$Agedetermination) && nrow(bioticdata$Agedetermination)>0) {
+  if (!is.null(bioticdata$prey) && nrow(bioticdata$prey)>0) {
     flat <- as_tibble(
       merge(
         flat,
-        bioticdata$Agedetermination,
+        bioticdata$prey,
+        all.x=T
+      ))
+  }
+  if (!is.null(bioticdata$agedetermination) && nrow(bioticdata$agedetermination)>0) {
+    flat <- as_tibble(
+      merge(
+        flat,
+        bioticdata$agedetermination,
+        all.x=T
+      ))
+  }
+  if (!is.null(bioticdata$tag) && nrow(bioticdata$tag)>0) {
+    flat <- as_tibble(
+      merge(
+        flat,
+        bioticdata$tag,
+        all.x=T
+      ))
+  }
+  if (!is.null(bioticdata$preyLength) && nrow(bioticdata$preyLength)>0) {
+    flat <- as_tibble(
+      merge(
+        flat,
+        bioticdata$preyLength,
+        all.x=T
+      ))
+  }
+  if (!is.null(bioticdata$copepodedevstage) && nrow(bioticdata$copepodedevstage)>0) {
+    flat <- as_tibble(
+      merge(
+        flat,
+        bioticdata$copepodedevstage,
         all.x=T
       ))
   }
   
-  if (!is.null(bioticdata$Tag) && nrow(bioticdata$Tag)>0) {
-    flat <- as_tibble(
-      merge(
-        flat,
-        bioticdata$Tag,
-        all.x=T
-      ))
-  }
-  
-  if (!is.null(bioticdata$PreyLength) && nrow(bioticdata$PreyLength)>0) {
-    flat <- as_tibble(
-      merge(
-        flat,
-        bioticdata$PreyLength,
-        all.x=T
-      ))
-  }
-  if (!is.null(bioticdata$Copepodedevstage) && nrow(bioticdata$Copepodedevstage)>0) {
-    flat <- as_tibble(
-      merge(
-        flat,
-        bioticdata$Copepodedevstage,
-        all.x=T
-      ))
-  }
   return(flat)
 }
 
