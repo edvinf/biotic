@@ -84,8 +84,11 @@ dm <- list(StringDescriptionType="as.character", "xs:integer"="as.integer", "xs:
 #'@param foreign_keys list mapping schematypes to foreign keys
 set_data_types <- function(bioticdata, schema, keys, foreign_keys, datatype_mapping=dm){
   get_data_types <- function(typename){
-    elements <- getNodeSet(schema, paste("/xs:schema/xs:complexType[@name='",typename,"']//xs:element", sep=""), c(xs="http://www.w3.org/2001/XMLSchema"))
-    attribs <- getNodeSet(schema, paste("/xs:schema/xs:complexType[@name='",typename,"']//xs:attribute", sep=""), c(xs="http://www.w3.org/2001/XMLSchema"))
+    s <- strsplit(typename, " ")[[1]]
+    xmltypename <-  paste(toupper(substring(s, 1,1)), substring(s, 2),
+                          sep="", collapse=" ")
+    elements <- getNodeSet(schema, paste("/xs:schema/xs:complexType[@name='",xmltypename,"']//xs:element", sep=""), c(xs="http://www.w3.org/2001/XMLSchema"))
+    attribs <- getNodeSet(schema, paste("/xs:schema/xs:complexType[@name='",xmltypename,"']//xs:attribute", sep=""), c(xs="http://www.w3.org/2001/XMLSchema"))
     fieldnames <- lapply(elements, xmlGetAttr, "name")
     fieldnames <- append(fieldnames, lapply(attribs, xmlGetAttr, "name"))
     fieldtypes <- lapply(elements, xmlGetAttr, "type")

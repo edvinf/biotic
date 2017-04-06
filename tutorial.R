@@ -25,16 +25,25 @@ bioticdata <- parse_biotic(destfile)
 
 #
 # Make one big flat table.
-# Note that records will be repeated. If there are n individuals sampled from one catchsample. The data for catchsample will be repeated at least n times (more if some individuals have for instance several age-readings)
+# Note that records will be repeated. If there are n individuals sampled from one catchsample. 
+# The data for catchsample will be repeated at least n times (more if some individuals have for instance several age-readings)
 #
 table <- flatten(bioticdata)
+str(table) #<- shows structure of table.
 
 #
 # Use datatypes from xml. Set location of test_schema in file biotic.R
 #
 biotic_w_dtypes <- parse_biotic(destfile, schema=test_schema, set_data_types = T)
 table_w_dtypes <- flatten(biotic_w_dtypes)
+str(table_w_dtypes)
 
+
+#
+# If you would rather have R guess the data types, use:
+#
+table_w_guess_dt <- as.data.frame(lapply(table, type.convert))
+str(table_w_guess_dt)
 
 #
 # To control better where repition might occour, use merge with the dataframes on bioticdata or biotic_w_dtypes
@@ -44,7 +53,7 @@ catches <- merge(biotic_w_dtypes$catchsample, biotic_w_dtypes$fishstation)
 
 #
 # since column names are rather long, it might be useful to know that standard data frames allow shorthand notations.
-# That is, you only have to specify colun names up to the piint when they are unique
+# That is, you only have to specify column names up to the point where they are unique
 # First convert the data to standard data frame
 std_df <- as.data.frame(table_w_dtypes)
 # then compare for instance
