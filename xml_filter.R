@@ -1,7 +1,7 @@
 library(XML)
 
 example_files <- "/Users/a5362/code/github/hi_biotic_parser/example_files"
-test_refl_2015 <- paste(example_files, "refl_hav_2015.xml", sep="/")
+provebat <- paste(example_files, "11-2017-3654-1.xml", sep="/")
 
 #
 # Functions for filtering xml based on xpath expressions. This is generally faster than parsing for large files.

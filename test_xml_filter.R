@@ -3,7 +3,7 @@ source("xml_filter.R")
 
 context("xml filters")
 test_that("drop_childless_stations drops childless stations", {
-  tree <- xmlParse(test_refl_2015)
+  tree <- xmlParse(provebat)
   retain_species_catch(tree, c("171342", "172930"))
   xpath = "//m:fishstation[not(m:catchsample)]"
   xpath2 = "//m:fishstation"

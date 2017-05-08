@@ -4,7 +4,7 @@ require(dplyr)
 definitions <- "/Users/a5362/code/github/hi_biotic_parser/definitions"
 example_files <- "/Users/a5362/code/github/hi_biotic_parser/example_files"
 test_schema <- paste(definitions,"bioticv1_4_201703211557.xsd", sep="/")
-test_refl_2015 <- paste(example_files, "refl_hav_2015.xml", sep="/")
+provebat <- paste(example_files, "11-2017-3654-1.xml", sep="/")
 
 #
 # Development notes. See documentation for parse_biotic for user documentation.
@@ -405,6 +405,6 @@ cat_dataframes <- function(frames1, frames2){
 
 test <- function(){
   #dd<- parse_biotic(test_refl_2015, handlers=biotic_1_4_handlers[c("mission", "fishstation")], set_data_types=T, schema = test_schema)
-  dd<- parse_biotic(test_refl_2015, handlers=biotic_1_4_handlers, set_data_types=T, schema = test_schema)
+  dd<- parse_biotic(provebat, handlers=biotic_1_4_handlers, set_data_types=T, schema = test_schema)
   print(dd)
 }
