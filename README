@@ -5,3 +5,4 @@ example_files/11-2017-3654-1.xml example of a biotic file (version 1.4)
 example_files/nmd_api.txt instructions for how to access nmd api.
 tutorial.R examples on loading data from NMD via R and merging data frames loaded by biotic.R
 rstox_parsing.R examples using the package Rstox.
+bioticToCSV.jar: Progam for converting biotic to csv files: run with java -jar <xmlfile> <targetdirectory>
