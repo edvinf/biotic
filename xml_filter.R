@@ -76,4 +76,3 @@ drop_childless_missions <- function(tree){
   drop_nodes(tree, xpath, "m")
   return(NULL)
 }
-
