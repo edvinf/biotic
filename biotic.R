@@ -3,8 +3,8 @@ require(dplyr)
 
 definitions <- "/Users/a5362/code/github/hi_biotic_parser/definitions"
 example_files <- "/Users/a5362/code/github/hi_biotic_parser/example_files"
-test_schema <- paste(definitions,"bioticv1_4_201703211557.xsd", sep="/")
-provebat <- paste(example_files, "11-2017-3654-1.xml", sep="/")
+test_schema <- paste(definitions,"bioticv3.xsd", sep="/")
+provebat <- paste(example_files, "biotic_cruiseNumber_1_Falkungen.xml", sep="/")
 
 #
 # Development notes. See documentation for parse_biotic for user documentation.
@@ -58,6 +58,30 @@ foreign_keys_biotic1_4 <- list(MissionsType=c(),
                        CopepodedevstageType=c()
 )
 
+keys_biotic3 <- list(MissionsType=c(), 
+                       MissionType=c("missiontype", "missionnumber", "year", "platform"),
+                       FishstationType=c("serialnumber"), 
+                       CatchsampleType=c("catchsampleid"),
+                       IndividualType=c("specimenid"),
+                       AgedeterminationType=c(),
+                       TagType=c(),
+                       PreyType=c("preysampleid"),
+                       PreylengthType=c(),
+                       CopepodedevstageType=c()
+)
+
+foreign_keys_biotic3 <- list(MissionsType=c(), 
+                               MissionType=c("missiontype", "missionnumber", "year", "platform"),
+                               FishstationType=c("serialnumber"), 
+                               CatchsampleType=c("catchsampleid"),
+                               IndividualType=c("specimenid"),
+                               AgedeterminationType=c(),
+                               TagType=c(),
+                               PreyType=c("preysampleid"),
+                               PreylengthType=c(),
+                               CopepodedevstageType=c()
+)
+
 hardcoded_schematype_function <- function(node){
   schematypes <- list(missions="MissionsType",
         mission="MissionType",
@@ -73,7 +97,7 @@ hardcoded_schematype_function <- function(node){
   return(schematypes[[xmlName(node)]])
 }
 
-dm <- list(StringDescriptionType="as.character", "xs:integer"="as.integer", "xs:string"="as.character", "xs:decimal"="as.double", "key"="as.character")
+dm <- list(KeyType="as.character", "CompositeTaxaKeyType"="as.character","CompositeTaxaSexKeyType"="as.character", "xs:integer"="as.integer", "xs:string"="as.character", "xs:decimal"="as.double", "key"="as.character", "xs:date"="as.Date")
 #'Set data types for bioticdata. 
 #'Relies on the assumption that each tibble is named as the complexType in the xsd, excluding the suffix "Type"
 #'Assumes fixed namespace prefix ns for http://www.w3.org/2001/XMLSchema
@@ -239,6 +263,21 @@ biotic_1_4_handlers <- list(
   copepodedevstage=make_data_frame_parser("copepodedevstage", foreing_key_generator_1_4, c("text"))
 )
 
+foreing_key_generator_3 <- function(node){return(make_foreign_keys(node, keys_biotic3, foreign_keys_biotic3, hardcoded_schematype_function))}
+biotic_3_handlers <- list(
+  #<text/> is added to drop, because xmlInternalTreeParse(trim=T) does not handle \n
+  #missions=make_data_frame_parser("Missions", foreing_key_generator_1_4, c("mission", "text")),
+  mission=make_data_frame_parser("mission", foreing_key_generator_3, c("fishstation", "text"), T),
+  fishstation=make_data_frame_parser("fishstation", foreing_key_generator_3, c("catchsample", "text"), T), 
+  catchsample=make_data_frame_parser("catchsample", foreing_key_generator_3, c("prey", "individual", "text")),
+  individual=make_data_frame_parser("individual", foreing_key_generator_3, c("agedetermination", "tag", "text")),
+  prey=make_data_frame_parser("prey", foreing_key_generator_3, c("preylength", "copepodedevstage", "text")),
+  tag=make_data_frame_parser("tag", foreing_key_generator_3, c("text")),
+  agedetermination=make_data_frame_parser("agedetermination", foreing_key_generator_3, c("text")),
+  preylength=make_data_frame_parser("preylength", foreing_key_generator_3, c("text")),
+  copepodedevstage=make_data_frame_parser("copepodedevstage", foreing_key_generator_3, c("text"))
+)
+
 #' Changes column names so that it is suffix by the name of the data frame it belongs to. 
 #' Use before merging to ease trace to documentation.
 #' Only column names that does not already contain a dot (".") will be changed.
@@ -268,7 +307,7 @@ add_suffixes <- function(data){
 #' All key columns are assumed to be named the same acrossdata frames and to be unqiuely named within a dataframe
 #' @usage
 #' e.g. flatten(parsebiotic(test_refl_2015, lift_names=T))
-flatten <- function(bioticdata, keys=keys_biotic1_4, foreign_keys=foreign_keys_biotic1_4) {
+flatten <- function(bioticdata, keys=keys_biotic3, foreign_keys=foreign_keys_biotic3) {
   require(tibble) # dplyr joins are slow for chars, for some reason. Use merge and cast
   flat <- bioticdata$mission
   
@@ -323,8 +362,8 @@ allocate_space <- function(xmlfile, handlers){
 #' parse_biotic(xmlfile)
 #' ## for default version and all data
 #' 
-#' parse_biotic(xmlfile, handlers=biotic_1_4_handlers[c("mission", "fishstation")])
-#' ## for parsing only tables mission and fishstation with version 1.4
+#' parse_biotic(xmlfile, handlers=biotic_3_handlers[c("mission", "fishstation")])
+#' ## for parsing only tables mission and fishstation with version 3
 #' @details 
 #' Note that each column derives its name from the xml format. For documentation for Fishstation$serialno, see the documentation for 
 #' the element serialno in FishstationType in the XML format.
@@ -332,10 +371,10 @@ allocate_space <- function(xmlfile, handlers){
 #' For instance the data frame / Tibble Catchsample has a column Fishstation.serialno.
 #' The first columns in each frame / Tibble are the foreign keys.
 #' 
-#' lift_names makes foreing keys named the same as the corresponsing primary keys in other tables if default handlers are used for parsing.
+#' lift_names makes foreing keys named the same as the corresponsing primary keys in other tables if 1.4 handlers are used for parsing.
 #' For example, the column missiontype in Table Mission, will be renamed to missiontype.Mission, which is the same as the corresponding column is called on Fishstation.
 #' This akes merging easier, and allows columns to be consistnetly named after merging. It also helps tracing the variable to xml format for documentation purposes.
-parse_biotic <- function(xmlfile, handlers=biotic_1_4_handlers, set_data_types=F, schema=NULL, lift_names=T){
+parse_biotic <- function(xmlfile, handlers=biotic_3_handlers, set_data_types=F, schema=NULL, lift_names=F){
   if (!file.exists(xmlfile)){
     stop(paste("Can not find file:", xmlfile))
   }
@@ -404,7 +443,7 @@ cat_dataframes <- function(frames1, frames2){
 }
 
 test <- function(){
-  #dd<- parse_biotic(test_refl_2015, handlers=biotic_1_4_handlers[c("mission", "fishstation")], set_data_types=T, schema = test_schema)
-  dd<- parse_biotic(provebat, handlers=biotic_1_4_handlers, set_data_types=T, schema = test_schema)
+  #dd<- parse_biotic(provebat, handlers=biotic_3_handlers[c("mission", "fishstation")], set_data_types=T, schema = test_schema)
+  dd<- parse_biotic(provebat, handlers=biotic_3_handlers, set_data_types=T, schema = test_schema)
   print(dd)
 }
