@@ -5,6 +5,7 @@ definitions <- "/Users/a5362/code/github/hi_biotic_parser/definitions"
 example_files <- "/Users/a5362/code/github/hi_biotic_parser/example_files"
 test_schema <- paste(definitions,"bioticv3.xsd", sep="/")
 provebat <- paste(example_files, "biotic_cruiseNumber_1_Falkungen.xml", sep="/")
+provebat1_4 <- paste(example_files, "11-2017-3654-1.xml", sep="/")
 
 #
 # Development notes. See documentation for parse_biotic for user documentation.
@@ -398,7 +399,7 @@ parse_biotic <- function(xmlfile, handlers=biotic_3_handlers, set_data_types=F, 
   d <- set_blanks_to_NA(d)
   if (set_data_types & !is.null(schema)){
     schema <- xmlParse(schema)
-    d <- set_data_types(d, schema, keys=keys_biotic1_4, foreign_keys=foreign_keys_biotic1_4)
+    d <- set_data_types(d, schema, keys=keys_biotic3, foreign_keys=foreign_keys_biotic3)
   }
   
   if (lift_names){
@@ -445,5 +446,6 @@ cat_dataframes <- function(frames1, frames2){
 test <- function(){
   #dd<- parse_biotic(provebat, handlers=biotic_3_handlers[c("mission", "fishstation")], set_data_types=T, schema = test_schema)
   dd<- parse_biotic(provebat, handlers=biotic_3_handlers, set_data_types=T, schema = test_schema)
+  dd1.4<- parse_biotic(provebat1_4, handlers=biotic_1_4_handlers, set_data_types=T, schema = test_schema, lift_names = T)
   print(dd)
 }
