@@ -299,7 +299,7 @@ add_suffixes <- function(data){
   return(data)
 }
 
-#' Merges data into one flat Tibble, with records from higher levels in hierarchy repeated.
+#' Merges mission, station, catch, indivudal and agereading data into one flat Tibble, with records from higher levels in hierarchy repeated.
 #' @param list of Tibbles as returned from parse_biotic
 #' @return Tibble with merged data.
 #' @details 
@@ -307,7 +307,7 @@ add_suffixes <- function(data){
 #' Otherwise only assumes presence of key and foreign key columns, so columns may be dropped before flattening.
 #' All key columns are assumed to be named the same acrossdata frames and to be unqiuely named within a dataframe
 #' @usage
-#' e.g. flatten(parsebiotic(test_refl_2015, lift_names=T))
+#' e.g. flatten(parsebiotic(provebat))
 flatten <- function(bioticdata, keys=keys_biotic3, foreign_keys=foreign_keys_biotic3) {
   require(tibble) # dplyr joins are slow for chars, for some reason. Use merge and cast
   flat <- bioticdata$mission
@@ -328,9 +328,6 @@ flatten <- function(bioticdata, keys=keys_biotic3, foreign_keys=foreign_keys_bio
   merge_into_flat(bioticdata$individual)
   merge_into_flat(bioticdata$prey)
   merge_into_flat(bioticdata$agedetermination)
-  merge_into_flat(bioticdata$tag)
-  merge_into_flat(bioticdata$preylength)
-  merge_into_flat(bioticdata$copepodedevstage)
 
   return(flat)
 }
@@ -426,22 +423,6 @@ convert_to_csv <- function(bioticxml, target_dir=".", overwrite=F){
   }
 }
 
-#' rbind all dataframes in frames1, with corresponding frames in frames2
-#' Any frame sin frames2, not in frames 1 is ignored.
-#' Columns only present in one of the paired frames will be padded with NA values in the concatenated frame.
-#' Apart from this no consistency or uniqueness checks are made
-#' @param frames1 named list of Tibbles
-#' @param frames2 named list of Tibbles
-#' @return named list of Tibbles, one for each in frame1, with correspdonding frames in frames2 appended.
-cat_dataframes <- function(frames1, frames2){
-  dataframes <- frames1
-  for (n in names(frames1)){
-    if (!is.null(frames2[[n]])){
-      dataframes[[n]] <- bind_rows(dataframes[[n]], frames2[[n]])      
-    }
-  }
-  return(dataframes)
-}
 
 test <- function(){
   #dd<- parse_biotic(provebat, handlers=biotic_3_handlers[c("mission", "fishstation")], set_data_types=T, schema = test_schema)
