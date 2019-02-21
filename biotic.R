@@ -98,7 +98,7 @@ hardcoded_schematype_function <- function(node){
   return(schematypes[[xmlName(node)]])
 }
 
-dm <- list(KeyType="as.character", "CompositeTaxaKeyType"="as.character","CompositeTaxaSexKeyType"="as.character", "xs:integer"="as.integer", "xs:string"="as.character", "xs:decimal"="as.double", "key"="as.character", "xs:date"="as.Date")
+dm <- list(KeyType="as.character", "CompositeTaxaKeyType"="as.character","CompositeTaxaSexKeyType"="as.character", "xs:integer"="as.integer", "xs:string"="as.character", "xs:decimal"="as.double", "key"="as.character", "xs:date"="as.Date", "xs:time"="as.character")
 #'Set data types for bioticdata. 
 #'Relies on the assumption that each tibble is named as the complexType in the xsd, excluding the suffix "Type"
 #'Assumes fixed namespace prefix ns for http://www.w3.org/2001/XMLSchema
@@ -159,7 +159,7 @@ set_data_types <- function(bioticdata, schema, keys, foreign_keys, datatype_mapp
         if (fk %in% names(frame)){
           t<-types[[k]]
           if (is.null(t)){
-            stop()
+            stop(paste("Type is null for ", k))
           }
           ff<-datatype_mapping[[t]]
           if (is.null(ff)){
@@ -263,20 +263,20 @@ biotic_1_4_handlers <- list(
   preylength=make_data_frame_parser("preylength", foreing_key_generator_1_4, c("text")),
   copepodedevstage=make_data_frame_parser("copepodedevstage", foreing_key_generator_1_4, c("text"))
 )
-
+warning("change foreing key generator to list ?")
 foreing_key_generator_3 <- function(node){return(make_foreign_keys(node, keys_biotic3, foreign_keys_biotic3, hardcoded_schematype_function))}
 biotic_3_handlers <- list(
   #<text/> is added to drop, because xmlInternalTreeParse(trim=T) does not handle \n
   #missions=make_data_frame_parser("Missions", foreing_key_generator_1_4, c("mission", "text")),
   mission=make_data_frame_parser("mission", foreing_key_generator_3, c("fishstation", "text"), T),
   fishstation=make_data_frame_parser("fishstation", foreing_key_generator_3, c("catchsample", "text"), T), 
-  catchsample=make_data_frame_parser("catchsample", foreing_key_generator_3, c("prey", "individual", "text")),
-  individual=make_data_frame_parser("individual", foreing_key_generator_3, c("agedetermination", "tag", "text")),
-  prey=make_data_frame_parser("prey", foreing_key_generator_3, c("preylength", "copepodedevstage", "text")),
+  catchsample=make_data_frame_parser("catchsample", foreing_key_generator_3, c("individual", "text")),
+  individual=make_data_frame_parser("individual", foreing_key_generator_3, c("agedetermination", "tag", "prey", "text")),
+  prey=make_data_frame_parser("prey", foreing_key_generator_3, c("preylengthfrequencytable", "copepodedevstagefrequencytable", "text")),
   tag=make_data_frame_parser("tag", foreing_key_generator_3, c("text")),
   agedetermination=make_data_frame_parser("agedetermination", foreing_key_generator_3, c("text")),
-  preylength=make_data_frame_parser("preylength", foreing_key_generator_3, c("text")),
-  copepodedevstage=make_data_frame_parser("copepodedevstage", foreing_key_generator_3, c("text"))
+  preylength=make_data_frame_parser("preylengthfrequencytable", foreing_key_generator_3, c("text")),
+  copepodedevstage=make_data_frame_parser("copepodedevstagefrequencytable", foreing_key_generator_3, c("text"))
 )
 
 #' Changes column names so that it is suffix by the name of the data frame it belongs to. 
