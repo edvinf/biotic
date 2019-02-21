@@ -263,7 +263,7 @@ biotic_1_4_handlers <- list(
   preylength=make_data_frame_parser("preylength", foreing_key_generator_1_4, c("text")),
   copepodedevstage=make_data_frame_parser("copepodedevstage", foreing_key_generator_1_4, c("text"))
 )
-warning("change foreing key generator to list ?")
+
 foreing_key_generator_3 <- function(node){return(make_foreign_keys(node, keys_biotic3, foreign_keys_biotic3, hardcoded_schematype_function))}
 biotic_3_handlers <- list(
   #<text/> is added to drop, because xmlInternalTreeParse(trim=T) does not handle \n
