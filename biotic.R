@@ -216,7 +216,10 @@ set_blanks_to_NA <- function(dataframes){
   for (n in names(d)){
     frame <- d[[n]]
     for (cn in names(frame)){
-      frame[!is.na(frame[,cn]) & frame[,cn]=="",cn] <-NA
+      if (sum(!is.na(frame[,cn]) & frame[,cn]=="")>0){
+        frame[!is.na(frame[,cn]) & frame[,cn]=="",cn] <-NA  
+      }
+      
     }
     d[[n]]<-frame
   }
